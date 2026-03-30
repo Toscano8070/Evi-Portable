@@ -1,0 +1,8 @@
+# Portable app bundle (~GB) — not for GitHub Pages
+Evi/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
