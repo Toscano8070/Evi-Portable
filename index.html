@@ -360,6 +360,90 @@
       color: var(--text-muted);
     }
 
+    .hero-dl-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem 1rem;
+      align-items: center;
+    }
+    .hero-dl-hint {
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.55;
+    }
+    .hero-dl-hint code {
+      font-size: 0.85em;
+      background: rgba(138, 43, 226, 0.12);
+      padding: 0.12rem 0.35rem;
+      border-radius: 4px;
+      color: var(--accent-secondary);
+    }
+    .btn-muted {
+      opacity: 0.92;
+      border-style: dashed;
+    }
+    a.btn-muted[aria-disabled="true"] {
+      cursor: help;
+    }
+
+    .manual-section {
+      padding: 3.5rem 8%;
+      background: linear-gradient(180deg, #12141c 0%, var(--bg-color) 100%);
+      border-top: 1px solid #333;
+    }
+    .manual-lang { max-width: 820px; margin: 0 auto; }
+    .manual-lang[hidden] { display: none !important; }
+    .manual-lead {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin: 0 0 2rem;
+      line-height: 1.65;
+    }
+    .manual-block {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .manual-block:last-child { border-bottom: none; }
+    .manual-block h3 {
+      color: var(--accent-secondary);
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+    .manual-block p, .manual-block li {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+    .manual-block ul { margin: 0.5rem 0 0 1.1rem; padding: 0; }
+    .manual-block li { margin-bottom: 0.45rem; }
+    .manual-block ol { margin: 0.5rem 0 0 1.2rem; padding: 0; color: var(--text-muted); }
+    .manual-block ol li { margin-bottom: 0.55rem; }
+    .manual-block strong { color: var(--text-main); }
+    .manual-callout {
+      background: rgba(138, 43, 226, 0.1);
+      border-left: 3px solid var(--accent-primary);
+      padding: 1rem 1.15rem;
+      margin: 1rem 0 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+    .manual-jump-target {
+      scroll-margin-top: 5.5rem;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.5rem; }
       .hero-showcase { flex-direction: column; align-items: center; margin-bottom: 1.75rem; }
@@ -385,6 +469,7 @@
       <li><a href="#requirements" data-i18n="nav_requirements">Windows &amp; activation</a></li>
       <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
       <li><a href="#activation" data-i18n="nav_activation">License activation</a></li>
+      <li><a href="#manual" data-i18n="nav_manual">Manual</a></li>
       <li><a href="#setup" data-i18n="nav_setup">Setup &amp; Licensing</a></li>
       <li><a href="#download" class="btn-download-nav" data-i18n="nav_download">Download</a></li>
     </ul>
@@ -431,10 +516,14 @@
       </picture>
     </figure>
   </div>
-  <div class="hero-btns">
-    <a href="#" class="btn btn-primary" data-i18n="hero_dl">&#x2B07; Get Evi Portable</a>
+  <div class="hero-btns hero-dl-row">
+    <a href="https://www.transferxl.com/download/08vC40LrcLpRqy" class="btn btn-primary" id="evi-program-download" target="_blank" rel="noopener noreferrer" data-i18n="hero_dl">&#x2B07; Get Evi Portable</a>
+    <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" id="evi-llm-download" data-i18n="hero_llm_dl">Download AI model (GGUF)</a>
     <a href="#languages" class="btn btn-outline" data-i18n="hero_langs">See all languages</a>
   </div>
+  <p class="hero-dl-hint" data-i18n="hero_dl_hint">
+    Download the <strong>program archive</strong> first. Then use <strong>Download AI model (GGUF)</strong> &mdash; the official link will appear on that button when published; until then it jumps to the manual. Put exactly one suitable <code>.gguf</code> in <code>models\llm\</code>; see <code>models\llm\README.txt</code>.
+  </p>
   <div class="social-row" aria-label="Highlights">
     <div class="social-circle sc-llm" data-i18n="soc_llm">Voice &amp;<br>text</div>
     <div class="social-circle sc-voice" data-i18n="soc_voice">Context<br>aware</div>
@@ -468,8 +557,7 @@
 <section class="activation-section" id="activation" aria-label="License activation steps">
   <h2 class="section-title" data-i18n="act_title">How to activate your license</h2>
   <p class="act-intro" data-i18n="act_intro">
-    Purchased a paid tier? Follow the same flow as our portable activation guide:
-    Machine ID by e-mail, then serial key tied to your PC.
+    After purchase, activate with <strong>Machine ID</strong> by e-mail (steps below). The full <a href="https://toscano8070.github.io/Evi-Portable/#manual">user manual</a> on this site is the same overview as <code>Manual\README.txt</code> in your Evi folder &mdash; first start, LLM setup, GPU notes, security, troubleshooting.
   </p>
   <ol class="act-steps">
     <li data-i18n="act_s1"><strong>Purchase</strong> &mdash; Choose your package and pay via <a href="https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY" target="_blank" rel="noopener noreferrer">PayPal</a>.</li>
@@ -482,6 +570,116 @@
   <div class="act-format" data-i18n="act_format">
     EVI-XXXXX-XXXXX-XXXXX-XXXXX
     <small>Serial key format (issued after purchase &mdash; example placeholder)</small>
+  </div>
+</section>
+
+<section class="manual-section" id="manual" aria-label="User manual">
+  <div id="manual-llm" class="manual-jump-target" aria-hidden="true"></div>
+  <div class="manual-lang" data-manual-lang="en">
+    <h2 class="section-title">Evi Portable &mdash; User manual (overview)</h2>
+    <p class="manual-lead">This overview matches <strong>Manual\README.txt</strong> in your build. It is optional for Evi to run; read or print it for setup and troubleshooting.</p>
+    <div class="manual-block">
+      <h3>Operating system</h3>
+      <p>Evi Portable is for <strong>Microsoft Windows 10 and Windows 11 only</strong>. It is not supported on Windows 7/8, macOS, Linux, or mobile operating systems.</p>
+    </div>
+    <div class="manual-block">
+      <h3>First start &mdash; from download to running Evi</h3>
+      <ol>
+        <li><strong>Install location.</strong> Copy or extract the whole Evi folder somewhere you control &mdash; Desktop, Documents, or a USB stick. Keep the folder structure as delivered (do not delete subfolders you did not create yourself).</li>
+        <li><strong>Download the program.</strong> Use <strong>Get Evi Portable</strong> at the top of <a href="https://toscano8070.github.io/Evi-Portable/#download">this page</a> (hosted file transfer). That archive is the application; it does not include the main LLM file.</li>
+        <li><strong>Language model (required).</strong> Evi needs <strong>one</strong> main AI model file (<code>.gguf</code>) in <code>models\llm\</code>. On this site, click <strong>Download AI model (GGUF)</strong> in the hero section when the publisher has attached the link &mdash; that is the recommended package for this build. Until then, the button jumps here; you may use any compatible <code>.gguf</code> from another source. See <code>models\llm\README.txt</code> in your folder for size and preset hints.</li>
+      </ol>
+      <p class="manual-callout"><strong>Right model, right place:</strong> After you click <strong>Download AI model (GGUF)</strong> and obtain the file, place <strong>exactly one</strong> suitable <code>.gguf</code> in <code>models\llm\</code>, then start Evi; it detects the model when possible.</p>
+      <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="hero_llm_dl">Download AI model (GGUF)</a></p>
+      <ol start="4">
+        <li><strong>First launch &mdash; activation.</strong> When you start Evi the first time, an activation window appears. Your PC shows a <strong>Machine ID</strong>. Use <strong>Copy Machine ID</strong> and e-mail it to <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. You receive a serial key that works only on that PC. Paste the key and choose Activate. If you change major hardware in a way that changes the ID, contact the same address for a replacement key.</li>
+        <li><strong>After activation.</strong> The main window opens. Choose language, microphone, and voice in the left settings panel. Say &ldquo;open the cheat sheet&rdquo; anytime for command examples (<code>cheatsheets\en.txt</code> and sister files; see <code>cheatsheets\README.txt</code>).</li>
+        <li><strong>Optional: open this manual from Windows.</strong> In File Explorer open <code>Manual\README.txt</code> with Notepad or any text viewer.</li>
+      </ol>
+    </div>
+    <div class="manual-block">
+      <h3>Interface language (GUI)</h3>
+      <p>The UI follows the language you choose under <strong>Language</strong> at the top of the left settings panel. After you select a language, menus, buttons, and most labels switch where translations exist. Cheat sheets are per language code (<code>en.txt</code>, <code>de.txt</code>, &hellip;). This manual is the longer overview; cheat sheets are the quick &ldquo;what to say&rdquo; list.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Graphics card (GPU) &mdash; quick guide</h3>
+      <p>A strong middle choice is an <strong>NVIDIA GeForce RTX 4070 Ti</strong> with 12 GB VRAM: good balance of speed, context size, and headroom. Cards from about RTX 3060 through RTX 5090 can work well; the best fit depends on RAM, CPU, cooling, and which model file you install. Match the <strong>GPU preset</strong> in Evi&rsquo;s sidebar to your hardware. <strong>CPU-only</strong> presets are a fallback: usable but much slower &mdash; prefer a real GPU when you can.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Fully portable &mdash; when you need the Internet</h3>
+      <p>Copy the whole folder to another drive, USB stick, or PC and start it there. Chats, memories, settings, security data, and your activation file normally stay inside that folder (activation is tied to the <strong>PC</strong>, not the folder path). The Internet is mainly for downloads (models, optional voices, updates) and for optional features you enable (web, mail, streaming, weather). Core chat, memory, local speech, local TTS, and the privacy lock run on your machine without sending conversations to a cloud service.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Security: PIN and voice unlock (anti-copy)</h3>
+      <p>Evi can use a security PIN and optional voice enrolment. With voice unlock, each attempt can ask for a short set of <strong>random words</strong> that changes every time &mdash; not one fixed phrase forever &mdash; which blocks replaying a single old recording. Your PIN remains a separate line of defence. This targets casual abuse; keep your PIN private and complete setup as the app guides you.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Troubleshooting (short)</h3>
+      <ul>
+        <li><strong>No AI / model error</strong> &mdash; Is exactly one suitable <code>.gguf</code> in <code>models\llm\</code>? Try a smaller model. In the sidebar, try a CPU preset if the GPU preset fails.</li>
+        <li><strong>No microphone</strong> &mdash; Test the mic in Windows sound settings; in Evi pick the device under Microphone and Save.</li>
+        <li><strong>No voice output</strong> &mdash; Ensure voice files for your language exist in <code>piper\</code> and pick a voice in the sidebar.</li>
+        <li><strong>Web or YouTube fails</strong> &mdash; Turn off &ldquo;Block all traffic&rdquo; if you want online features. YouTube usually needs VLC Portable and network access.</li>
+        <li><strong>After editing cheat sheets</strong> &mdash; Restart Evi so helpers reload reliably.</li>
+      </ul>
+    </div>
+    <div class="manual-block">
+      <h3>Support &mdash; serial keys and Machine ID</h3>
+      <p>E-mail: <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. Always include your <strong>Machine ID</strong> from the activation screen when requesting a serial key or a replacement after hardware changes.</p>
+    </div>
+  </div>
+  <div class="manual-lang" data-manual-lang="de" hidden>
+    <h2 class="section-title">Evi Portable &mdash; Benutzerhandbuch (&Uuml;berblick)</h2>
+    <p class="manual-lead">Dieser &Uuml;berblick entspricht <strong>Manual\README.txt</strong> in Ihrem Build. Er ist zum Lesen oder Ausdrucken; Evi l&auml;uft auch ohne ihn.</p>
+    <div class="manual-block">
+      <h3>Betriebssystem</h3>
+      <p>Evi Portable ist nur f&uuml;r <strong>Microsoft Windows 10 und Windows 11</strong>. Windows 7/8, macOS, Linux und Mobilger&auml;te werden nicht unterst&uuml;tzt.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Erster Start &mdash; vom Download bis Evi l&auml;uft</h3>
+      <ol>
+        <li><strong>Installationsort.</strong> Kopieren Sie den gesamten Evi-Ordner an einen Ort Ihrer Wahl (Desktop, Dokumente, USB). Ordnerstruktur beibehalten.</li>
+        <li><strong>Programm laden.</strong> Nutzen Sie oben <strong>Evi Portable laden</strong> auf <a href="https://toscano8070.github.io/Evi-Portable/#download">dieser Seite</a>. Das Archiv ist die Anwendung ohne das Haupt-LLM.</li>
+        <li><strong>Sprachmodell (Pflicht).</strong> Evi braucht <strong>eine</strong> Haupt-KI-Datei (<code>.gguf</code>) in <code>models\llm\</code>. Klicken Sie auf dieser Seite auf <strong>KI-Modell herunterladen (GGUF)</strong>, sobald der Herausgeber den Link gesetzt hat &mdash; das empfohlene Paket f&uuml;r diesen Build. Bis dahin springt die Schaltfl&auml;che hierher; ein anderes kompatibles <code>.gguf</code> ist m&ouml;glich. Hinweise: <code>models\llm\README.txt</code>.</li>
+      </ol>
+      <p class="manual-callout"><strong>Richtiges Modell, richtiger Ordner:</strong> Nach dem Download die Datei ablegen: <strong>genau eine</strong> passende <code>.gguf</code> in <code>models\llm\</code>, dann Evi starten.</p>
+      <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="hero_llm_dl">KI-Modell herunterladen (GGUF)</a></p>
+      <ol start="4">
+        <li><strong>Erster Start &mdash; Aktivierung.</strong> Aktivierungsfenster mit <strong>Machine ID</strong>. <strong>Copy Machine ID</strong>, E-Mail an <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. Serienschl&uuml;ssel nur f&uuml;r diesen PC. Bei Hardwarewechsel gleiche Adresse.</li>
+        <li><strong>Nach Aktivierung.</strong> Hauptsprache, Mikrofon, Stimme links w&auml;hlen. &bdquo;open the cheat sheet&ldquo; f&uuml;r Befehlsbeispiele (<code>cheatsheets\</code>).</li>
+        <li><strong>Handbuch lokal:</strong> <code>Manual\README.txt</code> im Explorer &ouml;ffnen.</li>
+      </ol>
+    </div>
+    <div class="manual-block">
+      <h3>Oberfl&auml;chensprache (GUI)</h3>
+      <p>Sprache oben in der linken Leiste unter <strong>Language</strong>. Men&uuml;s und Beschriftungen wechseln, wo &Uuml;bersetzungen vorliegen. Cheat-Sheets pro Sprachcode; dieses Handbuch ist der ausf&uuml;hrlichere &Uuml;berblick.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Grafikkarte (GPU)</h3>
+      <p>Mittlere Premium-Wahl: z.&nbsp;B. <strong>NVIDIA GeForce RTX 4070 Ti</strong> mit 12 GB VRAM. RTX-3060-Bereich bis RTX-5090 je nach RAM und Modell m&ouml;glich. GPU-Preset in der Seitenleiste w&auml;hlen. <strong>Nur CPU</strong> als Notl&ouml;sung deutlich langsamer.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Portabel &amp; Internet</h3>
+      <p>Gesamten Ordner kopieren und neu starten. Daten und Aktivierung bleiben im Ordner; die Lizenz h&auml;ngt am <strong>PC</strong>. Internet vor allem f&uuml;r Downloads und von Ihnen freigegebene Online-Funktionen.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Sicherheit: PIN &amp; Sprach-Unlock</h3>
+      <p>PIN und optionale Sprachfreunde; bei Sprach-Unlock wechselnde <strong>Zufallsw&ouml;rter</strong> pro Versuch gegen einfache Aufnahmen-Wiedergabe. Kein Konsumentenprodukt ist gegen jeden Angriff immun &mdash; PIN geheim halten.</p>
+    </div>
+    <div class="manual-block">
+      <h3>Kurz-Fehlersuche</h3>
+      <ul>
+        <li><strong>Keine KI</strong> &mdash; Eine passende <code>.gguf</code> in <code>models\llm\</code>? Kleineres Modell oder CPU-Preset testen.</li>
+        <li><strong>Kein Mikrofon</strong> &mdash; Windows testen, in Evi Ger&auml;t w&auml;hlen und speichern.</li>
+        <li><strong>Keine Stimme</strong> &mdash; <code>piper\</code>-Dateien und Stimmenwahl pr&uuml;fen.</li>
+        <li><strong>Web/YouTube</strong> &mdash; &bdquo;Block all traffic&ldquo; aus; VLC und Netz f&uuml;r YouTube.</li>
+        <li><strong>Cheat-Sheets ge&auml;ndert</strong> &mdash; Evi neu starten.</li>
+      </ul>
+    </div>
+    <div class="manual-block">
+      <h3>Support</h3>
+      <p><a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a> &mdash; immer <strong>Machine ID</strong> angeben.</p>
+    </div>
   </div>
 </section>
 
@@ -566,7 +764,7 @@
       <li><strong data-i18n="hood4_h">Agent:</strong> <span data-i18n="hood4_p">Tools for files, media, optional web, timers, translation &mdash; and secretary-style flows: calendar maintenance, mail drafting and (when allowed) send/receive, contacts and notes. llama-cpp-agent available for structured tool use.</span></li>
       <li><strong data-i18n="hood5_h">Portable stack:</strong> <span data-i18n="hood5_p">Bundled helpers (VLC, portable browser) and strict portable mode if you want zero system fallbacks.</span></li>
     </ul>
-    <a href="#" class="btn btn-outline" style="margin-top:1rem;" data-i18n="hood_btn">Read the manual</a>
+    <a href="#manual" class="btn btn-outline" style="margin-top:1rem;" data-i18n="hood_btn">Read the manual</a>
   </div>
 </section>
 
@@ -574,8 +772,8 @@
   <div class="logo" style="margin-bottom:1rem;">Evi <span>Portable</span></div>
   <p data-i18n="footer_tag">Draft your mail, fill your calendar, and keep your week on track &mdash; a local secretary you can carry on a stick.</p>
   <div style="margin:2rem 0;">
-    <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_manual">Manual</a>
-    <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_setup">Download &amp; setup</a>
+    <a href="#manual" style="color:white;margin:0 10px;" data-i18n="footer_manual">Manual</a>
+    <a href="#download" style="color:white;margin:0 10px;" data-i18n="footer_setup">Download &amp; setup</a>
     <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_contact">Contact</a>
     <a href="https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY" target="_blank" rel="noopener noreferrer" style="color:white;margin:0 10px;" data-i18n="footer_paypal">Pay with PayPal</a>
   </div>
@@ -615,9 +813,9 @@ const LANGS = [
   {code:"VI",name:"Vietnamese",native:"Ti\u1EBFng Vi\u1EC7t",flag:"linear-gradient(135deg,#DA251D 0%,#DA251D 100%)"}
 ];
 
-function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navActivation, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerPaypal, footerDisc, reqWin, reqActivation, actTitle, actIntro, actS1, actS2, actS3, actS4, actS5, actS6, actFormat, pricingBadge, pricingTitle, pricingDetail) {
+function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navActivation, navManual, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerPaypal, footerDisc, reqWin, reqActivation, actTitle, actIntro, actS1, actS2, actS3, actS4, actS5, actS6, actFormat, pricingBadge, pricingTitle, pricingDetail) {
   return {
-    nav_features: navFeatures, nav_languages: navLangs, nav_accessibility: navAcc, nav_requirements: navRequirements, nav_pricing: navPricing, nav_activation: navActivation, nav_setup: navSetup, nav_download: navDl,
+    nav_features: navFeatures, nav_languages: navLangs, nav_accessibility: navAcc, nav_requirements: navRequirements, nav_pricing: navPricing, nav_activation: navActivation, nav_manual: navManual, nav_setup: navSetup, nav_download: navDl,
     hero_title: heroTitle, hero_sub: heroSub, hero_dl: "\u2B07 " + heroDl, hero_langs: heroLangs, hero_note: heroNote,
     soc_llm: socLlm, soc_voice: socVoice, soc_mem: socMem, soc_tools: socTools, soc_priv: socPriv,
     feat_title: featTitle, f1_h: f1h, f1_p: f1p, f2_h: f2h, f2_p: f2p, f3_h: f3h, f3_p: f3p, f4_h: f4h, f4_p: f4p, f5_h: f5h, f5_p: f5p, f6_h: f6h, f6_p: f6p,
@@ -635,7 +833,7 @@ const TERM_EN = "[SYSTEM] Initializing...\n[USB]    Mode: Portable\n[GPU]    LLM
 
 const I18N = {
   EN: pack(
-    "Features","Languages","Accessibility","Windows & activation","Pricing","License activation","Setup & Licensing","Download",
+    "Features","Languages","Accessibility","Windows & activation","Pricing","License activation","Manual","Setup & Licensing","Download",
     "Evi &mdash; your voice-first digital secretary.<br><em>Private, portable, built for sustained use.</em>",
     "Evi behaves like a skilled secretary: it drafts and revises mail, prepares replies in the right tone, helps you insert appointments and blocks into your calendar, and chases reminders so nothing slips. Ask by voice or keyboard &mdash; it answers clearly, reads context and mood, and learns your preferences over time. Long-term memory holds people, projects, and facts so you can recall them later from local storage, not public search. Optional network tools unlock checking inboxes and sending messages; the heavy lifting still runs on your PC inside a portable folder (USB-ready).",
     "Get Evi Portable","See all languages",
@@ -667,7 +865,7 @@ const I18N = {
     "<strong>System:</strong> Evi Portable requires <strong>Microsoft Windows 10 or Windows 11</strong>. Other operating systems are not supported.",
     "<strong>Activation:</strong> When you first start Evi, copy your <strong>Machine ID</strong> from the activation window and e-mail it to <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>. You will receive a serial key <strong>tied to that PC</strong>.",
     "How to activate your license",
-    "Purchased a Freelancer, Business, or Enterprise license? Here is how to activate it &mdash; same idea as our other portable products (<a href=\"https://toscano8070.github.io/s2s-portable-site/S2S_Portable_Download.html\" target=\"_blank\" rel=\"noopener noreferrer\">S2S Portable guide</a>): Machine ID by e-mail, then a key bound to your hardware.",
+    "After purchase, activate with <strong>Machine ID</strong> by e-mail (steps below). The full <a href=\"https://toscano8070.github.io/Evi-Portable/#manual\">user manual</a> on this site is the same overview as <code>Manual\\README.txt</code> in your Evi folder &mdash; first start, LLM setup, GPU notes, security, troubleshooting.",
     "<strong>Purchase</strong> &mdash; Choose your package and pay securely via <a href=\"https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY\" target=\"_blank\" rel=\"noopener noreferrer\">PayPal</a>.",
     "<strong>Launch Evi</strong> &mdash; On first start, the license activation window appears.",
     "<strong>Copy Machine ID</strong> &mdash; The app generates a unique Machine ID for this computer. Click <strong>Copy Machine ID</strong>.",
@@ -680,7 +878,7 @@ const I18N = {
     "<span class=\"pricing-price\">35 Euro</span> For a limited time, lock in this launch price: pay once&mdash;no subscriptions, no hidden fees. Includes <strong>1 year of updates</strong> and <strong>3&times; e-mail support</strong>. Windows&nbsp;10/11 only. Pay with PayPal, then activate with your Machine ID below."
   ),
   DE: pack(
-    "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Einrichtung &amp; Lizenz","Download",
+    "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Handbuch","Einrichtung &amp; Lizenz","Download",
     "Evi &mdash; digitale Sekret&auml;rin mit Sprachfokus.<br><em>Privat, portabel, f&uuml;r den Dauerbetrieb gedacht.</em>",
     "Evi arbeitet wie eine erfahrene Sekret&auml;rin: Entwurf und &Uuml;berarbeitung von E-Mails, Formulierung von Antworten im passenden Ton, Hilfe beim Eintragen von Terminen und Zeitbl&ouml;cken in den Kalender sowie zuverl&auml;ssige Erinnerungen. Fragen Sie per Sprache oder Tastatur &mdash; Evi antwortet klar, liest Kontext und Stimmung und lernt Ihre Vorlieben mit der Zeit. Das Langzeitged&auml;chtnis h&auml;lt Personen, Projekte und Fakten zum Abruf aus lokalem Speicher, nicht aus &ouml;ffentlicher Suche. Optionale Netzwerkfunktionen erm&ouml;glichen Posteingang und Versand; die Hauptarbeit l&auml;uft weiterhin lokal auf Ihrem PC in einem portablen Ordner (USB-tauglich).",
     "Evi Portable laden","Alle Sprachen",
@@ -712,7 +910,7 @@ const I18N = {
     "<strong>System:</strong> Evi Portable setzt <strong>Microsoft Windows 10 oder Windows 11</strong> voraus. Andere Betriebssysteme werden nicht unterst&uuml;tzt.",
     "<strong>Aktivierung:</strong> Beim ersten Start zeigt Evi Ihre <strong>Machine ID</strong> im Aktivierungsfenster. Senden Sie diese ID per E-Mail an <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>. Sie erhalten einen Serienschl&uuml;ssel, der <strong>an diesen PC gebunden</strong> ist.",
     "So aktivieren Sie Ihre Lizenz",
-    "Sie haben eine Freelancer-, Business- oder Enterprise-Lizenz erworben? So aktivieren Sie diese:",
+    "Nach dem Kauf aktivieren Sie mit <strong>Machine ID</strong> per E-Mail (Schritte unten). Das vollst&auml;ndige <a href=\"https://toscano8070.github.io/Evi-Portable/#manual\">Handbuch</a> auf dieser Seite entspricht <code>Manual\\README.txt</code> in Ihrem Evi-Ordner &mdash; erster Start, LLM, GPU, Sicherheit, Fehlersuche.",
     "<strong>Kaufen</strong> &mdash; W&auml;hlen Sie oben Ihr Paket und schlie&szlig;en Sie die Zahlung &uuml;ber <a href=\"https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY\" target=\"_blank\" rel=\"noopener noreferrer\">PayPal</a> ab.",
     "<strong>Evi starten</strong> &mdash; Beim ersten Start erscheint ein Lizenzaktivierungsfenster.",
     "<strong>Maschinen-ID kopieren</strong> &mdash; Die App erzeugt eine eindeutige Maschinen-ID f&uuml;r Ihren Computer. Klicken Sie auf <strong>Copy Machine ID</strong> (Maschinen-ID kopieren).",
@@ -728,6 +926,39 @@ const I18N = {
 
 I18N.EN.hero_team_aria = "Your desk team — mail, calendar, and concierge-style assistance";
 I18N.DE.hero_team_aria = "Ihr Schreibtisch-Team — E-Mail, Kalender und Concierge-Service";
+
+I18N.EN.hero_llm_dl = "Download AI model (GGUF)";
+I18N.DE.hero_llm_dl = "KI-Modell herunterladen (GGUF)";
+I18N.EN.hero_dl_hint = "Download the <strong>program archive</strong> first. Then click <strong>Download AI model (GGUF)</strong> &mdash; the official package link will appear on this button when published. Until then it scrolls to the manual below. Put exactly one suitable <code>.gguf</code> in <code>models\\llm\\</code> before chatting; see <code>models\\llm\\README.txt</code> in the folder.";
+I18N.DE.hero_dl_hint = "Laden Sie zuerst das <strong>Programmarchiv</strong>. Klicken Sie dann auf <strong>KI-Modell (GGUF)</strong> &mdash; der offizielle Paket-Link erscheint hier, sobald er ver&ouml;ffentlicht ist. Bis dahin springt die Schaltfl&auml;che zum Handbuch. Legen Sie genau eine passende <code>.gguf</code> nach <code>models\\llm\\</code>; siehe <code>models\\llm\\README.txt</code>.";
+
+/** Paste your LLM file share URL here (e.g. TransferXL); leave empty until the package is ready. */
+var EVI_DOWNLOAD = {
+  program: "https://www.transferxl.com/download/08vC40LrcLpRqy",
+  llm: ""
+};
+
+function applyEviDownloadUrls() {
+  var prog = document.getElementById("evi-program-download");
+  if (prog && EVI_DOWNLOAD.program) prog.href = EVI_DOWNLOAD.program;
+  var llmUrl = (EVI_DOWNLOAD.llm || "").replace(/^\s+|\s+$/g, "");
+  var fallback = "#manual-llm";
+  document.querySelectorAll(".evi-llm-download").forEach(function (a) {
+    if (llmUrl) {
+      a.href = llmUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.removeAttribute("aria-disabled");
+      a.classList.remove("btn-muted");
+    } else {
+      a.href = fallback;
+      a.removeAttribute("target");
+      a.removeAttribute("rel");
+      a.setAttribute("aria-disabled", "true");
+      a.classList.add("btn-muted");
+    }
+  });
+}
 
 function buildLangGrid() {
   const g = document.getElementById("langGrid");
@@ -756,11 +987,17 @@ function buildDropdown() {
 function switchLang(code) {
   var t = I18N[code] || I18N[code.substring(0, 2)] || I18N.EN;
   if (t.document_title) document.title = t.document_title;
+  document.documentElement.setAttribute("lang", code === "DE" ? "de" : "en");
   var heroShow = document.getElementById("heroShowcase");
   if (heroShow && t.hero_team_aria) heroShow.setAttribute("aria-label", t.hero_team_aria);
   document.querySelectorAll("[data-i18n]").forEach(function (el) {
     var k = el.getAttribute("data-i18n");
     if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  var wantDe = code === "DE";
+  document.querySelectorAll(".manual-lang").forEach(function (el) {
+    var isDe = el.getAttribute("data-manual-lang") === "de";
+    el.hidden = wantDe ? !isDe : isDe;
   });
   var lang = LANGS.find(function (l) { return l.code === code; });
   var btn = document.getElementById("langSwitcherBtn");
@@ -770,6 +1007,7 @@ function switchLang(code) {
   document.getElementById("langDrop").classList.remove("open");
   document.getElementById("langSwitcherBtn").setAttribute("aria-expanded", "false");
   try { localStorage.setItem("evi-landing-lang", code); } catch (e) {}
+  applyEviDownloadUrls();
 }
 
 document.getElementById("langSwitcherBtn").addEventListener("click", function (e) {
@@ -796,6 +1034,7 @@ document.getElementById("langSwitcherBtn").addEventListener("keydown", function 
 
 buildLangGrid();
 buildDropdown();
+applyEviDownloadUrls();
 (function () {
   try {
     var s = localStorage.getItem("evi-landing-lang");
