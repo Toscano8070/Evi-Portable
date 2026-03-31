@@ -1,0 +1,289 @@
+===========================================================================
+  Evi Portable — Uitgebreide probleemoplossing (referentie)
+  Supplementen Handleiding\README.txt (overzicht) en modellen\llm\README.txt
+===========================================================================
+
+Deze gids behandelt typische en minder vaak voorkomende problemen: oorzaak, controles, oplossingen.
+Werk van boven naar beneden of ga naar het bijpassende gedeelte.
+
+Opmerking: niet elk bericht op het scherm wordt hier letterlijk geciteerd. Gebruik de combinatie
+van het symptoom (wat zie je?) en de kop van de sectie.
+
+-----------------------------------------------------------------------
+  Snelle controle (altijd eerst)
+-----------------------------------------------------------------------
+
+  □ Windows 10 of 11 (64-bit), actuele updates, opnieuw opgestart na grote wijzigingen?
+  □ Evi begon vanuit een volledig uitgepakte map — niet een half uitgepakt archief,
+    en niet alleen “live” vanuit de cloud (map synchroniseren)?
+  □ Minstens één geldige .gguf in models\llm\ (zie models\llm\README.txt)?
+  □ Voldoende vrije schijfruimte (model + chats + updates)?
+  □ Na wijzigingen aan instellingen, spiekbriefjes of modellen: sluit Evi volledig af
+    en opnieuw beginnen?
+
+
+-----------------------------------------------------------------------
+  1. Basisbeginselen van het besturingssysteem
+-----------------------------------------------------------------------
+
+Symptoom: installatie- of startfouten, "niet ondersteund op..."
+Uitleg: Evi richt zich alleen op Windows 10/11. Andere systemen worden niet ondersteund.
+
+Oplossingen:
+  • Gebruik alleen Windows 10 of 11.
+  • 32-bits Windows wordt doorgaans niet ondersteund: gebruik 64-bits.
+  • Installeer Windows-updates, start de pc opnieuw op.
+
+Symptoom: dubbelklikken op de app doet niets
+Uitleg: Beleidsblokkering, ontbrekende machtigingen of opstartprogramma in een geblokkeerd pad.
+
+Oplossingen:
+  • Klik met de rechtermuisknop → Alleen als beheerder uitvoeren als dat nodig is (normaal: standaardgebruiker).
+  • Ren niet vanuit een ZIP – volledig uitpakken.
+  • Controleer of antivirus een blokkering heeft geregistreerd (zie paragraaf 3).
+
+
+-----------------------------------------------------------------------
+  2. Mappaden, draagbaarheid, cloud en antivirus
+-----------------------------------------------------------------------
+
+Symptoom: bestanden “verdwijnen”, dubbele mappen, beschadigde .gguf
+Uitleg: Cloudsynchronisatie (OneDrive, Dropbox, …) kan bestanden vergrendelen of gedeeltelijk uploaden
+  gegevens terwijl Evi schrijft.
+
+Oplossingen:
+  • Zet de Evi-map op een lokale schijf, b.v. C:\EviPortable of D:\Tools\Evi —
+    niet "Documenten\OneDrive\..." met actieve synchronisatie van de livegegevens.
+  • Voeg een beveiligingssoftware-uitsluiting toe voor de Evi-root (elke kleine
+    schrijven kan LLM/Piper vertragen of slecht vergrendelen).
+
+Symptoom: USB-installatie: erg traag of fouten
+Uitleg: Trage sticks, FAT32-groottelimieten, slechte verbinding.
+
+Oplossingen:
+  • USB 3.x-stick, NTFS, voldoende ruimte; liever interne SSD.
+  • Voer geen grote modellen uit op zeer trage media — gebruik een kleinere GGUF.
+
+Symptoom: 'Pad te lang' of fouten met speciale tekens
+Uitleg: Windows MAX_PATH / Unicode — zeldzame, maar diepe paden + vreemde tekens
+  breek wat gereedschap.
+
+Oplossingen:
+  • Gebruik een kort pad, b.v. C:\Evi\, vermijd indien mogelijk niet-ASCII in pad.
+
+
+-----------------------------------------------------------------------
+  3. Taalmodel (.gguf) — geen antwoorden, modelfouten, loopt vast
+-----------------------------------------------------------------------
+
+Symptoom: “Geen AI”, lege antwoorden, model laadt niet
+Uitleg: Geen geldige GGUF in de verwachte map, onvolledige download, fout
+  formaat of een beschadigd bestand.
+
+Oplossingen:
+  • Open modellen\llm\: minimaal één .gguf met plausibele grootte (niet 0 bytes).
+  • Opnieuw downloaden; controleer in de browser op vreemde extensies in de naam - hernoemen
+    alleen als u weet dat het bestand compleet is.
+  • Lees modellen\llm\README.txt: aanbevolen Qwen-2.5-bestanden en VRAM-lagen.
+  • Meerdere GGUF: per README kunnen er meerdere bestanden bestaan ​​— Evi kiest ervoor om overeen te komen met VRAM.
+    Laat bij twijfel slechts ÉÉN bestand waarvan u zeker weet dat het goed is, in de map staan.
+
+Symptoom: antwoorden extreem traag ondanks GPU
+Uitleg: Model te groot voor GPU → offload/CPU, of verkeerde voorinstelling.
+
+Oplossingen:
+  • Kleiner model (bijvoorbeeld 7B q4_k_m in plaats van 14B).
+  • Match de GPU-voorinstelling in de zijbalk met echte hardware.
+Symptoom: CUDA / GPU-fout, "onvoldoende geheugen", crasht tijdens het genereren
+Uitleg: Niet genoeg VRAM, een ander proces gebruikt de GPU, laptop zit vast op iGPU.
+
+Oplossingen:
+  • Update het NVIDIA-stuurprogramma (nvidia.com).
+  • Op laptops forceert u in BIOS/Windows “discrete GPU” / “hoge prestaties” voor Evi
+    waar beschikbaar.
+  • Probeer de CPU-voorinstelling in Evi (langzaam maar stabiel).
+  • Sluit andere GPU-zware apps (games, andere AI-tools).
+
+
+-----------------------------------------------------------------------
+  4. GPU, stuurprogramma's, hybride laptop-graphics
+-----------------------------------------------------------------------
+
+Symptoom: Evi ziet de NVIDIA GPU niet, ook al is er een geïnstalleerd
+Uitleg: Verkeerde energiemodus, ontbrekende driver, hybride altijd op iGPU.
+
+Oplossingen:
+  • Apparaatbeheer: NVIDIA zonder foutcode?
+  • “Hoge prestaties” / “Ultieme” modus (apps van leveranciers: Lenovo Vantage, …).
+  • Herstart na driver-update.
+
+Symptoom: schermflikkering, drivercrash (TDR)
+Uitleg: Grafische time-out — vaak te veel GPU-belasting of onstabiele overklok.
+
+Oplossingen:
+  • Geen overklokken tijdens tests; kleiner model; betere koeling.
+
+
+-----------------------------------------------------------------------
+  5. Alleen CPU: verwachtingen en limieten
+-----------------------------------------------------------------------
+
+Symptoom: “Het duurt een eeuwigheid”
+Uitleg: CPU-gevolgtrekking bij 7B+ is veel langzamer dan GPU - dat is normaal.
+
+Oplossingen:
+  • Zorg voor voldoende RAM per model\llm\README.txt.
+  • Sluit achtergrondbanen; energieplan “Hoge prestaties”.
+
+
+-----------------------------------------------------------------------
+  6. Activering, licentie, machine-ID
+-----------------------------------------------------------------------
+
+Symptoom: serienummer niet geaccepteerd
+Uitleg: Typefouten, spaties, sleutel voor andere hardware, verouderde ID.
+
+Oplossingen:
+  • Plak de sleutel zorgvuldig, geen voorafgaande/volgende spaties.
+  • Zorg ervoor dat de e-mail overeenkomt met deze pc/geldige machine-ID.
+  • Na moederbord/CPU-wissel: nieuwe ID — neem contact op met de ondersteuning met proefketen.
+
+Symptoom: Geen antwoordmail
+Uitleg: Spammap, verkeerd Van-adres, verkeerd onderwerp.
+
+Oplossingen:
+  • Controleer spam; opnieuw verzenden met duidelijk onderwerp en machine-ID.
+
+
+-----------------------------------------------------------------------
+  7. Microfoon – geen niveau, Evi hoort niets
+-----------------------------------------------------------------------
+
+Symptoom: geen registratie, meter leeg
+Uitleg: Windows blokkeert de toegang, verkeerd invoerapparaat, kabel/USB.
+
+Oplossingen:
+  • Instellingen → Privacy → Microfoon → bureaublad-apps toestaan.
+  • Geluidsinstellingen → Invoer: stel de juiste standaard (“spraak”) in en test deze.
+  • In Evi: kies microfoon, Opslaan, app opnieuw opstarten.
+  • Bluetooth-headsets: koppelen, batterij; latentie kan slecht zijn - probeer een USB-microfoon.
+
+Symptoom: Microfoon werkt alleen in sommige apps
+Uitleg: De exclusieve modus van een andere app blokkeert het apparaat.
+
+Oplossingen:
+  • Sluit andere communicatie-apps of schakel de “exclusieve microfoon” uit.
+
+
+-----------------------------------------------------------------------
+  8. Spraakherkenning (lokaal)
+-----------------------------------------------------------------------
+
+Symptoom: spraak wordt niet herkend, “vastgelopen” verwerking
+Uitleg: Whisper-model ontbreekt/ongeldig, eerste download, drukke CPU/GPU.
+
+Oplossingen:
+  • Netwerk alleen als modellen moeten worden opgehaald — zie modellen\whisper.
+  • Typ kort in plaats van te praten om Evi te isoleren.
+  • Na grote updates: herstart Evi.
+
+
+-----------------------------------------------------------------------
+  9. Spraakuitvoer (TTS / Piper) — stil of verkeerde taal
+-----------------------------------------------------------------------
+
+Symptoom: er is geen geluid, hoewel het tekstantwoord wordt weergegeven
+Uitleg: Geen spraakpakket voor taal, verkeerde spraakinvoer, Windows-volume.
+
+Oplossingen:
+  • Controleer piper\ — stemmen voor gekozen taal aanwezig?
+  • Kies in Evi de stem die overeenkomt met de UI-taal en sla op.
+  • Windows-volumemixer: Evi niet gedempt?
+  • Probeer een ander uitvoerapparaat (hoofdtelefoon versus monitor).
+
+
+-----------------------------------------------------------------------
+ 10. Netwerk, firewall, “Blokkeer al het verkeer”
+-----------------------------------------------------------------------
+
+Symptoom: internet, e-mailhelpers, weer, downloads mislukken
+Uitleg: Globale blokkering in Evi, Windows firewall, corporate proxy, VPN.
+
+Oplossingen:
+  • Schakel in Evi 'Alle verkeer blokkeren' (of gelijkwaardig) uit als er online functies zijn
+    zijn gewenst.
+  • Tijdelijk VPN/firewall versoepelen (alleen indien toegestaan).
+  • Bedrijfsnetwerk: vraag IT om proxy-uitzonderingen.
+
+
+-----------------------------------------------------------------------
+ 11. YouTube, media, VLC Portable
+-----------------------------------------------------------------------
+
+Symptoom: video start niet, "ontbrekend onderdeel"
+Uitleg: VLC Portable ontbreekt, netwerk geblokkeerd, verkeerd pad.
+
+Oplossingen:
+  • Verwijder Portable\VLCPortable (of meegeleverde lay-out) niet.
+  • Netwerk toestaan ​​(zie sectie 10).
+
+
+-----------------------------------------------------------------------
+ 12. UI-taal, spiekbriefjes
+-----------------------------------------------------------------------
+
+Symptoom: Commando werkt niet, oude tekst
+Uitleg: Cheatsheet aangepast maar Evi niet opnieuw opgestart; verkeerde bestandsnaam.
+
+Oplossingen:
+  • Lees cheatsheets\README.txt — één bestand per taalcode (bijvoorbeeld de.txt, en.txt).
+  • Na handmatige bewerkingen Evi volledig opnieuw opstarten.
+  • Bestand opslaan als UTF-8 (accenten).
+
+
+-----------------------------------------------------------------------
+ 13. Beveiliging: pincode en spraakontgrendeling
+-----------------------------------------------------------------------
+
+Symptoom: pincode vergeten, spraakontgrendeling mislukt altijd
+Uitleg: Beveiligingsfunctie — opzettelijk moeilijk te omzeilen; kamer te luidruchtig.
+
+Oplossingen:
+  • Stille kamer, microfoonniveau, geen overlappende stemmen van anderen.
+  • Alleen pincode/persoonlijk herstel volgens leveranciersbeleid – ondersteuning met bewijs.
+  • Deel nooit uw pincode.
+
+
+-----------------------------------------------------------------------
+ 14. Prestaties, crashes, logs
+-----------------------------------------------------------------------
+
+Symptoom: vastlopen, plotselinge crash
+Uitleg: VRAM, RAM, thermische gasklep, slecht bestand, bug na update.
+
+Oplossingen:
+  • Kleiner model; sluit andere apps; koeling controleren.
+  • Controleer crash.log of iets dergelijks in de Evi-map, indien aanwezig.
+  • Laatste wijziging ongedaan maken (nieuw model verwijderen, instelling terugzetten).
+
+Symptoom: Alles voelt traag aan
+Uitleg: Achtergrondservices, volledige SSD, zeer grote modelcontext.
+
+Oplossingen:
+  • Taakbeheer: CPU/RAM/GPU; energieplan; vrije SSD-ruimte (ongeveer 10-15% leeg).
+
+
+-----------------------------------------------------------------------
+ 15. Als niets helpt: info voor ondersteuningsmail
+-----------------------------------------------------------------------
+
+  • Machine-ID (activatie-/infoscherm)
+  • Windows-versie (winver), 64-bit
+  • GPU-model + VRAM + driverversie
+  • Welke .gguf (bestandsnaam, geschatte grootte)
+  • Korte stappen die je hebt gezet
+  • Exacte fouttekst of screenshot (privésleutels niet tonen!)
+
+  E-mail: Brielbeck@hotmail.de
+
+===========================================================================

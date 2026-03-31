@@ -1,0 +1,289 @@
+=================================================================================
+  Evi Portable — Depanare extinsă (referință)
+  Suplimente Manual\README.txt (prezentare generală) și modele\llm\README.txt
+=================================================================================
+
+Acest ghid acoperă probleme tipice și mai puțin frecvente: cauză, verificări, remedieri.
+Lucrați de sus în jos sau săriți la secțiunea potrivită.
+
+Notă: nu toate mesajele de pe ecran sunt citate literal aici - utilizați combinația
+de simptom (ce vezi?) și titlul de secțiune.
+
+------------------------------------------------------------------------------
+  Verificare rapidă (întotdeauna prima)
+------------------------------------------------------------------------------
+
+  □ Windows 10 sau 11 (64 de biți), actualizări curente, repornit după modificări majore?
+  □ Evi a pornit dintr-un folder complet extras — nu o arhivă pe jumătate dezarhivată,
+    și nu „live” doar din cloud (dosar de sincronizare)?
+  □ Cel puțin un .gguf valid în modelele\llm\ (vezi modelele\llm\README.txt)?
+  □ Suficient spațiu liber pe disc (model + chat-uri + actualizări)?
+  □ După modificări ale setărilor, cheat sheets sau modele: părăsiți complet Evi
+    si incepe din nou?
+
+
+------------------------------------------------------------------------------
+  1. Bazele sistemului de operare
+------------------------------------------------------------------------------
+
+Simptom: erori de instalare sau pornire, „nu este acceptat pe...”
+Explicație: Evi vizează numai Windows 10/11. Alte sisteme nu sunt acceptate.
+
+Remedieri:
+  • Utilizați numai Windows 10 sau 11.
+  • Windows pe 32 de biți este de obicei neacceptat — utilizați 64 de biți.
+  • Instalați actualizări Windows, reporniți computerul.
+
+Simptom: dublu clic pe aplicație nu face nimic
+Explicație: Blocarea politicii, permisiunile lipsă sau lansatorul într-o cale blocată.
+
+Remedieri:
+  • Faceți clic dreapta → Executare ca administrator numai dacă este necesar (caz normal: utilizator standard).
+  • Nu rulați din interiorul unui ZIP — extrageți complet.
+  • Verificați dacă antivirusul a înregistrat un blocaj (vezi secțiunea 3).
+
+
+------------------------------------------------------------------------------
+  2. Căi pentru foldere, portabilitate, cloud și antivirus
+------------------------------------------------------------------------------
+
+Simptom: Fișierele „dispar”, foldere duplicate, .gguf corupt
+Explicație: Sincronizarea în cloud (OneDrive, Dropbox, …) poate bloca fișiere sau poate încărca parțial
+  date în timp ce Evi scrie.
+
+Remedieri:
+  • Puneți folderul Evi pe o unitate locală, de ex. C:\EviPortable sau D:\Tools\Evi —
+    nu „Documente\OneDrive\…” cu sincronizare activă pe datele live.
+  • Adăugați o excludere a software-ului de securitate pentru rădăcina Evi (scanând fiecare mic
+    scrierea poate încetini sau bloca LLM/Piper prost).
+
+Simptom: Instalare USB - foarte lentă sau erori
+Explicație: stick-uri lente, limite de dimensiune FAT32, conexiune proastă.
+
+Remedieri:
+  • Stick USB 3.x, NTFS, spațiu suficient; prefer SSD intern.
+  • Nu rulați modele uriașe pe medii foarte lente - utilizați un GGUF mai mic.
+
+Simptom: „Cale prea lungă” sau erori cu caractere speciale
+Explicație: Windows MAX_PATH / Unicode — căi rare, dar profunde + caractere ciudate
+  sparge niste unelte.
+
+Remedieri:
+  • Folosiți o cale scurtă, de ex. C:\Evi\, evitați non-ASCII în cale dacă este posibil.
+
+
+------------------------------------------------------------------------------
+  3. Model de limbă (.gguf) — fără răspunsuri, erori de model, blocări
+------------------------------------------------------------------------------
+
+Simptom: „Fără IA”, răspunsuri goale, modelul nu se va încărca
+Explicație: Nu există un GGUF valid în folderul așteptat, descărcare incompletă, greșită
+  format sau fișier deteriorat.
+
+Remedieri:
+  • Modele deschise\llm\: cel puțin un .gguf cu dimensiune plauzibilă (nu 0 octeți).
+  • Re-descărcare; în browser, verificați dacă există extensii ciudate în nume - redenumiți
+    numai dacă știi că fișierul este complet.
+  • Citiți modele\llm\README.txt: fișiere Qwen-2.5 recomandate și niveluri VRAM.
+  • GGUF multiple: per README pot exista mai multe fișiere — Evi alege să se potrivească cu VRAM.
+    Dacă aveți îndoieli, lăsați în dosar un singur fișier bine cunoscut.
+
+Simptom: Răspunsurile extrem de lente în ciuda GPU-ului
+Explicație: Model prea mare pentru GPU → descărcare/CPU sau presetare greșită.
+
+Remedieri:
+  • Model mai mic (de exemplu, 7B q4_k_m în loc de 14B).
+  • Potriviți presetarea GPU din bara laterală cu hardware-ul real.
+Simptom: eroare CUDA / GPU, „memorie lipsită”, blocare în timpul generării
+Explicație: VRAM insuficientă, un alt proces folosește GPU, laptop blocat pe iGPU.
+
+Remedieri:
+  • Actualizați driverul NVIDIA (nvidia.com).
+  • Pe laptopuri, în BIOS/Windows forțați „GPU discret” / „performanță ridicată” pentru Evi
+    acolo unde este disponibil.
+  • Încercați procesorul presetat în Evi (lent, dar stabil).
+  • Închideți alte aplicații GPU grele (jocuri, alte instrumente AI).
+
+
+------------------------------------------------------------------------------
+  4. GPU, drivere, grafică hibridă pentru laptop
+------------------------------------------------------------------------------
+
+Simptom: Evi nu vede GPU NVIDIA, deși unul este instalat
+Explicație: Mod de alimentare greșit, driver lipsă, hibrid întotdeauna pe iGPU.
+
+Remedieri:
+  • Manager dispozitive: NVIDIA fără cod de eroare?
+  • Modul „Performanță înaltă” / „Ultimă” (aplicații furnizor: Lenovo Vantage, …).
+  • Reporniți după actualizarea driverului.
+
+Simptom: pâlpâirea ecranului, prăbușirea șoferului (TDR)
+Explicație: Timeout grafică — adesea prea multă încărcare a GPU-ului sau overclock instabil.
+
+Remedieri:
+  • Fără overclock în timpul testelor; model mai mic; o răcire mai bună.
+
+
+------------------------------------------------------------------------------
+  5. Numai CPU - așteptări și limite
+------------------------------------------------------------------------------
+
+Simptom: „Este nevoie pentru totdeauna”
+Explicație: Inferența CPU la 7B+ este mult mai lentă decât GPU - asta este normal.
+
+Remedieri:
+  • Păstrați suficientă memorie RAM pentru fiecare model\llm\README.txt.
+  • Închide joburile de fundal; planul de alimentare „Performanță ridicată”.
+
+
+------------------------------------------------------------------------------
+  6. Activare, licență, ID mașină
+------------------------------------------------------------------------------
+
+Simptom: serialul nu este acceptat
+Explicație: greșeli de tipar, spații, cheie pentru hardware diferit, ID învechit.
+
+Remedieri:
+  • Lipiți cheia cu atenție, fără spații de început/în urmă.
+  • Asigurați-vă că e-mailul se potrivește cu acest computer/ID valid de mașină.
+  • După schimbarea plăcii de bază/CPU: ID nou — contactați asistența cu lanțul de probă.
+
+Simptom: Niciun e-mail de răspuns
+Explicație: dosar de spam, adresa de la adresa greșită, subiect greșit.
+
+Remedieri:
+  • Verificați spam-ul; retrimiteți cu subiectul clar și ID-ul mașinii.
+
+
+------------------------------------------------------------------------------
+  7. Microfon — fără nivel, Evi nu aude nimic
+------------------------------------------------------------------------------
+
+Simptom: Fără captură, contorul este gol
+Explicație: Windows blochează accesul, dispozitiv de intrare greșit, cablu/USB.
+
+Remedieri:
+  • Setări → Confidențialitate → Microfon → permite aplicații desktop.
+  • Setări sunet → Intrare: setați și testați valoarea implicită corectă („vorbire”).
+  • În Evi: alegeți microfonul, Salvați, reporniți aplicația.
+  • Căști Bluetooth: împerechere, baterie; latența poate fi proastă — încercați microfonul USB.
+
+Simptom: microfonul funcționează numai în unele aplicații
+Explicație: Modul exclusiv al unei alte aplicații blochează dispozitivul.
+
+Remedieri:
+  • Închideți alte aplicații de comunicații sau dezactivați „microfonul exclusiv”.
+
+
+------------------------------------------------------------------------------
+  8. Recunoașterea vorbirii (locală)
+------------------------------------------------------------------------------
+
+Simptom: Vorbirea nu este recunoscută, procesare „blocată”.
+Explicație: modelul Whisper lipsește/invalid, descărcare pentru prima dată, CPU/GPU ocupat.
+
+Remedieri:
+  • Rețea numai dacă modelele trebuie preluate — vezi modele\șoaptă.
+  • Tastați scurt în loc să vorbiți pentru a izola Evi.
+  • După actualizări majore: reporniți Evi.
+
+
+------------------------------------------------------------------------------
+  9. Ieșire vocală (TTS / Piper) — limbaj silentios sau greșit
+------------------------------------------------------------------------------
+
+Simptom: Niciun sunet, deși apare răspunsul text
+Explicație: Nu există pachet de voce pentru limbă, introducere vocală greșită, volum Windows.
+
+Remedieri:
+  • Verificați piper\ — voci pentru limba aleasă prezente?
+  • În Evi, alegeți limba interfață de utilizare potrivită pentru voce, salvați.
+  • Mixer de volum Windows: Evi nu este dezactivat?
+  • Încercați un alt dispozitiv de ieșire (căști vs. monitor).
+
+
+------------------------------------------------------------------------------
+ 10. Rețea, firewall, „Blocați tot traficul”
+------------------------------------------------------------------------------
+
+Simptom: Web, asistență prin e-mail, vreme, descărcări eșuează
+Explicație: Blocare globală în Evi, firewall Windows, proxy corporativ, VPN.
+
+Remedieri:
+  • În Evi, dezactivați „Blocați tot traficul” (sau echivalent) dacă funcțiile online
+    sunt căutați.
+  • Relaxați temporar VPN/firewall (doar dacă este permis).
+  • Rețea corporativă: solicitați IT excepții de proxy.
+
+
+------------------------------------------------------------------------------
+ 11. YouTube, media, VLC Portable
+------------------------------------------------------------------------------
+
+Simptom: videoclipul nu pornește, „lipsește componentă”
+Explicație: VLC Portable lipsește, rețea blocată, cale greșită.
+
+Remedieri:
+  • Nu ștergeți Portable\VLCPortable (sau aspectul furnizat).
+  • Permite rețea (vezi secțiunea 10).
+
+
+------------------------------------------------------------------------------
+ 12. Limbaj UI, cheat sheets
+------------------------------------------------------------------------------
+
+Simptom: Comanda nu funcționează, text vechi
+Explicație: Cheat sheet a fost editat, dar Evi nu a fost repornit; nume de fișier greșit.
+
+Remedieri:
+  • Citiți cheatsheets\README.txt — un fișier pentru fiecare cod de limbă (de exemplu, de.txt, en.txt).
+  • După editările manuale, reporniți complet Evi.
+  • Salvați fișierul ca UTF-8 (accente).
+
+
+------------------------------------------------------------------------------
+ 13. Securitate: PIN și deblocare vocală
+------------------------------------------------------------------------------
+
+Simptom: am uitat codul PIN, deblocarea vocală eșuează întotdeauna
+Explicație: Caracteristica de securitate — intenționat greu de ocolit; camera prea zgomotoasa.
+
+Remedieri:
+  • Cameră liniștită, nivel microfon, fără voci suprapuse de la alții.
+  • PIN/recuperare personală numai conform politicii furnizorului — suport cu dovezi.
+  • Nu partajați niciodată codul PIN.
+
+
+------------------------------------------------------------------------------
+ 14. Performanță, blocări, loguri
+------------------------------------------------------------------------------
+
+Simptom: Îngheț, prăbușire bruscă
+Explicație: VRAM, RAM, accelerație termică, fișier prost, eroare după actualizare.
+
+Remedieri:
+  • Model mai mic; închideți alte aplicații; verifica racirea.
+  • Verificați crash.log sau similar în folderul Evi, dacă este prezent.
+  • Anulați ultima modificare (eliminați modelul nou, reveniți la setare).
+
+Simptom: totul pare lent
+Explicație: Servicii de fundal, SSD complet, context de model foarte mare.
+
+Remedieri:
+  • Task Manager: CPU/RAM/GPU; planul de alimentare; spațiu SSD liber (aproximativ 10–15% gol).
+
+
+------------------------------------------------------------------------------
+ 15. Dacă nimic nu ajută — informații pentru e-mailul de asistență
+------------------------------------------------------------------------------
+
+  • ID mașină (ecran de activare/informații)
+  • Versiunea Windows (winver), pe 64 de biți
+  • Model GPU + VRAM + versiune driver
+  • Care .gguf (nume fișier, dimensiune aproximativă)
+  • Pași scurti pe care i-ați făcut
+  • Text de eroare exactă sau captură de ecran (nu afișați cheile private!)
+
+  E-mail: Brielbeck@hotmail.de
+
+=================================================================================

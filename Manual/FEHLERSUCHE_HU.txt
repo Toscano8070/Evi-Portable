@@ -1,0 +1,289 @@
+================================================================================
+  Evi Portable – Kibővített hibaelhárítás (hivatkozás)
+  Kiegészíti a kézikönyvet\README.txt (áttekintés) és a model\llm\README.txt fájlt
+================================================================================
+
+Ez az útmutató a tipikus és kevésbé gyakori problémákat ismerteti: okok, ellenőrzések, javítások.
+Dolgozzon felülről lefelé, vagy ugorjon a megfelelő szakaszra.
+
+Megjegyzés: Itt nem minden képernyőn megjelenő üzenetet szó szerint idézünk – használja a kombinációt
+a tünetről (mit látsz?) és a szakasz címét.
+
+---------------------------------------------------------------------------------
+  Gyors ellenőrzés (mindig először)
+---------------------------------------------------------------------------------
+
+  □ Windows 10 vagy 11 (64 bites), aktuális frissítések, nagyobb változtatások után újraindult?
+  □ Évi egy teljesen kibontott mappából indult – nem egy félig kibontott archívumból,
+    és nem "élőben" csak felhőből (szinkronizáló mappa)?
+  □ Legalább egy érvényes .gguf a models\llm\ fájlban (lásd a models\llm\README.txt fájlt)?
+  □ Elég szabad lemezterület (modell + csevegés + frissítések)?
+  □ A beállítások módosítása, csalólapok vagy modellek módosítása után: teljesen lépjen ki az Evi-ből
+    és kezdje újra?
+
+
+---------------------------------------------------------------------------------
+  1. Az operációs rendszer alapjai
+---------------------------------------------------------------------------------
+
+Tünet: Telepítési vagy indítási hibák, „nem támogatott…”
+Magyarázat: Az Evi csak a Windows 10/11 rendszert célozza meg. Más rendszerek nem támogatottak.
+
+Javítások:
+  • Csak Windows 10 vagy 11 rendszert használjon.
+  • A 32 bites Windows rendszerint nem támogatott – használjon 64 bites verziót.
+  • Telepítse a Windows frissítéseket, indítsa újra a számítógépet.
+
+Tünet: Ha duplán kattint az alkalmazásra, nem történik semmi
+Magyarázat: Házirend blokkolása, hiányzó engedélyek vagy indítóprogram blokkolt útvonalon.
+
+Javítások:
+  • Kattintson a jobb gombbal a → Futtatás rendszergazdaként csak szükség esetén (normál eset: normál felhasználó).
+  • Ne futtasson ZIP-ből – teljesen kicsomagolja.
+  • Ellenőrizze, hogy az antivírus naplózott-e egy blokkot (lásd a 3. részt).
+
+
+---------------------------------------------------------------------------------
+  2. Mappa útvonalak, hordozhatóság, felhő és víruskereső
+---------------------------------------------------------------------------------
+
+Tünet: A fájlok „eltűnnek”, ismétlődő mappák, sérült .gguf
+Magyarázat: A felhőalapú szinkronizálás (OneDrive, Dropbox stb.) zárolhatja a fájlokat vagy részleges feltöltést
+  adatokat, miközben Évi ír.
+
+Javítások:
+  • Tedd az Evi mappát egy helyi meghajtóra, pl. C:\EviPortable vagy D:\Tools\Evi —
+    nem „Dokumentumok\OneDrive\…” aktív szinkronizálással az élő adatokon.
+  • Adjon hozzá egy biztonsági szoftveres kizárást az Evi gyökér számára (minden apró szkennelés
+    az írás lelassulhat vagy rosszul zárolhatja az LLM/Piper-t).
+
+Tünet: USB telepítés – nagyon lassú vagy hibák
+Magyarázat: Lassan tapad, FAT32 méretkorlátozás, rossz kapcsolat.
+
+Javítások:
+  • USB 3.x pendrive, NTFS, elegendő hely; inkább a belső SSD-t részesítsd előnyben.
+  • Ne futtasson hatalmas modelleket nagyon lassú adathordozón – használjon kisebb GGUF-ot.
+
+Tünet: „Túl hosszú az útvonal” vagy speciális karakterhibák
+Magyarázat: Windows MAX_PATH / Unicode – ritka, de mély elérési utak + páratlan karakterek
+  eltörni néhány szerszámot.
+
+Javítások:
+  • Használjon rövid utat, pl. C:\Evi\, ha lehetséges, kerülje a nem ASCII-t az elérési útban.
+
+
+---------------------------------------------------------------------------------
+  3. Nyelvi modell (.gguf) — nincs válasz, modellhibák, lefagy
+---------------------------------------------------------------------------------
+
+Tünet: „Nincs AI”, üres válaszok, a modell nem töltődik be
+Magyarázat: Nincs érvényes GGUF a várt mappában, a letöltés nem fejeződött be, hibás
+  formátum, vagy sérült fájl.
+
+Javítások:
+  • Nyitott modellek\llm\: legalább egy .gguf elfogadható méretű (nem 0 bájt).
+  • Letöltés újra; a böngészőben ellenőrizze a páratlan kiterjesztéseket a névben – átnevezés
+    csak akkor, ha tudja, hogy a fájl teljes.
+  • Olvassa el a models\llm\README.txt fájlt: ajánlott Qwen-2.5 fájlok és VRAM-szintek.
+  • Több GGUF: README-nként több fájl is létezhet – Evi kiválasztja, hogy megfeleljen a VRAM-nak.
+    Ha kétségei vannak, csak EGY ismert jó fájlt hagyjon a mappában.
+
+Tünet: A GPU ellenére a válaszok rendkívül lassúak
+Magyarázat: A modell túl nagy a GPU-hoz → offload/CPU, vagy rossz előre beállított érték.
+
+Javítások:
+  • Kisebb modell (pl. 7B q4_k_m 14B helyett).
+  • Igazítsa az oldalsávon előre beállított GPU-t a valódi hardverhez.
+Tünet: CUDA / GPU hiba, „elfogyott a memória”, összeomlik a generálás során
+Magyarázat: Nincs elég VRAM, egy másik folyamat használja a GPU-t, a laptop az iGPU-n ragadt.
+
+Javítások:
+  • Frissítse az NVIDIA illesztőprogramot (nvidia.com).
+  • Laptopokon a BIOS/Windows rendszerben „diszkrét GPU” / „nagy teljesítmény” kényszerítése az Evi számára
+    ahol elérhető.
+  • Próbálja ki az Eviben előre beállított CPU-t (lassú, de stabil).
+  • Zárjon be más, nagy GPU-t használó alkalmazásokat (játékokat, egyéb AI-eszközöket).
+
+
+---------------------------------------------------------------------------------
+  4. GPU, illesztőprogramok, laptop hibrid grafika
+---------------------------------------------------------------------------------
+
+Tünet: Az Evi nem látja az NVIDIA GPU-t, bár van telepítve
+Magyarázat: Rossz energiagazdálkodási mód, hiányzó illesztőprogram, a hibrid mindig az iGPU-n van.
+
+Javítások:
+  • Eszközkezelő: NVIDIA hibakód nélkül?
+  • „Nagy teljesítmény” / „Ultimate” mód (gyártói alkalmazások: Lenovo Vantage,…).
+  • Indítsa újra az illesztőprogram frissítése után.
+
+Tünet: Képernyő villogása, illesztőprogram-összeomlás (TDR)
+Magyarázat: Grafikai időkorlát – gyakran túl sok GPU-terhelés vagy instabil túlhajtás.
+
+Javítások:
+  • Nincs túlhúzás a tesztek alatt; kisebb modell; jobb hűtés.
+
+
+---------------------------------------------------------------------------------
+  5. Csak CPU – elvárások és korlátok
+---------------------------------------------------------------------------------
+
+Tünet: „Örökké tart”
+Magyarázat: A CPU következtetései 7B+ esetén sokkal lassabbak, mint a GPU-nál – ez normális.
+
+Javítások:
+  • Tartson elegendő RAM-ot modellenként\llm\README.txt.
+  • Zárja be a háttérmunkákat; energiaterv „Nagy teljesítmény”.
+
+
+---------------------------------------------------------------------------------
+  6. Aktiválás, licenc, Gépazonosító
+---------------------------------------------------------------------------------
+
+Tünet: A sorozat nem elfogadott
+Magyarázat: Elírási hibák, szóközök, kulcs a különböző hardverekhez, elavult azonosító.
+
+Javítások:
+  • Óvatosan illessze be a kulcsot, ne legyen kezdő/vége szóköz.
+  • Győződjön meg arról, hogy a levél egyezik ezzel a PC/érvényes gépazonosítóval.
+  • Alaplap/CPU csere után: új azonosító — forduljon az ügyfélszolgálathoz próbalánccal.
+
+Tünet: Nincs válaszlevél
+Magyarázat: Spam mappa, rossz feladó cím, rossz tárgy.
+
+Javítások:
+  • Spam ellenőrzése; újraküldeni tiszta témával és gépazonosítóval.
+
+
+---------------------------------------------------------------------------------
+  7. Mikrofon — nincs szint, Évi nem hall semmit
+---------------------------------------------------------------------------------
+
+Tünet: Nincs rögzítés, a mérő üres
+Magyarázat: A Windows blokkolja a hozzáférést, rossz bemeneti eszköz, kábel/USB.
+
+Javítások:
+  • Beállítások → Adatvédelem → Mikrofon → asztali alkalmazások engedélyezése.
+  • Hangbeállítások → Bemenet: a megfelelő alapértelmezett („beszéd”) beállítása és tesztelése.
+  • Eviben: válassza ki a mikrofont, Mentse, indítsa újra az alkalmazást.
+  • Bluetooth headsetek: párosítás, akkumulátor; a késleltetés rossz lehet – próbálja ki az USB mikrofont.
+
+Tünet: A mikrofon csak bizonyos alkalmazásokban működik
+Magyarázat: Egy másik alkalmazás kizárólagos módja blokkolja az eszközt.
+
+Javítások:
+  • Zárjon be más kommunikációs alkalmazásokat, vagy tiltsa le az „exkluzív mikrofont”.
+
+
+---------------------------------------------------------------------------------
+  8. Beszédfelismerés (helyi)
+---------------------------------------------------------------------------------
+
+Tünet: Nem ismeri fel a beszédet, „elakadt” feldolgozás
+Magyarázat: A Whisper modell hiányzik/érvénytelen, első letöltés, foglalt CPU/GPU.
+
+Javítások:
+  • Csak akkor hálózat, ha modelleket kell lekérni – lásd a modellek\suttogást.
+  • Beszéd helyett írjon röviden, hogy elkülönítse Évit.
+  • Nagyobb frissítések után: indítsa újra az Evit.
+
+
+---------------------------------------------------------------------------------
+  9. Hangkimenet (TTS / Piper) – néma vagy rossz nyelv
+---------------------------------------------------------------------------------
+
+Tünet: Nincs hang, bár a szöveges válasz megjelenik
+Magyarázat: Nincs hangcsomag a nyelvhez, rossz hangbevitel, Windows hangerő.
+
+Javítások:
+  • Piper ellenőrzése\ — a kiválasztott nyelv hangjai jelen vannak?
+  • Az Eviben válasszon hangegyeztető kezelőfelületi nyelvet, mentse.
+  • Windows hangerőkeverő: Evi nincs elnémítva?
+  • Próbáljon ki egy másik kimeneti eszközt (fejhallgató vagy monitor).
+
+
+---------------------------------------------------------------------------------
+ 10. Hálózat, tűzfal, „Minden forgalom blokkolása”
+---------------------------------------------------------------------------------
+
+Tünet: Web, e-mail segítők, időjárás, letöltések sikertelenek
+Magyarázat: Globális blokk az Evi-ben, Windows tűzfal, vállalati proxy, VPN.
+
+Javítások:
+  • Az Evi-ben kapcsolja ki a „Minden forgalom blokkolása” (vagy azzal egyenértékű) funkciót, ha online funkciók vannak
+    keresnek.
+  • Ideiglenesen lazítsa meg a VPN-t/tűzfalat (csak ha engedélyezett).
+  • Vállalati hálózat: kérje az IT-től a proxy kivételeit.
+
+
+---------------------------------------------------------------------------------
+ 11. YouTube, média, VLC Portable
+---------------------------------------------------------------------------------
+
+Tünet: A videó nem indul el, „hiányzó komponens”
+Magyarázat: A hordozható VLC hiányzik, a hálózat le van tiltva, rossz elérési út.
+
+Javítások:
+  • Ne törölje a Portable\VLCPortable (vagy a mellékelt elrendezést).
+  • Hálózat engedélyezése (lásd a 10. részt).
+
+
+---------------------------------------------------------------------------------
+ 12. UI nyelv, csalólapok
+---------------------------------------------------------------------------------
+
+Tünet: A parancs nem működik, régi szöveg
+Magyarázat: Csallólap szerkesztve, de Évi nem indult újra; rossz fájlnév.
+
+Javítások:
+  • Olvassa el a cheatsheets\README.txt fájlt – nyelvkódonként egy fájlt (pl. de.txt, en.txt).
+  • A kézi szerkesztések után indítsa újra az Evi-t.
+  • Fájl mentése UTF-8 (ékezetes) formátumban.
+
+
+---------------------------------------------------------------------------------
+ 13. Biztonság: PIN-kód és hangfeloldás
+---------------------------------------------------------------------------------
+
+Tünet: Elfelejtette a PIN-kódot, a hangos feloldás mindig sikertelen
+Magyarázat: Biztonsági funkció – szándékosan nehéz megkerülni; túl zajos a szoba.
+
+Javítások:
+  • Csendes szoba, mikrofonszint, nincsenek átfedő hangok másoktól.
+  • PIN/személyes visszaállítás csak a szállítói szabályzat szerint – támogatás igazolással.
+  • Soha ne ossza meg PIN-kódját.
+
+
+---------------------------------------------------------------------------------
+ 14. Teljesítmény, összeomlások, naplók
+---------------------------------------------------------------------------------
+
+Tünet: Lefagyás, hirtelen ütközés
+Magyarázat: VRAM, RAM, hőszabályozó, rossz fájl, hiba a frissítés után.
+
+Javítások:
+  • Kisebb modell; zárja be a többi alkalmazást; ellenőrizze a hűtést.
+  • Ellenőrizze a crash.log-ot vagy hasonlót az Evi mappában, ha van.
+  • Utolsó módosítás visszavonása (új modell eltávolítása, beállítás visszaállítása).
+
+Tünet: Minden lomhának tűnik
+Magyarázat: Háttérszolgáltatások, teljes SSD, nagyon nagy modellkörnyezet.
+
+Javítások:
+  • Feladatkezelő: CPU/RAM/GPU; energiaterv; szabad SSD-terület (körülbelül 10–15% üres).
+
+
+---------------------------------------------------------------------------------
+ 15. Ha semmi sem segít - információ a támogatási e-mailhez
+---------------------------------------------------------------------------------
+
+  • Gépazonosító (aktiválási / információs képernyő)
+  • Windows verzió (winver), 64 bites
+  • GPU modell + VRAM + illesztőprogram verziója
+  • Melyik .gguf (fájlnév, hozzávetőleges méret)
+  • Rövid lépések, amelyeket megtett
+  • Pontos hibaszöveg vagy képernyőkép (ne mutasson privát kulcsokat!)
+
+  E-mail: Brielbeck@hotmail.de
+
+================================================================================

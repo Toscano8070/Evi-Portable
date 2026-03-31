@@ -1,0 +1,289 @@
+============================================================================
+  Evi Portable – Solução de problemas estendida (referência)
+  Manual de Suplementos\README.txt (visão geral) e modelos\llm\README.txt
+============================================================================
+
+Este guia aborda problemas típicos e menos comuns: causa, verificações, soluções.
+Trabalhe de cima para baixo ou pule para a seção correspondente.
+
+Nota: Nem todas as mensagens na tela são citadas literalmente aqui - use a combinação
+do sintoma (o que você vê?) e do título da seção.
+
+--------------------------------------------------------------------------------
+  Verificação rápida (sempre primeiro)
+--------------------------------------------------------------------------------
+
+  □ Windows 10 ou 11 (64 bits), atualizações atuais, reiniciado após grandes alterações?
+  □ O Evi iniciou a partir de uma pasta totalmente extraída — não de um arquivo meio descompactado,
+    e não “ao vivo” apenas da nuvem (pasta de sincronização)?
+  □ Pelo menos um .gguf válido em models\llm\ (veja models\llm\README.txt)?
+  □ Espaço livre em disco suficiente (modelo + chats + atualizações)?
+  □ Após alterações nas configurações, folhas de dicas ou modelos: saia completamente do Evi
+    e começar de novo?
+
+
+--------------------------------------------------------------------------------
+  1. Noções básicas do sistema operacional
+--------------------------------------------------------------------------------
+
+Sintoma: Erros de instalação ou inicialização, “não suportado em…”
+Explicação: Evi é direcionado apenas ao Windows 10/11. Outros sistemas não são suportados.
+
+Correções:
+  • Use apenas Windows 10 ou 11.
+  • O Windows de 32 bits normalmente não é compatível — use 64 bits.
+  • Instale as atualizações do Windows e reinicie o PC.
+
+Sintoma: clicar duas vezes no aplicativo não faz nada
+Explicação: Bloqueio de política, permissões ausentes ou inicializador em um caminho bloqueado.
+
+Correções:
+  • Clique com o botão direito → Executar como administrador somente se necessário (caso normal: usuário padrão).
+  • Não execute dentro de um ZIP – extraia completamente.
+  • Verifique se o antivírus registrou um bloqueio (consulte a seção 3).
+
+
+--------------------------------------------------------------------------------
+  2. Caminhos de pasta, portabilidade, nuvem e antivírus
+--------------------------------------------------------------------------------
+
+Sintoma: Arquivos “desaparecem”, pastas duplicadas, .gguf corrompido
+Explicação: A sincronização na nuvem (OneDrive, Dropbox,…) pode bloquear arquivos ou fazer upload parcial
+  dados enquanto Evi escreve.
+
+Correções:
+  • Coloque a pasta Evi em uma unidade local, por exemplo. C:\EviPortable ou D:\Ferramentas\Evi —
+    não “Documents\OneDrive\…” com sincronização ativa nos dados ativos.
+  • Adicionar uma exclusão de software de segurança para a raiz do Evi (verificando cada pequeno
+    a gravação pode retardar ou travar gravemente o LLM/Piper).
+
+Sintoma: Instalação USB – muito lenta ou com erros
+Explicação: Sticks lentos, limites de tamanho FAT32, conexão ruim.
+
+Correções:
+  • Pendrive USB 3.x, NTFS, espaço suficiente; prefira SSD interno.
+  • Não execute modelos enormes em mídias muito lentas — use um GGUF menor.
+
+Sintoma: “Caminho muito longo” ou erros de caracteres especiais
+Explicação: Windows MAX_PATH / Unicode – caminhos raros, mas profundos + caracteres estranhos
+  quebrar algumas ferramentas.
+
+Correções:
+  • Use um caminho curto, por ex. C:\Evi\, evite caminhos não-ASCII, se possível.
+
+
+--------------------------------------------------------------------------------
+  3. Modelo de linguagem (.gguf) — sem respostas, erros de modelo, travamentos
+--------------------------------------------------------------------------------
+
+Sintoma: “Sem IA”, respostas vazias, o modelo não carrega
+Explicação: Nenhum GGUF válido na pasta esperada, download incompleto, errado
+  formato ou arquivo danificado.
+
+Correções:
+  • Modelos abertos\llm\: pelo menos um .gguf com tamanho plausível (não 0 bytes).
+  • Baixe novamente; no navegador, verifique se há extensões estranhas no nome – renomeie
+    somente se você souber que o arquivo está completo.
+  • Leia models\llm\README.txt: arquivos Qwen-2.5 e camadas VRAM recomendados.
+  • Múltiplos GGUF: por README podem existir vários arquivos — o Evi escolhe para corresponder ao VRAM.
+    Em caso de dúvida, deixe apenas UM arquivo em bom estado na pasta.
+
+Sintoma: Respostas extremamente lentas apesar da GPU
+Explicação: Modelo muito grande para GPU → descarregamento/CPU ou predefinição errada.
+
+Correções:
+  • Modelo menor (por exemplo, 7B q4_k_m em vez de 14B).
+  • Combine a predefinição de GPU na barra lateral com o hardware real.
+Sintoma: erro CUDA/GPU, “sem memória”, travamento durante a geração
+Explicação: VRAM insuficiente, outro processo usa a GPU, laptop preso no iGPU.
+
+Correções:
+  • Atualize o driver NVIDIA (nvidia.com).
+  • Em laptops, no BIOS/Windows forçar “GPU discreta” / “alto desempenho” para Evi
+    quando disponível.
+  • Experimente a predefinição de CPU no Evi (lento, mas estável).
+  • Feche outros aplicativos com uso intenso de GPU (jogos, outras ferramentas de IA).
+
+
+--------------------------------------------------------------------------------
+  4. GPU, drivers, gráficos híbridos de laptop
+--------------------------------------------------------------------------------
+
+Sintoma: Evi não vê a GPU NVIDIA embora uma esteja instalada
+Explicação: modo de energia incorreto, driver ausente, híbrido sempre ligado iGPU.
+
+Correções:
+  • Gerenciador de dispositivos: NVIDIA sem código de erro?
+  • Modo “Alto desempenho” / “Ultimate” (aplicativos do fornecedor: Lenovo Vantage, …).
+  • Reinicie após a atualização do driver.
+
+Sintoma: oscilação da tela, falha do driver (TDR)
+Explicação: Tempo limite dos gráficos – geralmente muita carga da GPU ou overclock instável.
+
+Correções:
+  • Sem overclock durante os testes; modelo menor; melhor resfriamento.
+
+
+--------------------------------------------------------------------------------
+  5. Somente CPU – expectativas e limites
+--------------------------------------------------------------------------------
+
+Sintoma: “Leva uma eternidade”
+Explicação: A inferência da CPU em 7B+ é muito mais lenta que a da GPU – isso é normal.
+
+Correções:
+  • Mantenha RAM suficiente por models\llm\README.txt.
+  • Fechar trabalhos em segundo plano; plano de energia “Alto desempenho”.
+
+
+--------------------------------------------------------------------------------
+  6. Ativação, licença, Machine ID
+--------------------------------------------------------------------------------
+
+Sintoma: Série não aceita
+Explicação: Erros de digitação, espaços, chave para hardware diferente, ID obsoleto.
+
+Correções:
+  • Cole a chave com cuidado, sem espaços iniciais/finais.
+  • Certifique-se de que o e-mail corresponda a este PC/ID de máquina válido.
+  • Após troca da placa-mãe/CPU: novo ID — entre em contato com o suporte com cadeia de prova.
+
+Sintoma: Nenhum e-mail de resposta
+Explicação: Pasta de spam, endereço De errado, assunto errado.
+
+Correções:
+  • Verifique spam; reenviar com assunto claro e ID da máquina.
+
+
+--------------------------------------------------------------------------------
+  7. Microfone – sem nível, Evi não ouve nada
+--------------------------------------------------------------------------------
+
+Sintoma: Sem captura, medidor vazio
+Explicação: O Windows bloqueia o acesso, dispositivo de entrada errado, cabo/USB.
+
+Correções:
+  • Configurações → Privacidade → Microfone → permitir aplicativos de desktop.
+  • Configurações de som → Entrada: defina e teste o padrão correto (“fala”).
+  • No Evi: escolha o microfone, salve e reinicie o aplicativo.
+  • Fones de ouvido Bluetooth: emparelhamento, bateria; a latência pode ser ruim – experimente o microfone USB.
+
+Sintoma: o microfone funciona apenas em alguns aplicativos
+Explicação: O modo exclusivo de outro aplicativo bloqueia o dispositivo.
+
+Correções:
+  • Feche outros aplicativos de comunicação ou desative o “microfone exclusivo”.
+
+
+--------------------------------------------------------------------------------
+  8. Reconhecimento de fala (local)
+--------------------------------------------------------------------------------
+
+Sintoma: Fala não reconhecida, processamento “travado”
+Explicação: Modelo Whisper ausente/inválido, primeiro download, CPU/GPU ocupada.
+
+Correções:
+  • Rede somente se os modelos precisarem ser buscados — veja modelos\whisper.
+  • Digite brevemente em vez de falar para isolar Evi.
+  • Após atualizações importantes: reinicie o Evi.
+
+
+--------------------------------------------------------------------------------
+  9. Saída de voz (TTS / Piper) — idioma silencioso ou errado
+--------------------------------------------------------------------------------
+
+Sintoma: Não há som, embora a resposta de texto seja exibida
+Explicação: Sem pacote de voz para idioma, entrada de voz errada, volume do Windows.
+
+Correções:
+  • Verifique piper\ — vozes do idioma escolhido estão presentes?
+  • No Evi, escolha o idioma da UI de correspondência de voz e salve.
+  • Mixer de volume do Windows: Evi não está mudo?
+  • Experimente outro dispositivo de saída (fones de ouvido versus monitor).
+
+
+--------------------------------------------------------------------------------
+ 10. Rede, firewall, “Bloquear todo o tráfego”
+--------------------------------------------------------------------------------
+
+Sintoma: Web, ajudantes de e-mail, previsão do tempo, downloads falham
+Explicação: Bloqueio global no Evi, firewall do Windows, proxy corporativo, VPN.
+
+Correções:
+  • No Evi, desative “Bloquear todo o tráfego” (ou equivalente) se houver recursos on-line
+    são procurados.
+  • Relaxe temporariamente a VPN/firewall (somente se permitido).
+  • Rede corporativa: solicite à TI exceções de proxy.
+
+
+--------------------------------------------------------------------------------
+ 11. YouTube, mídia, VLC portátil
+--------------------------------------------------------------------------------
+
+Sintoma: O vídeo não inicia, “componente ausente”
+Explicação: VLC Portable ausente, rede bloqueada, caminho errado.
+
+Correções:
+  • Não exclua Portable\VLCPortable (ou layout fornecido).
+  • Permitir rede (consulte a seção 10).
+
+
+--------------------------------------------------------------------------------
+ 12. Linguagem da interface do usuário, folhas de dicas
+--------------------------------------------------------------------------------
+
+Sintoma: O comando não funciona, texto antigo
+Explicação: Folha de dicas editada, mas o Evi não foi reiniciado; nome de arquivo errado.
+
+Correções:
+  • Leia cheatsheets\README.txt — um arquivo por código de idioma (por exemplo, de.txt, en.txt).
+  • Após as edições manuais, reinicie totalmente o Evi.
+  • Salve o arquivo como UTF-8 (acentos).
+
+
+--------------------------------------------------------------------------------
+ 13. Segurança: PIN e desbloqueio por voz
+--------------------------------------------------------------------------------
+
+Sintoma: Esqueci o PIN, o desbloqueio por voz sempre falha
+Explicação: Recurso de segurança — intencionalmente difícil de ignorar; quarto muito barulhento.
+
+Correções:
+  • Sala silenciosa, nível de microfone, sem sobreposição de vozes de outras pessoas.
+  • Recuperação de PIN/pessoal somente de acordo com a política do fornecedor — suporte com comprovante.
+  • Nunca compartilhe seu PIN.
+
+
+--------------------------------------------------------------------------------
+ 14. Desempenho, falhas, logs
+--------------------------------------------------------------------------------
+
+Sintoma: Congelamento, falha repentina
+Explicação: VRAM, RAM, acelerador térmico, arquivo inválido, bug após atualização.
+
+Correções:
+  • Modelo menor; feche outros aplicativos; verifique o resfriamento.
+  • Verifique crash.log ou similar na pasta Evi, se presente.
+  • Desfazer a última alteração (remover novo modelo, reverter configuração).
+
+Sintoma: tudo parece lento
+Explicação: Serviços em segundo plano, SSD completo, contexto de modelo muito grande.
+
+Correções:
+  • Gerenciador de Tarefas: CPU/RAM/GPU; plano de energia; espaço SSD livre (cerca de 10–15% vazio).
+
+
+--------------------------------------------------------------------------------
+ 15. Se nada ajudar — informações para e-mail de suporte
+--------------------------------------------------------------------------------
+
+  • ID da máquina (tela de ativação/informações)
+  • Versão Windows (winver), 64 bits
+  • Modelo de GPU + VRAM + versão do driver
+  • Qual .gguf (nome do arquivo, tamanho aproximado)
+  • Passos curtos que você deu
+  • Texto ou captura de tela exata do erro (não mostrar chaves privadas!)
+
+  E-mail: Brielbeck@hotmail.de
+
+============================================================================

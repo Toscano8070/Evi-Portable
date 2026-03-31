@@ -1,0 +1,289 @@
+=======================================================================================
+  Evi Portable — Khắc phục sự cố mở rộng (tham khảo)
+  Hướng dẫn bổ sung\README.txt (tổng quan) và models\llm\README.txt
+=======================================================================================
+
+Hướng dẫn này bao gồm các vấn đề điển hình và ít phổ biến hơn: nguyên nhân, kiểm tra, khắc phục.
+Làm việc từ trên xuống dưới hoặc chuyển đến phần phù hợp.
+
+Lưu ý: Không phải mọi thông báo trên màn hình đều được trích dẫn nguyên văn ở đây — hãy sử dụng kết hợp
+về triệu chứng (bạn thấy gì?) và tiêu đề của phần.
+
+--------------------------------------------------------------------------------
+  Kiểm tra nhanh (luôn luôn đầu tiên)
+--------------------------------------------------------------------------------
+
+  □ Windows 10 hoặc 11 (64-bit), bản cập nhật hiện tại, được khởi động lại sau những thay đổi lớn?
+  □ Evi bắt đầu từ một thư mục được giải nén hoàn toàn — không phải là kho lưu trữ được giải nén một nửa,
+    và không chỉ “trực tiếp” từ đám mây (thư mục đồng bộ hóa)?
+  □ Ít nhất một .gguf hợp lệ trong models\llm\ (xem models\llm\README.txt)?
+  □ Dung lượng đĩa trống có đủ (model + trò chuyện + cập nhật) không?
+  □ Sau khi thay đổi cài đặt, bảng ghi chú hoặc kiểu máy: thoát hoàn toàn Evi
+    và bắt đầu lại?
+
+
+--------------------------------------------------------------------------------
+  1. Khái niệm cơ bản về hệ điều hành
+--------------------------------------------------------------------------------
+
+Hiện tượng: Lỗi cài đặt hoặc khởi động, “không được hỗ trợ trên…”
+Giải thích: Evi chỉ nhắm mục tiêu Windows 10/11. Các hệ thống khác không được hỗ trợ.
+
+Sửa lỗi:
+  • Chỉ sử dụng Windows 10 hoặc 11.
+  • Windows 32-bit thường không được hỗ trợ — hãy sử dụng 64-bit.
+  • Cài đặt bản cập nhật Windows, khởi động lại PC.
+
+Triệu chứng: Nhấp đúp vào ứng dụng không có tác dụng gì
+Giải thích: Khối chính sách, thiếu quyền hoặc trình khởi chạy trong đường dẫn bị chặn.
+
+Sửa lỗi:
+  • Nhấp chuột phải → Chỉ chạy với tư cách quản trị viên nếu cần (trường hợp bình thường: người dùng chuẩn).
+  • Không chạy từ bên trong ZIP — giải nén hoàn toàn.
+  • Kiểm tra xem phần mềm chống vi-rút có ghi nhật ký chặn hay không (xem phần 3).
+
+
+--------------------------------------------------------------------------------
+  2. Đường dẫn thư mục, tính di động, đám mây và phần mềm chống vi-rút
+--------------------------------------------------------------------------------
+
+Triệu chứng: Tập tin “biến mất”, thư mục trùng lặp, .gguf bị hỏng
+Giải thích: Cloud sync (OneDrive, Dropbox,…) có thể khóa file hoặc upload một phần
+  dữ liệu trong khi Evi viết.
+
+Sửa lỗi:
+  • Đặt thư mục Evi vào ổ đĩa cục bộ, ví dụ: C:\EviPortable hoặc D:\Tools\Evi —
+    không phải “Documents\OneDrive\…” với tính năng đồng bộ hóa đang hoạt động trên dữ liệu trực tiếp.
+  • Thêm tính năng loại trừ phần mềm bảo mật cho root Evi (quét từng phần nhỏ
+    ghi có thể làm chậm hoặc khóa LLM/Piper kém).
+
+Triệu chứng: Cài đặt qua USB — rất chậm hoặc có lỗi
+Giải thích: Gậy chậm, giới hạn kích thước FAT32, kết nối kém.
+
+Sửa lỗi:
+  • USB 3.x, NTFS, đủ dung lượng; thích SSD nội bộ hơn.
+  • Không chạy các mô hình lớn trên phương tiện truyền thông rất chậm — hãy sử dụng GGUF nhỏ hơn.
+
+Triệu chứng: “Đường dẫn quá dài” hoặc lỗi ký tự đặc biệt
+Giải thích: Windows MAX_PATH / Unicode - đường dẫn hiếm nhưng sâu + ký tự lẻ
+  phá vỡ một số công cụ
+
+Sửa lỗi:
+  • Sử dụng đường dẫn ngắn, ví dụ: C:\Evi\, tránh không phải ASCII trong đường dẫn nếu có thể.
+
+
+--------------------------------------------------------------------------------
+  3. Mô hình ngôn ngữ (.gguf) — không có phản hồi, lỗi mô hình, bị treo
+--------------------------------------------------------------------------------
+
+Triệu chứng: “Không có AI”, câu trả lời trống, mô hình sẽ không tải
+Giải thích: Không có GGUF hợp lệ trong thư mục dự kiến, tải xuống không đầy đủ, sai
+  định dạng hoặc tập tin bị hỏng.
+
+Sửa lỗi:
+  • Mở models\llm\: ít nhất một .gguf với kích thước hợp lý (không phải 0 byte).
+  • Tải lại; trong trình duyệt, hãy kiểm tra các phần mở rộng kỳ lạ trong tên - đổi tên
+    chỉ khi bạn biết tập tin đã hoàn tất.
+  • Đọc models\llm\README.txt: các tệp Qwen-2.5 được đề xuất và các bậc VRAM.
+  • Nhiều GGUF: mỗi README có thể tồn tại một số tệp — Evi chọn để khớp với VRAM.
+    Nếu nghi ngờ, chỉ để lại MỘT tệp đã biết rõ ràng trong thư mục.
+
+Triệu chứng: Câu trả lời cực kỳ chậm mặc dù có GPU
+Giải thích: Mô hình quá lớn đối với GPU → giảm tải/CPU hoặc cài đặt sai.
+
+Sửa lỗi:
+  • Mô hình nhỏ hơn (ví dụ: 7B q4_k_m thay vì 14B).
+  • So khớp GPU cài sẵn trong thanh bên với phần cứng thực.
+Triệu chứng: Lỗi CUDA/GPU, “hết bộ nhớ”, gặp sự cố khi tạo
+Giải thích: Không đủ VRAM, tiến trình khác sử dụng GPU, laptop bị kẹt trên iGPU.
+
+Sửa lỗi:
+  • Cập nhật trình điều khiển NVIDIA (nvidia.com).
+  • Trên laptop, trong BIOS/Windows bắt buộc phải có “GPU rời”/“hiệu năng cao” cho Evi
+    nơi có sẵn.
+  • Thử CPU cài sẵn trong Evi (chậm nhưng ổn định).
+  • Đóng các ứng dụng nặng về GPU khác (trò chơi, công cụ AI khác).
+
+
+--------------------------------------------------------------------------------
+  4. GPU, driver, đồ họa lai laptop
+--------------------------------------------------------------------------------
+
+Triệu chứng: Evi không thấy GPU NVIDIA mặc dù đã cài đặt một GPU
+Giải thích: Sai nguồn, thiếu driver, hybrid luôn trên iGPU.
+
+Sửa lỗi:
+  • Trình quản lý thiết bị: NVIDIA không có mã lỗi?
+  • Chế độ “Hiệu suất cao” / “Ultimate” (ứng dụng của nhà cung cấp: Lenovo Vantage, …).
+  • Khởi động lại sau khi cập nhật trình điều khiển.
+
+Triệu chứng: Màn hình nhấp nháy, lỗi driver (TDR)
+Giải thích: Hết thời gian chờ đồ họa - thường tải GPU quá nhiều hoặc ép xung không ổn định.
+
+Sửa lỗi:
+  • Không ép xung trong quá trình kiểm tra; mô hình nhỏ hơn; làm mát tốt hơn.
+
+
+--------------------------------------------------------------------------------
+  5. Chỉ dành cho CPU - kỳ vọng và giới hạn
+--------------------------------------------------------------------------------
+
+Triệu chứng: “Phải mất mãi mãi”
+Giải thích: Suy luận của CPU ở mức 7B+ chậm hơn nhiều so với GPU - đó là điều bình thường.
+
+Sửa lỗi:
+  • Giữ đủ RAM cho mỗi model\llm\README.txt.
+  • Đóng các công việc nền; kế hoạch năng lượng “Hiệu suất cao”.
+
+
+--------------------------------------------------------------------------------
+  6. Kích hoạt, giấy phép, ID máy
+--------------------------------------------------------------------------------
+
+Triệu chứng: Serial không được chấp nhận
+Giải thích: Lỗi chính tả, dấu cách, khóa cho phần cứng khác, ID cũ.
+
+Sửa lỗi:
+  • Dán khóa cẩn thận, không có khoảng trống ở đầu/cuối.
+  • Đảm bảo thư khớp với PC này/ID máy hợp lệ.
+  • Sau khi hoán đổi bo mạch chính/CPU: ID mới — liên hệ với bộ phận hỗ trợ bằng chuỗi chứng cứ.
+
+Hiện tượng: Không có thư trả lời
+Giải thích: Thư mục spam, sai địa chỉ, sai chủ đề.
+
+Sửa lỗi:
+  • Kiểm tra thư rác; gửi lại với chủ đề rõ ràng và ID máy.
+
+
+--------------------------------------------------------------------------------
+  7. Micrô - không có âm lượng, Evi không nghe thấy gì
+--------------------------------------------------------------------------------
+
+Hiện tượng: Không chụp được, đồng hồ trống
+Giải thích: Windows chặn truy cập, thiết bị đầu vào sai, cáp/USB.
+
+Sửa lỗi:
+  • Cài đặt → Quyền riêng tư → Micrô → cho phép ứng dụng trên máy tính để bàn.
+  • Cài đặt âm thanh → Đầu vào: cài đặt và kiểm tra mặc định phù hợp (“lời nói”).
+  • Trong Evi: chọn micro, Lưu, khởi động lại ứng dụng.
+  • Tai nghe Bluetooth: ghép nối, pin; độ trễ có thể rất tệ — hãy thử dùng micrô USB.
+
+Triệu chứng: Mic chỉ hoạt động trong một số ứng dụng
+Giải thích: Chế độ độc quyền của ứng dụng khác chặn thiết bị.
+
+Sửa lỗi:
+  • Đóng các ứng dụng liên lạc khác hoặc tắt “micrô độc quyền”.
+
+
+--------------------------------------------------------------------------------
+  8. Nhận dạng giọng nói (cục bộ)
+--------------------------------------------------------------------------------
+
+Triệu chứng: Không nhận dạng được giọng nói, xử lý "bị kẹt"
+Giải thích: Mô hình thì thầm bị thiếu/không hợp lệ, tải xuống lần đầu, CPU/GPU bận.
+
+Sửa lỗi:
+  • Chỉ kết nối mạng nếu phải tìm nạp mô hình - xem mô hình\thì thầm.
+  • Gõ ngắn gọn thay vì nói để cô lập Evi.
+  • Sau khi cập nhật lớn: khởi động lại Evi.
+
+
+--------------------------------------------------------------------------------
+  9. Đầu ra giọng nói (TTS / Piper) — ngôn ngữ im lặng hoặc sai
+--------------------------------------------------------------------------------
+
+Triệu chứng: Không có âm thanh dù câu trả lời vẫn hiển thị
+Giải thích: Không có gói giọng nói cho ngôn ngữ, nhập sai giọng nói, âm lượng Windows.
+
+Sửa lỗi:
+  • Kiểm tra piper\ — tiếng nói của ngôn ngữ được chọn hiện có?
+  • Trong Evi chọn ngôn ngữ giao diện người dùng phù hợp với giọng nói, hãy lưu.
+  • Bộ trộn âm lượng Windows: Evi không bị tắt tiếng?
+  • Thử thiết bị đầu ra khác (tai nghe và màn hình).
+
+
+--------------------------------------------------------------------------------
+ 10. Mạng, tường lửa, “Chặn mọi lưu lượng truy cập”
+--------------------------------------------------------------------------------
+
+Triệu chứng: Web, người trợ giúp thư, thời tiết, tải xuống không thành công
+Giải thích: Chặn toàn cầu trong Evi, tường lửa Windows, proxy công ty, VPN.
+
+Sửa lỗi:
+  • Trong Evi tắt “Chặn mọi lưu lượng truy cập” (hoặc tương đương) nếu có tính năng trực tuyến
+    đang bị truy nã.
+  • Tạm thời nới lỏng VPN/tường lửa (chỉ khi được phép).
+  • Mạng công ty: yêu cầu CNTT cung cấp các trường hợp ngoại lệ về proxy.
+
+
+--------------------------------------------------------------------------------
+ 11. YouTube, phương tiện truyền thông, VLC Portable
+--------------------------------------------------------------------------------
+
+Hiện tượng: Video không khởi động được, “thiếu thành phần”
+Giải thích: VLC Portable bị thiếu, mạng bị chặn, sai đường dẫn.
+
+Sửa lỗi:
+  • Không xóa Portable\VLCPortable (hoặc bố cục được cung cấp).
+  • Cho phép mạng (xem phần 10).
+
+
+--------------------------------------------------------------------------------
+ 12. Ngôn ngữ giao diện người dùng, cheat sheet
+--------------------------------------------------------------------------------
+
+Triệu chứng: Lệnh không hoạt động, văn bản cũ
+Giải thích: Bảng cheat đã được chỉnh sửa nhưng Evi không khởi động lại; tên tập tin sai.
+
+Sửa lỗi:
+  • Đọc cheatsheets\README.txt — một tệp cho mỗi mã ngôn ngữ (ví dụ: de.txt, en.txt).
+  • Sau khi chỉnh sửa thủ công, hãy khởi động lại hoàn toàn Evi.
+  • Lưu tập tin dưới dạng UTF-8 (dấu).
+
+
+--------------------------------------------------------------------------------
+ 13. Bảo mật: Mở khóa bằng mã PIN và giọng nói
+--------------------------------------------------------------------------------
+
+Triệu chứng: Quên mã PIN, mở khóa bằng giọng nói luôn thất bại
+Giải thích: Tính năng bảo mật — cố tình khó vượt qua; phòng quá ồn ào.
+
+Sửa lỗi:
+  • Phòng yên tĩnh, mic ngang, không bị chen tiếng từ người khác.
+  • Chỉ khôi phục mã PIN/cá nhân theo chính sách của nhà cung cấp — hỗ trợ có bằng chứng.
+  • Không bao giờ chia sẻ mã PIN của bạn.
+
+
+--------------------------------------------------------------------------------
+ 14. Hiệu suất, sự cố, nhật ký
+--------------------------------------------------------------------------------
+
+Triệu chứng: Bị đơ, va chạm đột ngột
+Giải thích: VRAM, RAM, ga nhiệt, file bad, lỗi sau khi cập nhật.
+
+Sửa lỗi:
+  • Mô hình nhỏ hơn; đóng các ứng dụng khác; kiểm tra làm mát.
+  • Kiểm tra Crash.log hoặc tương tự trong thư mục Evi nếu có.
+  • Hoàn tác thay đổi cuối cùng (xóa mô hình mới, hoàn nguyên cài đặt).
+
+Triệu chứng: Mọi thứ đều trở nên chậm chạp
+Giải thích: Dịch vụ nền, SSD đầy đủ, bối cảnh mô hình rất lớn.
+
+Sửa lỗi:
+  • Trình quản lý tác vụ: CPU/RAM/GPU; sơ đồ điện; dung lượng SSD trống (khoảng 10–15% trống).
+
+
+--------------------------------------------------------------------------------
+ 15. Nếu không có gì giúp được — thông tin về thư hỗ trợ
+--------------------------------------------------------------------------------
+
+  • ID máy (màn hình kích hoạt / thông tin)
+  • Phiên bản Windows (winver), 64-bit
+  • Model GPU + VRAM + phiên bản trình điều khiển
+  • .gguf nào (tên tệp, kích thước gần đúng)
+  • Những bước ngắn bạn đã thực hiện
+  • Văn bản hoặc ảnh chụp màn hình lỗi chính xác (không hiển thị khóa riêng tư!)
+
+  Email: Brielbeck@hotmail.de
+
+=======================================================================================

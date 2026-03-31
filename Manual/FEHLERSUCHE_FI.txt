@@ -1,0 +1,289 @@
+==================================================================================
+  Evi Portable – laajennettu vianmääritys (viite)
+  Täydentää Manual\README.txt (yleiskuva) ja mallit\llm\README.txt
+==================================================================================
+
+Tämä opas kattaa tyypilliset ja vähemmän yleiset ongelmat: syyt, tarkistukset, korjaukset.
+Työskentele ylhäältä alas tai siirry vastaavaan osioon.
+
+Huomautus: Kaikkia näytön viestejä ei lainata tässä sanatarkasti – käytä yhdistelmää
+oireesta (mitä näet?) ja osan otsikosta.
+
+---------------------------------------------------------------------------------
+  Pikatarkastus (aina ensin)
+---------------------------------------------------------------------------------
+
+  □ Windows 10 tai 11 (64-bittinen), nykyiset päivitykset, käynnistettiinkö uudelleen suurten muutosten jälkeen?
+  □ Evi aloitti kokonaan puretusta kansiosta – ei puoliksi puretusta arkistosta,
+    eikä "live" vain pilvestä (synkronointikansio)?
+  □ Vähintään yksi kelvollinen .gguf mallissa\llm\ (katso mallit\llm\README.txt)?
+  □ Tarpeeksi vapaata levytilaa (malli + keskustelut + päivitykset)?
+  □ Asetusten, huijauslehtien tai mallien muutosten jälkeen: sulje Evi kokonaan
+    ja aloittaa alusta?
+
+
+---------------------------------------------------------------------------------
+  1. Käyttöjärjestelmän perusteet
+---------------------------------------------------------------------------------
+
+Oire: Asennus- tai käynnistysvirheet, "ei tueta ..."
+Selitys: Evi on tarkoitettu vain Windows 10/11 -käyttöjärjestelmään. Muita järjestelmiä ei tueta.
+
+Korjaukset:
+  • Käytä vain Windows 10:tä tai 11:tä.
+  • 32-bittistä Windowsia ei yleensä tueta – käytä 64-bittistä.
+  • Asenna Windows-päivitykset, käynnistä tietokone uudelleen.
+
+Oire: Sovelluksen kaksoisnapsauttaminen ei tee mitään
+Selitys: Käytäntöesto, puuttuvat käyttöoikeudet tai käynnistysohjelma estetty polku.
+
+Korjaukset:
+  • Napsauta hiiren kakkospainikkeella → Suorita vain järjestelmänvalvojana tarvittaessa (normaali tapaus: tavallinen käyttäjä).
+  • Älä aja ZIP-tiedoston sisältä – pura se kokonaan.
+  • Tarkista, kirjasiko virustorjunta eston (katso osa 3).
+
+
+---------------------------------------------------------------------------------
+  2. Kansion polut, siirrettävyys, pilvi ja virustorjunta
+---------------------------------------------------------------------------------
+
+Oire: Tiedostot katoavat, kansioiden kaksoiskappaleet, vioittunut .gguf
+Selitys: Pilvisynkronointi (OneDrive, Dropbox jne.) voi lukita tiedostoja tai ladata osittaisia
+  dataa Evin kirjoittaessa.
+
+Korjaukset:
+  • Laita Evi-kansio paikalliselle asemalle, esim. C:\EviPortable tai D:\Tools\Evi —
+    ei "Dokumentit\OneDrive\…", jossa on aktiivinen synkronointi reaaliaikaisissa tiedoissa.
+  • Lisää suojausohjelmiston poissulkeminen Evi-juurelle (tarkistaa jokainen pieni
+    kirjoitus voi hidastaa tai lukita LLM/Piperin huonosti).
+
+Oire: USB-asennus – erittäin hidas tai virheitä
+Selitys: Hitaat tikut, FAT32-kokorajoitukset, huono yhteys.
+
+Korjaukset:
+  • USB 3.x -tikku, NTFS, tarpeeksi tilaa; mieluummin sisäinen SSD.
+  • Älä käytä suuria malleja erittäin hitaalla medialla – käytä pienempää GGUF:ää.
+
+Oire: "Polku liian pitkä" tai erikoismerkkivirheet
+Selitys: Windows MAX_PATH / Unicode — harvinainen, mutta syvä polku + parittomat merkit
+  rikkoa joitain työkaluja.
+
+Korjaukset:
+  • Käytä lyhyttä polkua, esim. C:\Evi\, vältä polussa ei-ASCII-koodia, jos mahdollista.
+
+
+---------------------------------------------------------------------------------
+  3. Kielimalli (.gguf) — ei vastauksia, mallivirheitä, jumittuu
+---------------------------------------------------------------------------------
+
+Oire: "Ei AI", tyhjät vastaukset, malli ei lataudu
+Selitys: Odotetussa kansiossa ei ole kelvollista GGUF-tiedostoa, lataus on kesken, virheellinen
+  muotoa tai vahingoittunutta tiedostoa.
+
+Korjaukset:
+  • Avoimet mallit\llm\: vähintään yksi .gguf, jonka koko on uskottava (ei 0 tavua).
+  • Lataa uudelleen; tarkista selaimesta, onko nimessä parittomat laajennukset – nimeä uudelleen
+    vain, jos tiedät tiedoston olevan valmis.
+  • Lue mallit\llm\README.txt: suositellut Qwen-2.5-tiedostot ja VRAM-tasot.
+  • Useita GGUF-tiedostoja: yhtä README:tä kohden voi olla useita tiedostoja – Evi valitsee VRAM-muistia vastaavat.
+    Jos olet epävarma, jätä kansioon vain YKSI tunnettu tiedosto.
+
+Oire: Vastaukset ovat erittäin hitaita GPU:sta huolimatta
+Selitys: Malli on liian suuri GPU:lle → offload/CPU tai väärä esiasetus.
+
+Korjaukset:
+  • Pienempi malli (esim. 7B q4_k_m 14B sijasta).
+  • Yhdistä sivupalkin GPU-esiasetukset todelliseen laitteistoon.
+Oire: CUDA / GPU-virhe, "muisti lopussa", kaatuminen luonnin aikana
+Selitys: Ei tarpeeksi VRAM-muistia, toinen prosessi käyttää GPU:ta, kannettava tietokone jumissa iGPU:ssa.
+
+Korjaukset:
+  • Päivitä NVIDIA-ohjain (nvidia.com).
+  • Kannettavissa tietokoneissa BIOS/Windows pakottaa Eville "discrete GPU" / "high performance".
+    missä saatavilla.
+  • Kokeile prosessorin esiasetusta Evissa (hidas mutta vakaa).
+  • Sulje muut grafiikkasuorittajaa käyttävät sovellukset (pelit, muut tekoälytyökalut).
+
+
+---------------------------------------------------------------------------------
+  4. GPU, ajurit, kannettavan tietokoneen hybridigrafiikka
+---------------------------------------------------------------------------------
+
+Oire: Evi ei näe NVIDIA GPU:ta, vaikka sellainen on asennettu
+Selitys: Väärä virtatila, ohjain puuttuu, hybridi aina iGPU:ssa.
+
+Korjaukset:
+  • Laitehallinta: NVIDIA ilman virhekoodia?
+  • "High performance" / "Ultimate" -tila (toimittajasovellukset: Lenovo Vantage, ...).
+  • Käynnistä uudelleen ohjaimen päivityksen jälkeen.
+
+Oire: Näytön välkkyminen, kuljettajan kaatuminen (TDR)
+Selitys: Grafiikka aikakatkaisu – usein liian paljon grafiikkasuorittimen kuormitusta tai epävakaa ylikellotus.
+
+Korjaukset:
+  • Ei ylikellotusta testien aikana; pienempi malli; parempi jäähdytys.
+
+
+---------------------------------------------------------------------------------
+  5. Vain CPU - odotukset ja rajat
+---------------------------------------------------------------------------------
+
+Oire: "Se kestää ikuisuuden"
+Selitys: Suorittimen päättely 7B+:ssa on paljon hitaampaa kuin GPU – se on normaalia.
+
+Korjaukset:
+  • Säilytä tarpeeksi RAM-muistia malleille\llm\README.txt.
+  • Sulje taustatyöt; tehosuunnitelma "Suuri suorituskyky".
+
+
+---------------------------------------------------------------------------------
+  6. Aktivointi, lisenssi, koneen tunnus
+---------------------------------------------------------------------------------
+
+Oire: Sarjaa ei hyväksytty
+Selitys: Kirjoitusvirheet, välilyönnit, eri laitteiston avain, vanhentunut tunnus.
+
+Korjaukset:
+  • Liitä avain huolellisesti, älä välilyöntejä alku- tai lopussa.
+  • Varmista, että posti vastasi tätä PC:tä / kelvollista konetunnusta.
+  • Emolevyn/CPU:n vaihdon jälkeen: uusi tunnus — ota yhteyttä tukeen tarkistusketjun avulla.
+
+Oire: Ei vastauspostia
+Selitys: Roskapostikansio, väärä Lähettäjäosoite, väärä aihe.
+
+Korjaukset:
+  • Tarkista roskaposti; Lähetä uudelleen selkeällä aiheella ja konetunnuksella.
+
+
+---------------------------------------------------------------------------------
+  7. Mikrofoni — ei tasoa, Evi ei kuule mitään
+---------------------------------------------------------------------------------
+
+Oire: Ei sieppausta, mittari tyhjä
+Selitys: Windows estää pääsyn, väärä syöttölaite, kaapeli/USB.
+
+Korjaukset:
+  • Asetukset → Tietosuoja → Mikrofoni → salli työpöytäsovellukset.
+  • Ääniasetukset → Tulo: aseta ja testaa oikea oletus ("puhe").
+  • Evissa: valitse mikrofoni, Tallenna, käynnistä sovellus uudelleen.
+  • Bluetooth-kuulokkeet: pariliitos, akku; latenssi voi olla huono – kokeile USB-mikrofonia.
+
+Oire: Mikrofoni toimii vain joissakin sovelluksissa
+Selitys: Toisen sovelluksen yksinoikeustila estää laitteen.
+
+Korjaukset:
+  • Sulje muut viestintäsovellukset tai poista "yksinomainen mikrofoni" käytöstä.
+
+
+---------------------------------------------------------------------------------
+  8. Puheentunnistus (paikallinen)
+---------------------------------------------------------------------------------
+
+Oire: Puhetta ei tunnisteta, käsittely "jumiutunut".
+Selitys: Whisper-malli puuttuu/virheellinen, ensimmäinen lataus, varattu CPU/GPU.
+
+Korjaukset:
+  • Verkko vain, jos mallit on noudettava – katso mallit\huiskaus.
+  • Eristä Evi kirjoittamalla lyhyesti puhumisen sijaan.
+  • Suurten päivitysten jälkeen: käynnistä Evi uudelleen.
+
+
+---------------------------------------------------------------------------------
+  9. Äänilähtö (TTS / Piper) — hiljainen tai väärä kieli
+---------------------------------------------------------------------------------
+
+Oire: Ei ääntä, vaikka tekstivastaus näkyy
+Selitys: Ei puhepakettia kielelle, väärä äänimerkintä, Windowsin äänenvoimakkuus.
+
+Korjaukset:
+  • Tarkista piper\ — valitun kielen äänet läsnä?
+  • Valitse Evin ääniä vastaava käyttöliittymäkieli, tallenna.
+  • Windowsin äänenvoimakkuuden mikseri: Evi ei mykistetty?
+  • Kokeile toista tulostuslaitetta (kuulokkeet vs. näyttö).
+
+
+---------------------------------------------------------------------------------
+ 10. Verkko, palomuuri, "Estä kaikki liikenne"
+---------------------------------------------------------------------------------
+
+Oire: Web, sähköposti-apuohjelmat, sää, lataukset epäonnistuvat
+Selitys: Evin yleinen esto, Windowsin palomuuri, yrityksen välityspalvelin, VPN.
+
+Korjaukset:
+  • Evi:ssä laita "Block all traffic" (tai vastaava) pois päältä, jos online-ominaisuudet ovat käytössä
+    ovat haluttuja.
+  • Löysää väliaikaisesti VPN/palomuuri (vain jos sallittu).
+  • Yritysverkko: kysy IT:ltä välityspalvelinpoikkeuksia.
+
+
+---------------------------------------------------------------------------------
+ 11. YouTube, media, kannettava VLC
+---------------------------------------------------------------------------------
+
+Oire: Video ei käynnisty, "komponentti puuttuu"
+Selitys: VLC Portable puuttuu, verkko estetty, väärä polku.
+
+Korjaukset:
+  • Älä poista Portable\VLCPortable (tai mukana toimitettua asettelua).
+  • Salli verkko (katso osa 10).
+
+
+---------------------------------------------------------------------------------
+ 12. Käyttöliittymän kieli, huijausarkit
+---------------------------------------------------------------------------------
+
+Oire: Komento ei toimi, vanha teksti
+Selitys: Huijausarkkia muokattu, mutta Eviä ei ole käynnistetty uudelleen; väärä tiedostonimi.
+
+Korjaukset:
+  • Lue cheatsheets\README.txt — yksi tiedosto kielikoodia kohden (esim. de.txt, en.txt).
+  • Manuaalisten muokkausten jälkeen käynnistä Evi kokonaan uudelleen.
+  • Tallenna tiedosto UTF-8-muodossa (aksenttimerkit).
+
+
+---------------------------------------------------------------------------------
+ 13. Suojaus: PIN-koodi ja puhelukko
+---------------------------------------------------------------------------------
+
+Oire: Unohdin PIN-koodin, puhelukituksen avaus epäonnistuu aina
+Selitys: Suojausominaisuus – tarkoituksella vaikea ohittaa; huone liian meluisa.
+
+Korjaukset:
+  • Hiljainen huone, mikrofonin taso, ei päällekkäisiä ääniä muilta.
+  • PIN-koodin/henkilökohtainen palautus vain toimittajakäytännön mukaan – tuki todisteilla.
+  • Älä koskaan jaa PIN-koodiasi.
+
+
+---------------------------------------------------------------------------------
+ 14. Suorituskyky, kaatumiset, lokit
+---------------------------------------------------------------------------------
+
+Oire: Jäätyminen, äkillinen törmäys
+Selitys: VRAM, RAM, lämpökaasu, huono tiedosto, bugi päivityksen jälkeen.
+
+Korjaukset:
+  • Pienempi malli; sulje muut sovellukset; tarkista jäähdytys.
+  • Tarkista crash.log tai vastaava Evi-kansiosta, jos sellainen on.
+  • Kumoa viimeisin muutos (poista uusi malli, palauta asetus).
+
+Oire: Kaikki tuntuu hitaalta
+Selitys: Taustapalvelut, täysi SSD, erittäin suuri mallikonteksti.
+
+Korjaukset:
+  • Tehtävienhallinta: CPU/RAM/GPU; tehosuunnitelma; vapaata SSD-tilaa (noin 10–15 % tyhjää).
+
+
+---------------------------------------------------------------------------------
+ 15. Jos mikään ei auta - tiedot tukipostiin
+---------------------------------------------------------------------------------
+
+  • Koneen tunnus (aktivointi/tietonäyttö)
+  • Windows-versio (winver), 64-bittinen
+  • GPU-malli + VRAM + ohjainversio
+  • Mikä .gguf (tiedostonimi, likimääräinen koko)
+  • Otit lyhyet askeleet
+  • Tarkka virheteksti tai kuvakaappaus (älä näytä yksityisiä avaimia!)
+
+  Sähköposti: Brielbeck@hotmail.de
+
+==================================================================================

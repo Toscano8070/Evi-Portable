@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function () {
+      var ok = { EN: 1, JA: 1, KO: 1, ZH: 1, "ZH-TW": 1, ES: 1, FR: 1, DE: 1, IT: 1, PT: 1, "PT-BR": 1, RU: 1, UK: 1, PL: 1, NL: 1, SV: 1, DA: 1, NO: 1, FI: 1, CS: 1, SK: 1, RO: 1, HU: 1, EL: 1, TR: 1, AR: 1, VI: 1 };
+      try {
+        var s = localStorage.getItem("evi-landing-lang");
+        if (s && ok[s] && s !== "EN") document.documentElement.classList.add("evi-i18n-pending");
+      } catch (e) {}
+    })();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Evi Portable — Local secretary: mail, calendar, voice assistant</title>
@@ -17,6 +26,8 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+    /* Avoid a flash of English before flag locale is applied (large locales bundle loads first). */
+    html.evi-i18n-pending body { visibility: hidden; }
 
     header {
       background: rgba(15, 17, 26, 0.95);
@@ -822,7 +833,7 @@
   <h2 class="pricing-title" data-i18n="pricing_title">One payment. Your secretary for years.</h2>
   <p class="pricing-detail" data-i18n="pricing_detail">
     <span class="pricing-price">35 Euro</span>
-    For a limited time, lock in this launch price: pay once, no subscriptions, no surprise fees. Includes <strong>1 year of updates</strong> and <strong>3× e-mail support</strong>. Windows 10/11 only. Pay with PayPal, then activate with your Machine ID below.
+    For a limited time, lock in this launch price: pay once, no subscriptions, no surprise fees. Includes <strong>1 year of updates</strong>. Windows 10/11 only. Pay with PayPal, then activate with your Machine ID below.
   </p>
 </section>
 
@@ -892,14 +903,41 @@
       <p>Evi can use a security PIN and optional voice enrolment. With voice unlock, each attempt can ask for a short set of <strong>random words</strong> that changes every time &mdash; not one fixed phrase forever &mdash; which blocks replaying a single old recording. Your PIN remains a separate line of defence. This targets casual abuse; keep your PIN private and complete setup as the app guides you.</p>
     </div>
     <div class="manual-block">
-      <h3>Troubleshooting (short)</h3>
+      <h3>Troubleshooting</h3>
+      <p class="manual-lead">Quick list below, then detailed topics. <strong>German printable reference:</strong> <code>Manual\FEHLERSUCHE_DE.txt</code> inside your Evi folder.</p>
       <ul>
-        <li><strong>No AI / model error</strong> &mdash; Is exactly one suitable <code>.gguf</code> in <code>models\llm\</code>? Try a smaller model. In the sidebar, try a CPU preset if the GPU preset fails.</li>
-        <li><strong>No microphone</strong> &mdash; Test the mic in Windows sound settings; in Evi pick the device under Microphone and Save.</li>
-        <li><strong>No voice output</strong> &mdash; Ensure voice files for your language exist in <code>piper\</code> and pick a voice in the sidebar.</li>
-        <li><strong>Web or YouTube fails</strong> &mdash; Turn off &ldquo;Block all traffic&rdquo; if you want online features. YouTube usually needs VLC Portable and network access.</li>
-        <li><strong>After editing cheat sheets</strong> &mdash; Restart Evi so helpers reload reliably.</li>
+        <li><strong>No AI / model</strong> &mdash; At least one suitable <code>.gguf</code> in <code>models\llm\</code>? See <code>models\llm\README.txt</code>. Try a smaller model or a <strong>CPU</strong> sidebar preset if GPU fails.</li>
+        <li><strong>No microphone</strong> &mdash; Windows privacy + sound test; pick device in Evi &rarr; Microphone &rarr; Save.</li>
+        <li><strong>No voice</strong> &mdash; Voices under <code>piper\</code>; select voice in sidebar; check volume mixer.</li>
+        <li><strong>Web / YouTube</strong> &mdash; Disable &ldquo;Block all traffic&rdquo; if you want online tools; YouTube usually needs network + VLC Portable.</li>
+        <li><strong>Cheat sheets</strong> &mdash; After edits, restart Evi; UTF-8; see <code>cheatsheets\README.txt</code>.</li>
       </ul>
+      <h4>Always check first</h4>
+      <p>Windows <strong>10 or 11</strong> 64-bit, updated; run from a <strong>fully extracted</strong> folder (not half-unzipped). Prefer a <strong>local disk path</strong> (avoid cloud-sync folders like OneDrive for live data). Enough <strong>free space</strong>. Fully <strong>exit and restart</strong> Evi after model or cheat-sheet changes.</p>
+      <h4>1. OS and paths</h4>
+      <p>Other operating systems are unsupported. Very long paths or aggressive antivirus can block or slow the app; add a folder exclusion if needed. USB: use fast media and NTFS.</p>
+      <h4>2. Model file (.gguf)</h4>
+      <p>Incomplete downloads (0&nbsp;Byte or cut-off files) break loading. Re-download. Multiple <code>.gguf</code> files can coexist; Evi may pick the largest that fits your VRAM &mdash; see <code>models\llm\README.txt</code>. If confused, test with <strong>only one</strong> known-good file.</p>
+      <h4>3. GPU, drivers, memory</h4>
+      <p>Update <strong>NVIDIA</strong> drivers. On laptops, prefer <strong>discrete / performance</strong> GPU for Evi. <strong>Out of memory</strong>: smaller model, close other GPU apps, improve cooling, or use CPU preset. <strong>TDR / driver reset</strong>: reduce load or temperature; avoid unstable overclocks.</p>
+      <h4>4. CPU-only</h4>
+      <p>Slow replies are normal. Free RAM; &ldquo;High performance&rdquo; power plan; close heavy background tasks.</p>
+      <h4>5. Activation</h4>
+      <p>Paste the serial carefully (no spaces). Keys bind to <strong>one Machine ID</strong>. After major hardware change you may need a replacement key from support with proof of purchase.</p>
+      <h4>6. Microphone and speech</h4>
+      <p>Settings &rarr; Privacy &rarr; Microphone &rarr; allow desktop apps. Correct default recording device. Bluetooth adds latency &mdash; try USB. Exclusive mode in other apps (meetings) can block the mic.</p>
+      <h4>7. Piper / TTS</h4>
+      <p>Language-appropriate files must exist under <code>piper\</code>. Pick a matching voice; ensure Evi is not muted in the system mixer.</p>
+      <h4>8. Network</h4>
+      <p>Disable global block in Evi when using web/mail/weather/downloads. Corporate <strong>VPN/proxy</strong> may need IT allowlisting.</p>
+      <h4>9. Media / YouTube</h4>
+      <p>Do not delete the portable VLC layout; allow network access for streaming helpers.</p>
+      <h4>10. Security (PIN / voice)</h4>
+      <p>Use a quiet room; random-word prompts are anti-replay. Never share your PIN.</p>
+      <h4>11. Crashes / slowness</h4>
+      <p>Check thermal throttling, disk space, and any <code>crash.log</code> your build writes. Roll back the last change before failures.</p>
+      <h4>12. Contacting support</h4>
+      <p>Send <strong>Machine ID</strong>, Windows version, GPU + VRAM + driver, which <code>.gguf</code>, steps to reproduce, error text (never paste secret keys in public screenshots).</p>
     </div>
     <div class="manual-block">
       <h3>Support &mdash; serial keys and Machine ID</h3>
@@ -1122,7 +1160,7 @@ const I18N = {
     "EVI-XXXXX-XXXXX-XXXXX-XXXXX<small>Serial key format (provided after purchase &mdash; example placeholder)</small>",
     "Introductory offer &mdash; limited time",
     "One payment. Your secretary for years.",
-    "<span class=\"pricing-price\">35 Euro</span> For a limited time, lock in this launch price: pay once&mdash;no subscriptions, no hidden fees. Includes <strong>1 year of updates</strong> and <strong>3&times; e-mail support</strong>. Windows&nbsp;10/11 only. Pay with PayPal, then activate with your Machine ID below."
+    "<span class=\"pricing-price\">35 Euro</span> For a limited time, lock in this launch price: pay once&mdash;no subscriptions, no hidden fees. Includes <strong>1 year of updates</strong>. Windows&nbsp;10/11 only. Pay with PayPal, then activate with your Machine ID below."
   ),
   DE: pack(
     "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Handbuch","Technik","Download",
@@ -1167,7 +1205,7 @@ const I18N = {
     "EVI-XXXXX-XXXXX-XXXXX-XXXXX<small>Format des Serienschl&uuml;ssels (wird nach dem Kauf bereitgestellt &mdash; Beispielplatzhalter)</small>",
     "Sonderangebot &mdash; nur begrenzte Zeit",
     "Einmal zahlen. Ihre Sekret&auml;rin f&uuml;r viele Jahre.",
-    "<span class=\"pricing-price\">35 Euro</span> <strong>Jetzt zugreifen:</strong> zum Einf&uuml;hrungspreis nur einmal zahlen &mdash; kein Abo, keine versteckten Kosten. Inklusive <strong>1 Jahr Updates</strong> und <strong>3&times; E-Mail-Support</strong>. Nur Windows&nbsp;10/11. Bezahlung per PayPal, danach Aktivierung mit Ihrer Machine ID wie unten beschrieben."
+    "<span class=\"pricing-price\">35 Euro</span> <strong>Jetzt zugreifen:</strong> zum Einf&uuml;hrungspreis nur einmal zahlen &mdash; kein Abo, keine versteckten Kosten. Inklusive <strong>1 Jahr Updates</strong>. Nur Windows&nbsp;10/11. Bezahlung per PayPal, danach Aktivierung mit Ihrer Machine ID wie unten beschrieben."
   )
 };
 
@@ -1351,6 +1389,7 @@ applyEviDownloadUrls();
     if (s && LANGS.some(function (l) { return l.code === s; })) switchLang(s);
   } catch (e) {}
 })();
+document.documentElement.classList.remove("evi-i18n-pending");
 </script>
 </body>
 </html>

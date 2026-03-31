@@ -1,0 +1,290 @@
+================================================================================
+  Evi Portable — Extended troubleshooting (reference)
+  Supplements Manual\README.txt (overview) and models\llm\README.txt
+================================================================================
+
+This guide covers typical and less common problems: cause, checks, fixes.
+Work from top to bottom or jump to the matching section.
+
+Note: Not every on-screen message is quoted verbatim here — use the combination
+of symptom (what do you see?) and section heading.
+
+--------------------------------------------------------------------------------
+  Quick check (always first)
+--------------------------------------------------------------------------------
+
+  □ Windows 10 or 11 (64-bit), current updates, rebooted after major changes?
+  □ Evi started from a fully extracted folder — not a half-unzipped archive,
+    and not “live” only from cloud (syncing folder)?
+  □ At least one valid .gguf in models\llm\ (see models\llm\README.txt)?
+  □ Enough free disk space (model + chats + updates)?
+  □ After changes to settings, cheat sheets, or models: fully quit Evi
+    and start again?
+
+
+--------------------------------------------------------------------------------
+  1. Operating system basics
+--------------------------------------------------------------------------------
+
+Symptom: Install or start errors, “not supported on …”
+Explanation: Evi targets Windows 10/11 only. Other systems are unsupported.
+
+Fixes:
+  • Use Windows 10 or 11 only.
+  • 32-bit Windows is typically unsupported — use 64-bit.
+  • Install Windows updates, restart the PC.
+
+Symptom: Double-clicking the app does nothing
+Explanation: Policy block, missing permissions, or launcher in a blocked path.
+
+Fixes:
+  • Right-click → Run as administrator only if needed (normal case: standard user).
+  • Do not run from inside a ZIP — extract fully.
+  • Check whether antivirus logged a block (see section 3).
+
+
+--------------------------------------------------------------------------------
+  2. Folder paths, portability, cloud & antivirus
+--------------------------------------------------------------------------------
+
+Symptom: Files “disappear”, duplicate folders, corrupted .gguf
+Explanation: Cloud sync (OneDrive, Dropbox, …) can lock files or upload partial
+  data while Evi writes.
+
+Fixes:
+  • Put the Evi folder on a local drive, e.g. C:\EviPortable or D:\Tools\Evi —
+    not “Documents\OneDrive\…” with active sync on the live data.
+  • Add a security-software exclusion for the Evi root (scanning every small
+    write can slow or lock LLM/Piper badly).
+
+Symptom: USB install — very slow or errors
+Explanation: Slow sticks, FAT32 size limits, bad connection.
+
+Fixes:
+  • USB 3.x stick, NTFS, enough space; prefer internal SSD.
+  • Do not run huge models on very slow media — use a smaller GGUF.
+
+Symptom: “Path too long” or special-character errors
+Explanation: Windows MAX_PATH / Unicode — rare, but deep paths + odd characters
+  break some tools.
+
+Fixes:
+  • Use a short path, e.g. C:\Evi\, avoid non-ASCII in path if possible.
+
+
+--------------------------------------------------------------------------------
+  3. Language model (.gguf) — no replies, model errors, hangs
+--------------------------------------------------------------------------------
+
+Symptom: “No AI”, empty answers, model will not load
+Explanation: No valid GGUF in the expected folder, incomplete download, wrong
+  format, or damaged file.
+
+Fixes:
+  • Open models\llm\: at least one .gguf with plausible size (not 0 bytes).
+  • Re-download; in the browser check for odd extensions in the name — rename
+    only if you know the file is complete.
+  • Read models\llm\README.txt: recommended Qwen-2.5 files and VRAM tiers.
+  • Multiple GGUF: per README several files may exist — Evi picks to match VRAM.
+    If in doubt, leave only ONE known-good file in the folder.
+
+Symptom: Answers extremely slow despite GPU
+Explanation: Model too large for GPU → offload/CPU, or wrong preset.
+
+Fixes:
+  • Smaller model (e.g. 7B q4_k_m instead of 14B).
+  • Match GPU preset in the sidebar to real hardware.
+
+Symptom: CUDA / GPU error, “out of memory”, crash while generating
+Explanation: Not enough VRAM, another process uses the GPU, laptop stuck on iGPU.
+
+Fixes:
+  • Update NVIDIA driver (nvidia.com).
+  • On laptops, in BIOS/Windows force “discrete GPU” / “high performance” for Evi
+    where available.
+  • Try CPU preset in Evi (slow but stable).
+  • Close other GPU-heavy apps (games, other AI tools).
+
+
+--------------------------------------------------------------------------------
+  4. GPU, drivers, laptop hybrid graphics
+--------------------------------------------------------------------------------
+
+Symptom: Evi does not see NVIDIA GPU although one is installed
+Explanation: Wrong power mode, missing driver, hybrid always on iGPU.
+
+Fixes:
+  • Device Manager: NVIDIA without error code?
+  • “High performance” / “Ultimate” mode (vendor apps: Lenovo Vantage, …).
+  • Reboot after driver update.
+
+Symptom: Screen flicker, driver crash (TDR)
+Explanation: Graphics timeout — often too much GPU load or unstable overclock.
+
+Fixes:
+  • No overclock during tests; smaller model; better cooling.
+
+
+--------------------------------------------------------------------------------
+  5. CPU-only — expectations and limits
+--------------------------------------------------------------------------------
+
+Symptom: “It takes forever”
+Explanation: CPU inference at 7B+ is much slower than GPU — that is normal.
+
+Fixes:
+  • Keep enough RAM per models\llm\README.txt.
+  • Close background jobs; power plan “High performance”.
+
+
+--------------------------------------------------------------------------------
+  6. Activation, license, Machine ID
+--------------------------------------------------------------------------------
+
+Symptom: Serial not accepted
+Explanation: Typos, spaces, key for different hardware, stale ID.
+
+Fixes:
+  • Paste key carefully, no leading/trailing spaces.
+  • Ensure mail matched this PC / valid Machine ID.
+  • After mainboard/CPU swap: new ID — contact support with proof chain.
+
+Symptom: No reply mail
+Explanation: Spam folder, wrong From address, wrong subject.
+
+Fixes:
+  • Check spam; resend with clear subject and Machine ID.
+
+
+--------------------------------------------------------------------------------
+  7. Microphone — no level, Evi hears nothing
+--------------------------------------------------------------------------------
+
+Symptom: No capture, meter empty
+Explanation: Windows blocks access, wrong input device, cable/USB.
+
+Fixes:
+  • Settings → Privacy → Microphone → allow desktop apps.
+  • Sound settings → Input: set and test the right default (“speech”).
+  • In Evi: pick microphone, Save, restart app.
+  • Bluetooth headsets: pairing, battery; latency can be bad — try USB mic.
+
+Symptom: Mic works in some apps only
+Explanation: Another app’s exclusive mode blocks the device.
+
+Fixes:
+  • Close other comms apps or disable “exclusive microphone”.
+
+
+--------------------------------------------------------------------------------
+  8. Speech recognition (local)
+--------------------------------------------------------------------------------
+
+Symptom: Speech not recognized, “stuck” processing
+Explanation: Whisper model missing/invalid, first-time download, busy CPU/GPU.
+
+Fixes:
+  • Network only if models must be fetched — see models\whisper.
+  • Type briefly instead of speaking to isolate Evi.
+  • After major updates: restart Evi.
+
+
+--------------------------------------------------------------------------------
+  9. Voice output (TTS / Piper) — silent or wrong language
+--------------------------------------------------------------------------------
+
+Symptom: No sound though text answer shows
+Explanation: No voice pack for language, wrong voice entry, Windows volume.
+
+Fixes:
+  • Check piper\ — voices for chosen language present?
+  • In Evi pick voice matching UI language, save.
+  • Windows volume mixer: Evi not muted?
+  • Try another output device (headphones vs. monitor).
+
+
+--------------------------------------------------------------------------------
+ 10. Network, firewall, “Block all traffic”
+--------------------------------------------------------------------------------
+
+Symptom: Web, mail helpers, weather, downloads fail
+Explanation: Global block in Evi, Windows firewall, corporate proxy, VPN.
+
+Fixes:
+  • In Evi turn off “Block all traffic” (or equivalent) if online features
+    are wanted.
+  • Temporarily relax VPN/firewall (only if allowed).
+  • Corporate network: ask IT for proxy exceptions.
+
+
+--------------------------------------------------------------------------------
+ 11. YouTube, media, VLC Portable
+--------------------------------------------------------------------------------
+
+Symptom: Video does not start, “missing component”
+Explanation: VLC Portable missing, network blocked, wrong path.
+
+Fixes:
+  • Do not delete Portable\VLCPortable (or supplied layout).
+  • Allow network (see section 10).
+
+
+--------------------------------------------------------------------------------
+ 12. UI language, cheat sheets
+--------------------------------------------------------------------------------
+
+Symptom: Command does not work, old text
+Explanation: Cheat sheet edited but Evi not restarted; wrong filename.
+
+Fixes:
+  • Read cheatsheets\README.txt — one file per language code (e.g. de.txt, en.txt).
+  • After manual edits fully restart Evi.
+  • Save file as UTF-8 (accents).
+
+
+--------------------------------------------------------------------------------
+ 13. Security: PIN and voice unlock
+--------------------------------------------------------------------------------
+
+Symptom: Forgot PIN, voice unlock always fails
+Explanation: Security feature — intentionally hard to bypass; room too noisy.
+
+Fixes:
+  • Quiet room, mic level, no overlapping voices from others.
+  • PIN/personal recovery only per vendor policy — support with proof.
+  • Never share your PIN.
+
+
+--------------------------------------------------------------------------------
+ 14. Performance, crashes, logs
+--------------------------------------------------------------------------------
+
+Symptom: Freeze, sudden crash
+Explanation: VRAM, RAM, thermal throttle, bad file, bug after update.
+
+Fixes:
+  • Smaller model; close other apps; check cooling.
+  • Check crash.log or similar in the Evi folder if present.
+  • Undo last change (remove new model, revert setting).
+
+Symptom: Everything feels sluggish
+Explanation: Background services, full SSD, very large model context.
+
+Fixes:
+  • Task Manager: CPU/RAM/GPU; power plan; free SSD space (about 10–15% empty).
+
+
+--------------------------------------------------------------------------------
+ 15. If nothing helps — info for support mail
+--------------------------------------------------------------------------------
+
+  • Machine ID (activation / info screen)
+  • Windows version (winver), 64-bit
+  • GPU model + VRAM + driver version
+  • Which .gguf (filename, approximate size)
+  • Short steps you took
+  • Exact error text or screenshot (do not show private keys!)
+
+  E-mail: Brielbeck@hotmail.de
+
+================================================================================

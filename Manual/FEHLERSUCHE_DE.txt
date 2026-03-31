@@ -1,0 +1,293 @@
+================================================================================
+  Evi Portable — Ausführliche Fehlersuche (Referenz)
+  Stand: ergänzend zu Manual\README.txt (engl. Übersicht) und models\llm\README.txt
+================================================================================
+
+Diese Liste deckt typische und seltene Probleme ab: Ursache, Prüfung, Behebung.
+Arbeiten Sie von oben nach unten oder springen Sie zum passenden Abschnitt.
+
+Hinweis: Nicht jede Meldung im Programm ist Wort für Wort hier beschrieben —
+nutzen Sie die Kombination aus Symptom (was sehen Sie?) und Abschnitt.
+
+--------------------------------------------------------------------------------
+  Schnell-Check (immer zuerst)
+--------------------------------------------------------------------------------
+
+  □ Windows 10 oder 11 (64-Bit), aktuelle Updates, neu gestartet?
+  □ Evi aus dem vollständigen Ordner gestartet — nicht aus einem nur teilweise
+    entpackten ZIP und nicht „nur aus der Cloud“ (synchronisierender Ordner)?
+  □ Mindestens eine gültige .gguf-Datei in models\llm\ (siehe models\llm\README.txt)?
+  □ Genug freier Speicherplatz auf dem Laufwerk (Modell + Chats + Updates)?
+  □ Nach Änderungen an Einstellungen, Cheat-Sheets oder Modellen: Evi einmal
+    vollständig beenden und neu starten?
+
+
+--------------------------------------------------------------------------------
+  1. Betriebssystem, Basis
+--------------------------------------------------------------------------------
+
+Symptom: Installations- oder Startfehler, „funktioniert nicht unter …“
+Erklärung: Evi ist nur für Windows 10/11 ausgelegt. Andere Systeme werden nicht
+  unterstützt.
+
+Behebung:
+  • Nur Windows 10 oder 11 verwenden.
+  • 32-Bit-Windows wird typischerweise nicht unterstützt — 64-Bit nutzen.
+  • Windows-Updates installieren, PC neu starten.
+
+Symptom: Doppelklick auf die App „tut nichts“
+Erklärung: Blockierung durch Richtlinien, fehlende Rechte, oder der Launcher
+  liegt in einem blockierten Pfad.
+
+Behebung:
+  • Rechtsklick → „Als Administrator ausführen“ nur wenn nötig (Normalfall: User).
+  • Ordner nicht aus einem archivierten ZIP „heraus“ starten — vollständig
+    entpacken.
+  • Prüfen, ob die Antiviren-Software den Start protokolliert (siehe Abschn. 3).
+
+
+--------------------------------------------------------------------------------
+  2. Ordnerpfade, Portabilität, Cloud & Virenscanner
+--------------------------------------------------------------------------------
+
+Symptom: Dateien „verschwinden“, doppelte Ordner, .gguf beschädigt
+Erklärung: Cloud-Sync (OneDrive, Dropbox, …) kann Dateien sperren oder teilweise
+  hochladen während Evi schreibt.
+
+Behebung:
+  • Evi-Ordner auf eine lokale Festplatte legen, z. B. C:\EviPortable
+    oder D:\Tools\Evi — nicht „Eigene Dateien\OneDrive\…“, wenn Sync aktiv ist.
+  • Ausnahme in der Security-Software für den Evi-Stammordner setzen (Virusscan
+    bei jeder kleinen Schreiboperation kann LLM/Piper stark bremsen oder sperren).
+
+Symptom: Installation auf USB — sehr langsam oder Fehler
+Erklärung: Langsame Sticks, FAT32-Größenbeschränkung, Wackelkontakt.
+
+Behebung:
+  • USB 3.x-Stick, NTFS, ausreichend Platz; oder interne SSD bevorzugen.
+  • Großes Modell nicht auf langsamen Medien „quälen“ — kleinere GGUF nutzen.
+
+Symptom: Fehler mit „Pfad zu lang“ oder Sonderzeichen
+Erklärung: Windows MAX_PATH / Unicode — selten, aber tiefe Pfade + Sonderzeichen
+  stören manche Tools.
+
+Behebung:
+  • Kurzen Zielpfad wählen, z. B. C:\Evi\, Umlaute im Pfad vermeiden wenn möglich.
+
+
+--------------------------------------------------------------------------------
+  3. Sprachmodell (.gguf) — keine Antworten, Modellfehler, Hänger
+--------------------------------------------------------------------------------
+
+Symptom: „Keine KI“, leere Antworten, Modell wird nicht geladen
+Erklärung: Keine gültige GGUF im erwarteten Ordner, Download unvollständig, falsches
+  Format, oder Datei beschädigt.
+
+Behebung:
+  • models\llm\ öffnen: Mindestens eine .gguf mit plausibler Größe (nicht 0 Byte).
+  • Download wiederholen; bei Browser oft „.*“ im Namen prüfen — umbenennen nur
+    wenn Sie wissen, dass der Inhalt vollständig ist.
+  • models\llm\README.txt lesen: empfohlene Qwen-2.5-Dateien und VRAM-Stufen.
+  • Mehrere GGUF: laut README können mehrere Dateien liegen — Evi wählt passend
+    zur VRAM. Wenn Konflikte: zunächst nur EINE getestete Datei im Ordner lassen.
+
+Symptom: Antworten extrem langsam trotz GPU
+Erklärung: Modell zu groß für GPU → Auslagerung/CPU, oder falsches Preset.
+
+Behebung:
+  • Kleineres Modell (z. B. 7B q4_k_m statt 14B).
+  • GPU-Preset in der Seitenleiste an reale Hardware anpassen.
+
+Symptom: CUDA / GPU-Fehler, „out of memory“, Crash beim Generieren
+Erklärung: Nicht genug VRAM, anderer Prozess belegt GPU, Notebook nutigt iGPU.
+
+Behebung:
+  • NVIDIA-Treiber aktualisieren (nvidia.com).
+  • Im BIOS/Windows bei Notebook „Discrete GPU“ / „Hochleistung“ für Evi erzwingen,
+    wenn die Option existiert.
+  • In Evi CPU-Preset testen (langsam, aber stabil).
+  • Andere GPU-lastige Programme schließen (Spiele, andere KI-Tools).
+
+
+--------------------------------------------------------------------------------
+  4. GPU, Treiber, Notebook-Hybridgrafik
+--------------------------------------------------------------------------------
+
+Symptom: Evi erkennt keine NVIDIA-GPU obwohl eine verbaut ist
+Erklärung: Falsche Energieoption, Treiber fehlt, Hybrid läuft dauerhaft auf iGPU.
+
+Behebung:
+  • Geräte-Manager: NVIDIA ohne Fehlercode?
+  • „Höchstleistung“ / „Ultimate“-Modus (Hersteller-Apps: Lenovo Vantage, …).
+  • Reboot nach Treiberupdate.
+
+Symptom: Bildschirm flackert, Treiber stürzt ab (TDR)
+Erklärung: Timeout der Grafik — oft zu aggressive GPU-Last oder instabile Übertaktung.
+
+Behebung:
+  • Kein Übertakten während Tests; kleineres Modell; bessere Kühlung.
+
+
+--------------------------------------------------------------------------------
+  5. Nur CPU — Erwartung und Grenzen
+--------------------------------------------------------------------------------
+
+Symptom: „Es dauert ewig“
+Erklärung: CPU-Inferenz ist bei 7B+ viel langsamer als GPU — das ist normal.
+
+Behebung:
+  • Ausreichend RAM laut models\llm\README.txt freihalten.
+  • Hintergrundprogramme schließen; Energieplan „Höchstleistung“.
+
+
+--------------------------------------------------------------------------------
+  6. Aktivierung, Lizenz, Machine ID
+--------------------------------------------------------------------------------
+
+Symptom: Seriennummer wird nicht akzeptiert
+Erklärung: Tippfehler, Leerzeichen, Schlüssel für andere Hardware, veraltete ID.
+
+Behebung:
+  • Schlüssel per Copy & Paste, keine vorderen/hinteren Spaces.
+  • Sicherstellen, dass die Mail mit demselben PC/der gültigen Machine ID war.
+  • Nach Mainboard-/CPU-Tausch: neue ID — Support mit alter Nachweiskette.
+
+Symptom: Keine Antwort-Mail
+Erklärung: Spam-Ordner, falsche Absenderadresse, falsche Betreffzeile.
+
+Behebung:
+  • Spam prüfen; erneut senden mit klarer Betreffzeile und Machine ID.
+
+
+--------------------------------------------------------------------------------
+  7. Mikrofon — kein Pegel, Evi hört nichts
+--------------------------------------------------------------------------------
+
+Symptom: Keine Aufnahme, leerer Pegel
+Erklärung: Windows blockiert Zugriff, falsches Eingabegerät, Kabel/USB.
+
+Behebung:
+  • Einstellungen → Datenschutz → Mikrofon → Zugriff für Apps erlauben.
+  • Sound-Einstellungen → Eingabe: richtiges Gerät als Standard testen („Spracherkennung“).
+  • In Evi: Mikrofon-Gerät wählen, Speichern, App neu starten.
+  • Bluetooth-Headsets: Verbindung/Paering, Akku; Latenz kann schlecht sein — USB-Mikro testen.
+
+Symptom: Nur in einigen Apps kein Mikrofon
+Erklärung: Exklusivmodus eines anderen Programms blockiert das Gerät.
+
+Behebung:
+  • Andere Kommunikations-Apps schließen oder deren „exklusives Mikrofon“ deaktivieren.
+
+
+--------------------------------------------------------------------------------
+  8. Spracherkennung (lokal)
+--------------------------------------------------------------------------------
+
+Symptom: Sprache wird nicht erkannt, „hängt“ bei Verarbeitung
+Erklärung: Whisper-Modell fehlt/ungültig, erste Downloadphase, CPU/GPU ausgelastet.
+
+Behebung:
+  • Internet nur falls Modelle nachgeladen werden müssen — siehe models\whisper.
+  • Kurz typen statt sprechen, um Evi-Anteil zu isolieren.
+  • Nach großen Updates: Evi neu starten.
+
+
+--------------------------------------------------------------------------------
+  9. Sprachausgabe (TTS / Piper) — stumm oder falsche Sprache
+--------------------------------------------------------------------------------
+
+Symptom: Kein Ton, obwohl Antwort kommt als Text
+Erklärung: Keine Stimme für die Sprache, falscher Voice-Eintrag, Windows-Lautstärke.
+
+Behebung:
+  • Ordner piper\ prüfen — Stimmen für gewählte Sprache vorhanden?
+  • In Evi Stimme passend zur Oberflächensprache wählen, speichern.
+  • Windows-Lautstärke-Mixer: Evi nicht stummgeschaltet?
+  • Anderes Ausgabegerät (Kopfhörer vs. Monitor) testen.
+
+
+--------------------------------------------------------------------------------
+ 10. Netzwerk, Firewall, „Block all traffic“
+--------------------------------------------------------------------------------
+
+Symptom: Web, Mail-Helfer, Wetter, Downloads schlagen fehl
+Erklärung: Globale Sperre in Evi, Windows-Firewall, Firmenproxy, VPN.
+
+Behebung:
+  • In Evi „Block all traffic“ (oder gleichwertig) deaktivieren, wenn Online-Features
+    gewünscht sind.
+  • VPN/Firewall temporär testweise ändern (nur wenn erlaubt).
+  • Firmennetz: IT nach Proxy-Ausnahmen fragen.
+
+
+--------------------------------------------------------------------------------
+ 11. YouTube, Medien, VLC Portable
+--------------------------------------------------------------------------------
+
+Syntax: Video startet nicht, „fehlende Komponente“
+Erklärung: VLC Portable nicht gefunden, Netzwerk gesperrt, falscher Pfad.
+
+Behebung:
+  • Portable\VLCPortable (oder mitgelieferte Struktur) darf nicht gelöscht sein.
+  • Netzwerk erlauben (siehe Abschn. 10).
+
+
+--------------------------------------------------------------------------------
+ 12. Oberfläche, Sprache, Cheat-Sheets
+--------------------------------------------------------------------------------
+
+Symptom: Befehl funktioniert nicht, alter Text
+Erklärung: Cheat-Sheet geändert aber Evi nicht neu gestartet; falscher Dateiname.
+
+Behebung:
+  • cheatsheets\README.txt lesen — Datei pro Sprachcode (z. B. de.txt, en.txt).
+  • Nach manueller Bearbeitung Evi vollständig neu starten.
+  • Datei UTF-8 speichern (Umlaute).
+
+
+--------------------------------------------------------------------------------
+ 13. Sicherheit: PIN und Sprach-Unlock
+--------------------------------------------------------------------------------
+
+Symptom: PIN vergessen, Sprach-Unlock scheitert immer
+Erklärung: Sicherheitsfunktion — bewusst schwer umgehbar; Umgebung zu laut.
+
+Behebung:
+  • Ruhiger Raum, Mikrofonpegel, keine Aufnahme von fremden Stimmen überlappen.
+  • PIN/Personal Recovery nur nach Hersteller-Vorgabe — Support mit Nachweis.
+  • Nie PIN weitergeben.
+
+
+--------------------------------------------------------------------------------
+ 14. Leistung, Abstürze, Logs
+--------------------------------------------------------------------------------
+
+Symptom: Einfrieren, plötzlicher Absturz
+Erklärung: VRAM, RAM, thermische Drosselung, defekte Datei, Bug nach Update.
+
+Behebung:
+  • Modell verkleinern; andere Programme schließen; Kühlung prüfen.
+  • crash.log oder ähnliche Protokolle im Evi-Ordner prüfen (falls vorhanden).
+  • Letzte Änderung rückgängig machen (neues Modell entfernen, Einstellung zurück).
+
+Symptom: Allgemein „alles fühlt sich träge an“
+Erklärung: Hintergrunddienste, volle SSD, zu hoher Kontext im Modell.
+
+Behebung:
+  • Task-Manager: CPU/RAM/GPU; Energieplan; SSD freiräumen (mind. 10–15 % leer).
+
+
+--------------------------------------------------------------------------------
+ 15. Wenn nichts hilft — Infos fürs Support-Mail
+--------------------------------------------------------------------------------
+
+  • Machine ID (vom Aktivierungs-/Info-Bildschirm)
+  • Windows-Version (winver), 64-Bit
+  • GPU-Modell + VRAM + Treiberversion
+  • Welche .gguf (Dateiname, ungefähre Größe)
+  • Kurze Schrittfolge, was Sie getan haben
+  • Exakte Fehlermeldung oder Screenshot (ohne private Schlüssel zeigen!)
+
+  E-Mail: Brielbeck@hotmail.de
+
+================================================================================

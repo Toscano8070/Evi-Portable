@@ -1,0 +1,289 @@
+=================================================================================
+  Evi Portable — Utökad felsökning (referens)
+  Tillägg Manual\README.txt (översikt) och modeller\llm\README.txt
+=================================================================================
+
+Den här guiden täcker typiska och mindre vanliga problem: orsak, kontroller, korrigeringar.
+Arbeta uppifrån och ner eller hoppa till den matchande sektionen.
+
+Obs! Alla meddelanden på skärmen citeras inte ordagrant här – använd kombinationen
+av symptom (vad ser du?) och avsnittsrubrik.
+
+----------------------------------------------------------------------------------
+  Snabbkontroll (alltid först)
+----------------------------------------------------------------------------------
+
+  □ Windows 10 eller 11 (64-bit), aktuella uppdateringar, omstartad efter större ändringar?
+  □ Evi startade från en helt extraherad mapp – inte ett halvt uppackat arkiv,
+    och inte "live" bara från molnet (synkroniseringsmapp)?
+  □ Minst en giltig .gguf i models\llm\ (se models\llm\README.txt)?
+  □ Tillräckligt ledigt diskutrymme (modell + chattar + uppdateringar)?
+  □ Efter ändringar av inställningar, fuskblad eller modeller: avsluta Evi helt
+    och börja om?
+
+
+----------------------------------------------------------------------------------
+  1. Operativsystemets grunder
+----------------------------------------------------------------------------------
+
+Symptom: Installations- eller startfel, "stöds inte på ..."
+Förklaring: Evi riktar sig endast till Windows 10/11. Andra system stöds inte.
+
+Fixar:
+  • Använd endast Windows 10 eller 11.
+  • 32-bitars Windows stöds vanligtvis inte – använd 64-bitars.
+  • Installera Windows-uppdateringar, starta om datorn.
+
+Symptom: Dubbelklicka på appen gör ingenting
+Förklaring: Policyblockering, saknade behörigheter eller startprogram i en blockerad sökväg.
+
+Fixar:
+  • Högerklicka → Kör som administratör endast om det behövs (normalt fall: standardanvändare).
+  • Spring inte inifrån en ZIP — extrahera helt.
+  • Kontrollera om antivirus har loggat ett block (se avsnitt 3).
+
+
+----------------------------------------------------------------------------------
+  2. Mappvägar, portabilitet, moln & antivirus
+----------------------------------------------------------------------------------
+
+Symptom: Filer "försvinner", dubbletter av mappar, skadad .gguf
+Förklaring: Molnsynkronisering (OneDrive, Dropbox, …) kan låsa filer eller ladda upp delar
+  data medan Evi skriver.
+
+Fixar:
+  • Lägg Evi-mappen på en lokal enhet, t.ex. C:\EviPortable eller D:\Tools\Evi —
+    inte "Documents\OneDrive\..." med aktiv synkronisering av livedata.
+  • Lägg till en uteslutning av säkerhetsprogramvara för Evi-roten (scannar varje liten
+    skrivning kan sakta ner eller låsa LLM/Piper dåligt).
+
+Symptom: USB-installation — mycket långsam eller fel
+Förklaring: Slow sticks, FAT32 storleksgränser, dålig anslutning.
+
+Fixar:
+  • USB 3.x-minne, NTFS, tillräckligt med utrymme; föredrar intern SSD.
+  • Kör inte stora modeller på mycket långsam media — använd en mindre GGUF.
+
+Symtom: "Sökvägen är för lång" eller fel med specialtecken
+Förklaring: Windows MAX_PATH / Unicode — sällsynta, men djupa sökvägar + udda tecken
+  bryta några verktyg.
+
+Fixar:
+  • Använd en kort väg, t.ex. C:\Evi\, undvik icke-ASCII i sökväg om möjligt.
+
+
+----------------------------------------------------------------------------------
+  3. Språkmodell (.gguf) — inga svar, modellfel, hänger sig
+----------------------------------------------------------------------------------
+
+Symptom: "Ingen AI", tomma svar, modellen laddas inte
+Förklaring: Ingen giltig GGUF i den förväntade mappen, ofullständig nedladdning, fel
+  format eller skadad fil.
+
+Fixar:
+  • Öppna modeller\llm\: minst en .gguf med rimlig storlek (inte 0 byte).
+  • Ladda ner igen; i webbläsaren kolla efter udda tillägg i namnet — byt namn
+    bara om du vet att filen är komplett.
+  • Läs modeller\llm\README.txt: rekommenderade Qwen-2.5-filer och VRAM-nivåer.
+  • Flera GGUF: per README kan flera filer existera — Evi väljer att matcha VRAM.
+    Om du är osäker, lämna bara EN fil som är känt och bra i mappen.
+
+Symptom: Svarar extremt långsamt trots GPU
+Förklaring: Modellen är för stor för GPU → offload/CPU, eller fel förinställning.
+
+Fixar:
+  • Mindre modell (t.ex. 7B q4_k_m istället för 14B).
+  • Matcha GPU-förinställningen i sidofältet med riktig hårdvara.
+Symptom: CUDA / GPU-fel, "tomt minne", kraschar under generering
+Förklaring: Inte tillräckligt med VRAM, en annan process använder GPU, bärbar dator har fastnat på iGPU.
+
+Fixar:
+  • Uppdatera NVIDIA-drivrutinen (nvidia.com).
+  • På bärbara datorer, i BIOS/Windows tvinga "diskret GPU" / "hög prestanda" för Evi
+    där tillgängligt.
+  • Prova CPU-förinställning i Evi (långsam men stabil).
+  • Stäng andra GPU-tunga appar (spel, andra AI-verktyg).
+
+
+----------------------------------------------------------------------------------
+  4. GPU, drivrutiner, hybridgrafik för bärbar dator
+----------------------------------------------------------------------------------
+
+Symptom: Evi ser inte NVIDIA GPU även om en är installerad
+Förklaring: Fel strömläge, saknad drivrutin, hybrid alltid på iGPU.
+
+Fixar:
+  • Enhetshanteraren: NVIDIA utan felkod?
+  • Läget "Hög prestanda" / "Ultimate" (leverantörsappar: Lenovo Vantage, …).
+  • Starta om efter drivrutinsuppdatering.
+
+Symptom: Skärmflimmer, förarkrasch (TDR)
+Förklaring: Grafik timeout — ofta för mycket GPU-belastning eller instabil överklockning.
+
+Fixar:
+  • Ingen överklocka under tester; mindre modell; bättre kylning.
+
+
+----------------------------------------------------------------------------------
+  5. Endast CPU — förväntningar och gränser
+----------------------------------------------------------------------------------
+
+Symptom: "Det tar en evighet"
+Förklaring: CPU-inferens vid 7B+ är mycket långsammare än GPU - det är normalt.
+
+Fixar:
+  • Ha tillräckligt med RAM per models\llm\README.txt.
+  • Stäng bakgrundsjobb; kraftplan "Hög prestanda".
+
+
+----------------------------------------------------------------------------------
+  6. Aktivering, licens, maskin-ID
+----------------------------------------------------------------------------------
+
+Symptom: Serien accepteras inte
+Förklaring: Skrivfel, mellanslag, nyckel för olika hårdvara, inaktuellt ID.
+
+Fixar:
+  • Klistra in nyckeln noggrant, inga inledande/efterföljande mellanslag.
+  • Se till att e-posten matchade denna PC/giltiga maskin-ID.
+  • Efter byte av moderkort/CPU: nytt ID — kontakta support med provkedja.
+
+Symptom: Inget svarsmail
+Förklaring: Skräppostmapp, fel från-adress, fel ämne.
+
+Fixar:
+  • Kontrollera spam; skicka igen med tydligt ämne och maskin-ID.
+
+
+----------------------------------------------------------------------------------
+  7. Mikrofon — ingen nivå, Evi hör ingenting
+----------------------------------------------------------------------------------
+
+Symptom: Ingen fångst, mätaren tom
+Förklaring: Windows blockerar åtkomst, fel inmatningsenhet, kabel/USB.
+
+Fixar:
+  • Inställningar → Sekretess → Mikrofon → tillåt skrivbordsappar.
+  • Ljudinställningar → Ingång: ställ in och testa rätt standard ("tal").
+  • I Evi: välj mikrofon, Spara, starta om appen.
+  • Bluetooth-headset: ihopkoppling, batteri; latensen kan vara dålig – prova USB-mikrofon.
+
+Symptom: Mikrofonen fungerar bara i vissa appar
+Förklaring: En annan apps exklusiva läge blockerar enheten.
+
+Fixar:
+  • Stäng andra kommunikationsappar eller inaktivera "exklusiv mikrofon".
+
+
+----------------------------------------------------------------------------------
+  8. Taligenkänning (lokal)
+----------------------------------------------------------------------------------
+
+Symptom: Tal känns inte igen, "fast" bearbetning
+Förklaring: Whisper-modell saknas/ogiltig, förstagångsnedladdning, upptagen CPU/GPU.
+
+Fixar:
+  • Nätverk endast om modeller måste hämtas — se modeller\whisper.
+  • Skriv kort istället för att prata för att isolera Evi.
+  • Efter större uppdateringar: starta om Evi.
+
+
+----------------------------------------------------------------------------------
+  9. Röstutgång (TTS / Piper) — tyst eller fel språk
+----------------------------------------------------------------------------------
+
+Symptom: Inget ljud även om textsvaret visar
+Förklaring: Inget röstpaket för språk, fel röstinmatning, Windows-volym.
+
+Fixar:
+  • Kontrollera piper\ — röster för valt språk närvarande?
+  • I Evi välj röstmatchande UI-språk, spara.
+  • Windows volymmixer: Evi inte avstängd?
+  • Prova en annan utgångsenhet (hörlurar kontra monitor).
+
+
+----------------------------------------------------------------------------------
+ 10. Nätverk, brandvägg, "Blockera all trafik"
+----------------------------------------------------------------------------------
+
+Symptom: Webb, mailhjälpare, väder, nedladdningar misslyckas
+Förklaring: Globalt block i Evi, Windows-brandvägg, företagsproxy, VPN.
+
+Fixar:
+  • Stäng av "Blockera all trafik" (eller motsvarande) i Evi om det finns onlinefunktioner
+    är efterlysta.
+  • Tillfälligt koppla av VPN/brandvägg (endast om tillåtet).
+  • Företagsnätverk: be IT om proxy-undantag.
+
+
+----------------------------------------------------------------------------------
+ 11. YouTube, media, VLC Portable
+----------------------------------------------------------------------------------
+
+Symptom: Videon startar inte, "komponent saknas"
+Förklaring: VLC Portable saknas, nätverket blockerat, fel sökväg.
+
+Fixar:
+  • Ta inte bort Portable\VLCPortable (eller medföljande layout).
+  • Tillåt nätverk (se avsnitt 10).
+
+
+----------------------------------------------------------------------------------
+ 12. UI-språk, fuskblad
+----------------------------------------------------------------------------------
+
+Symptom: Kommandot fungerar inte, gammal text
+Förklaring: Fuskbladet redigerat men Evi har inte startat om; fel filnamn.
+
+Fixar:
+  • Läs cheatsheets\README.txt — en fil per språkkod (t.ex. de.txt, en.txt).
+  • Starta om Evi helt efter manuella redigeringar.
+  • Spara filen som UTF-8 (accenter).
+
+
+----------------------------------------------------------------------------------
+ 13. Säkerhet: PIN-kod och röstupplåsning
+----------------------------------------------------------------------------------
+
+Symptom: Glömt PIN-koden, röstupplåsning misslyckas alltid
+Förklaring: Säkerhetsfunktion — avsiktligt svår att kringgå; rummet är för bullrigt.
+
+Fixar:
+  • Tyst rum, mikrofonnivå, inga överlappande röster från andra.
+  • PIN/personlig återställning endast enligt leverantörspolicy – ​​support med bevis.
+  • Dela aldrig din PIN-kod.
+
+
+----------------------------------------------------------------------------------
+ 14. Prestanda, krascher, loggar
+----------------------------------------------------------------------------------
+
+Symptom: Frys, plötslig krasch
+Förklaring: VRAM, RAM, termisk gasspjäll, dålig fil, bugg efter uppdatering.
+
+Fixar:
+  • Mindre modell; stäng andra appar; kontrollera kylningen.
+  • Kontrollera crash.log eller liknande i Evi-mappen om det finns.
+  • Ångra senaste ändring (ta bort ny modell, återställ inställning).
+
+Symptom: Allt känns trögt
+Förklaring: Bakgrundstjänster, full SSD, mycket stor modellkontext.
+
+Fixar:
+  • Aktivitetshanteraren: CPU/RAM/GPU; kraftplan; ledigt SSD-utrymme (cirka 10–15 % tomt).
+
+
+----------------------------------------------------------------------------------
+ 15. Om inget hjälper — info för supportmail
+----------------------------------------------------------------------------------
+
+  • Maskin-ID (aktiverings-/infoskärm)
+  • Windows-version (winver), 64-bitars
+  • GPU-modell + VRAM + drivrutinsversion
+  • Vilken .gguf (filnamn, ungefärlig storlek)
+  • Korta steg du tog
+  • Exakt feltext eller skärmdump (visa inte privata nycklar!)
+
+  E-post: Brielbeck@hotmail.de
+
+=================================================================================

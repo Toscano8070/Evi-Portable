@@ -1,0 +1,289 @@
+=================================================================================
+  Evi Portable — Genişletilmiş sorun giderme (referans)
+  Ekler Manual\README.txt (genel bakış) ve modeller\llm\README.txt
+=================================================================================
+
+Bu kılavuz tipik ve daha az yaygın olan sorunları kapsar: nedenleri, kontrolleri ve düzeltmeleri.
+Yukarıdan aşağıya doğru çalışın veya eşleşen bölüme atlayın.
+
+Not: Burada ekrandaki her mesaj kelimesi kelimesine alıntılanmamıştır; bu kombinasyonu kullanın
+semptom (ne görüyorsunuz?) ve bölüm başlığı.
+
+------------------------------------------------------------------
+  Hızlı kontrol (her zaman ilk)
+------------------------------------------------------------------
+
+  □ Windows 10 veya 11 (64 bit), güncel güncellemeler, büyük değişikliklerden sonra yeniden başlatılıyor mu?
+  □ Evi, yarısı açılmış bir arşivden değil, tamamen çıkartılmış bir klasörden başladı.
+    ve yalnızca buluttan (klasör senkronizasyonu) "canlı" değil mi?
+  □ Modeller\llm\'de en az bir geçerli .gguf (bkz. modeller\llm\README.txt)?
+  □ Yeterli boş disk alanı (model + sohbetler + güncellemeler)?
+  □ Ayarlarda, kopya sayfalarında veya modellerde değişiklik yapıldıktan sonra: Evi'nden tamamen çıkın
+    ve yeniden başla?
+
+
+------------------------------------------------------------------
+  1. İşletim sisteminin temelleri
+------------------------------------------------------------------
+
+Belirti: Yükleme veya başlatma hataları, "desteklenmiyor..."
+Açıklama: Evi yalnızca Windows 10/11'i hedefliyor. Diğer sistemler desteklenmez.
+
+Düzeltmeler:
+  • Yalnızca Windows 10 veya 11'i kullanın.
+  • 32 bit Windows genellikle desteklenmez; 64 bit kullanın.
+  • Windows güncellemelerini yükleyin, bilgisayarı yeniden başlatın.
+
+Belirti: Uygulamaya çift tıklamak hiçbir şey yapmıyor
+Açıklama: Politika bloğu, eksik izinler veya engellenen yolda başlatıcı.
+
+Düzeltmeler:
+  • → Gerektiğinde yalnızca yönetici olarak çalıştır öğesine sağ tıklayın (normal durum: standart kullanıcı).
+  • ZIP'in içinden çalıştırmayın — tamamen çıkartın.
+  • Antivirüsün bir blok kaydedip kaydetmediğini kontrol edin (bkz. bölüm 3).
+
+
+------------------------------------------------------------------
+  2. Klasör yolları, taşınabilirlik, bulut ve antivirüs
+------------------------------------------------------------------
+
+Belirti: Dosyalar "kayboluyor", yinelenen klasörler, bozuk .gguf
+Açıklama: Bulut senkronizasyonu (OneDrive, Dropbox,…) dosyaları kilitleyebilir veya kısmi yükleme yapabilir
+  Evi yazarken veriler.
+
+Düzeltmeler:
+  • Evi klasörünü yerel bir sürücüye koyun; C:\EviPortable veya D:\Tools\Evi —
+    canlı verilerde etkin senkronizasyonla “Documents\OneDrive\…” değil.
+  • Evi kökü için bir güvenlik yazılımı hariç tutma ekleyin (her küçük dosyayı tarayın)
+    yazma LLM/Piper'ı kötü şekilde yavaşlatabilir veya kilitleyebilir).
+
+Belirti: USB kurulumu — çok yavaş veya hatalar
+Açıklama: Yavaş çubuklar, FAT32 boyut sınırları, kötü bağlantı.
+
+Düzeltmeler:
+  • USB 3.x çubuğu, NTFS, yeterli alan; Dahili SSD'yi tercih edin.
+  • Büyük modelleri çok yavaş ortamlarda çalıştırmayın; daha küçük bir GGUF kullanın.
+
+Belirti: "Yol çok uzun" veya özel karakter hataları
+Açıklama: Windows MAX_PATH / Unicode — nadir fakat derin yollar + tek karakterler
+  bazı aletleri kırın.
+
+Düzeltmeler:
+  • Kısa bir yol kullanın, örn. C:\Evi\, mümkünse yolda ASCII olmayanlardan kaçının.
+
+
+------------------------------------------------------------------
+  3. Dil modeli (.gguf) — yanıt yok, model hataları, kilitleniyor
+------------------------------------------------------------------
+
+Belirti: "AI yok", boş yanıtlar, model yüklenmiyor
+Açıklama: Beklenen klasörde geçerli bir GGUF yok, eksik indirme, yanlış
+  biçiminde veya hasarlı dosya.
+
+Düzeltmeler:
+  • Açık modeller\llm\: makul boyutta en az bir .gguf (0 bayt değil).
+  • Yeniden indirin; tarayıcıda addaki tek uzantıları kontrol edin - yeniden adlandırın
+    yalnızca dosyanın tamamlandığını biliyorsanız.
+  • Modelleri oku\llm\README.txt: önerilen Qwen-2.5 dosyaları ve VRAM katmanları.
+  • Çoklu GGUF: README başına birkaç dosya mevcut olabilir — Evi, VRAM ile eşleşmeyi seçer.
+    Şüpheniz varsa, klasörde yalnızca bir tane iyi olduğu bilinen dosya bırakın.
+
+Belirti: GPU'ya rağmen yanıtlar son derece yavaş
+Açıklama: Model GPU → boşaltma/CPU için çok büyük veya yanlış ön ayar.
+
+Düzeltmeler:
+  • Daha küçük model (örneğin 14B yerine 7B q4_k_m).
+  • Kenar çubuğundaki GPU ön ayarını gerçek donanımla eşleştirin.
+Belirti: CUDA / GPU hatası, "bellek yetersiz", oluşturma sırasında çökme
+Açıklama: Yeterli VRAM yok, başka bir işlem GPU'yu kullanıyor, dizüstü bilgisayar iGPU'ya takılmış.
+
+Düzeltmeler:
+  • NVIDIA sürücüsünü güncelleyin (nvidia.com).
+  • Dizüstü bilgisayarlarda, BIOS/Windows'ta Evi için “ayrı GPU”yu / “yüksek performansı” zorunlu kılın
+    mevcut olduğu yerde.
+  • Evi'nde CPU ön ayarını deneyin (yavaş ama kararlı).
+  • GPU ağırlıklı diğer uygulamaları (oyunlar, diğer yapay zeka araçları) kapatın.
+
+
+------------------------------------------------------------------
+  4. GPU, sürücüler, dizüstü bilgisayar hibrit grafikleri
+------------------------------------------------------------------
+
+Belirti: Evi, bir tane kurulu olmasına rağmen NVIDIA GPU'yu görmüyor
+Açıklama: Yanlış güç modu, eksik sürücü, hibrit her zaman iGPU'da.
+
+Düzeltmeler:
+  • Aygıt Yöneticisi: NVIDIA hata kodu olmadan mı?
+  • “Yüksek performans” / “Ultimate” modu (satıcı uygulamaları: Lenovo Vantage, …).
+  • Sürücü güncellemesinden sonra yeniden başlatın.
+
+Belirti: Ekran titremesi, sürücü çökmesi (TDR)
+Açıklama: Grafik zaman aşımı — genellikle çok fazla GPU yükü veya dengesiz hız aşırtma.
+
+Düzeltmeler:
+  • Testler sırasında hız aşırtma yapılmaz; daha küçük model; daha iyi soğutma.
+
+
+------------------------------------------------------------------
+  5. Yalnızca CPU — beklentiler ve sınırlar
+------------------------------------------------------------------
+
+Belirti: “Sonsuza kadar sürer”
+Açıklama: 7B+'daki CPU çıkarımı GPU'dan çok daha yavaştır; bu normaldir.
+
+Düzeltmeler:
+  • Model başına yeterli RAM bulundurun\llm\README.txt.
+  • Arka plan işlerini kapatın; güç planı “Yüksek performans”.
+
+
+------------------------------------------------------------------
+  6. Etkinleştirme, lisans, Makine Kimliği
+------------------------------------------------------------------
+
+Belirti: Seri yayın kabul edilmedi
+Açıklama: Yazım hataları, boşluklar, farklı donanım anahtarı, eski kimlik.
+
+Düzeltmeler:
+  • Anahtarı dikkatlice yapıştırın, başta/sonda boşluk yok.
+  • Postanın bu bilgisayarla/geçerli Makine Kimliğiyle eşleştiğinden emin olun.
+  • Ana kart/CPU değişiminden sonra: yeni kimlik — kanıt zinciriyle destek ekibiyle iletişime geçin.
+
+Belirti: Yanıt postası yok
+Açıklama: Spam klasörü, yanlış Gönderen adresi, yanlış konu.
+
+Düzeltmeler:
+  • Spam'ı kontrol edin; Net konu ve Makine Kimliğiyle yeniden gönderin.
+
+
+------------------------------------------------------------------
+  7. Mikrofon — seviye yok, Evi hiçbir şey duymuyor
+------------------------------------------------------------------
+
+Belirti: Yakalama yok, sayaç boş
+Açıklama: Windows erişimi engelliyor, yanlış giriş aygıtı, kablo/USB.
+
+Düzeltmeler:
+  • Ayarlar → Gizlilik → Mikrofon → masaüstü uygulamalarına izin ver.
+  • Ses ayarları → Giriş: doğru varsayılanı (“konuşma”) ayarlayın ve test edin.
+  • Evi'nde: mikrofonu seçin, kaydedin, uygulamayı yeniden başlatın.
+  • Bluetooth kulaklıklar: eşleştirme, pil; gecikme kötü olabilir; USB mikrofonu deneyin.
+
+Belirti: Mikrofon yalnızca bazı uygulamalarda çalışıyor
+Açıklama: Başka bir uygulamanın ayrıcalıklı modu aygıtı engeller.
+
+Düzeltmeler:
+  • Diğer iletişim uygulamalarını kapatın veya “özel mikrofonu” devre dışı bırakın.
+
+
+------------------------------------------------------------------
+  8. Konuşma tanıma (yerel)
+------------------------------------------------------------------
+
+Belirti: Konuşma tanınmıyor, işleme "takılıyor"
+Açıklama: Whisper modeli eksik/geçersiz, ilk kez indiriliyor, CPU/GPU meşgul.
+
+Düzeltmeler:
+  • Yalnızca modellerin getirilmesi gerekiyorsa ağ kurun; bkz. modeller\fısıltı.
+  • Evi'yi izole etmek için konuşmak yerine kısaca yazın.
+  • Büyük güncellemelerden sonra: Evi'ni yeniden başlatın.
+
+
+------------------------------------------------------------------
+  9. Ses çıkışı (TTS / Piper) — sessiz veya yanlış dil
+------------------------------------------------------------------
+
+Belirti: Metin yanıtı gösterilmesine rağmen ses yok
+Açıklama: Dil için ses paketi yok, yanlış ses girişi, Windows ses düzeyi.
+
+Düzeltmeler:
+  • Piper'ı kontrol edin\ — seçilen dil için sesler mevcut mu?
+  • Evi'nde kullanıcı arayüzü diliyle eşleşen sesi seçin ve kaydedin.
+  • Windows ses karıştırıcısı: Evi'nin sesi kapatılmıyor mu?
+  • Başka bir çıkış cihazı deneyin (kulaklık veya monitör).
+
+
+------------------------------------------------------------------
+ 10. Ağ, güvenlik duvarı, “Tüm trafiği engelle”
+------------------------------------------------------------------
+
+Belirti: Web, posta yardımcıları, hava durumu, indirme işlemleri başarısız oluyor
+Açıklama: Evi'de genel engelleme, Windows güvenlik duvarı, kurumsal proxy, VPN.
+
+Düzeltmeler:
+  • Çevrimiçi özellikler mevcutsa Evi'nde "Tüm trafiği engelle" seçeneğini (veya eşdeğerini) kapatın
+    aranıyor.
+  • VPN/güvenlik duvarını geçici olarak gevşetin (yalnızca izin veriliyorsa).
+  • Kurumsal ağ: BT'den proxy istisnaları isteyin.
+
+
+------------------------------------------------------------------
+ 11. YouTube, medya, VLC Taşınabilir
+------------------------------------------------------------------
+
+Belirti: Video başlamıyor, "bileşen eksik"
+Açıklama: VLC Portable eksik, ağ engellendi, yanlış yol.
+
+Düzeltmeler:
+  • Portable\VLCPortable'ı (veya sağlanan düzeni) silmeyin.
+  • Ağa izin ver (bkz. bölüm 10).
+
+
+------------------------------------------------------------------
+ 12. Kullanıcı arayüzü dili, hile sayfaları
+------------------------------------------------------------------
+
+Belirti: Komut çalışmıyor, eski metin
+Açıklama: Hile sayfası düzenlendi ancak Evi yeniden başlatılmadı; yanlış dosya adı.
+
+Düzeltmeler:
+  • Hile sayfalarını oku\README.txt — dil kodu başına bir dosya (örn. de.txt, en.txt).
+  • Manuel düzenlemelerden sonra Evi'yi tamamen yeniden başlatın.
+  • Dosyayı UTF-8 (aksan) olarak kaydedin.
+
+
+------------------------------------------------------------------
+ 13. Güvenlik: PIN ve sesle kilit açma
+------------------------------------------------------------------
+
+Belirti: PIN'i unuttum, sesle kilit açma işlemi her zaman başarısız oluyor
+Açıklama: Güvenlik özelliği — kasıtlı olarak atlanması zor; oda çok gürültülü.
+
+Düzeltmeler:
+  • Sessiz oda, mikrofon seviyesi, başkalarından gelen seslerin çakışmaması.
+  • Yalnızca satıcı politikasına göre PIN/kişisel kurtarma — kanıtla destek.
+  • PIN'inizi asla paylaşmayın.
+
+
+------------------------------------------------------------------
+ 14. Performans, çökmeler, günlükler
+------------------------------------------------------------------
+
+Belirti: Donma, ani çökme
+Açıklama: VRAM, RAM, termal kısıtlama, bozuk dosya, güncelleme sonrası hata.
+
+Düzeltmeler:
+  • Daha küçük model; diğer uygulamaları kapatın; soğutmayı kontrol edin.
+  • Varsa Evi klasöründeki Crash.log veya benzerini kontrol edin.
+  • Son değişikliği geri alın (yeni modeli kaldırın, ayarı geri alın).
+
+Belirti: Her şey yavaşlamış gibi geliyor
+Açıklama: Arka plan hizmetleri, tam SSD, çok geniş model bağlamı.
+
+Düzeltmeler:
+  • Görev Yöneticisi: CPU/RAM/GPU; güç planı; boş SSD alanı (yaklaşık %10-15'i boş).
+
+
+------------------------------------------------------------------
+ 15. Hiçbir şey yardımcı olmazsa — destek postası için bilgi
+------------------------------------------------------------------
+
+  • Makine Kimliği (etkinleştirme / bilgi ekranı)
+  • Windows sürümü (winver), 64 bit
+  • GPU modeli + VRAM + sürücü sürümü
+  • Hangi .gguf (dosya adı, yaklaşık boyut)
+  • Attığınız kısa adımlar
+  • Tam hata metni veya ekran görüntüsü (özel anahtarları göstermeyin!)
+
+  E-posta: Brielbeck@hotmail.de
+
+=================================================================================

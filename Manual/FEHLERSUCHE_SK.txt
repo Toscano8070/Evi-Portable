@@ -1,0 +1,289 @@
+=================================================================================
+  Evi Portable – Rozšírené riešenie problémov (odkaz)
+  Doplnky Manual\README.txt (prehľad) a modely\llm\README.txt
+=================================================================================
+
+Táto príručka obsahuje typické a menej bežné problémy: príčina, kontroly, opravy.
+Pracujte zhora nadol alebo prejdite na zodpovedajúcu sekciu.
+
+Poznámka: Nie každá správa na obrazovke je tu citovaná doslovne – použite kombináciu
+symptómu (čo vidíte?) a nadpisu sekcie.
+
+--------------------------------------------------------------------------------
+  Rýchla kontrola (vždy prvá)
+--------------------------------------------------------------------------------
+
+  □ Windows 10 alebo 11 (64-bit), aktuálne aktualizácie, reštartovaný po veľkých zmenách?
+  □ Evi začala z úplne extrahovaného priečinka – nie z napoly rozbaleného archívu,
+    a nie „naživo“ iba z cloudu (priečinok synchronizácie)?
+  □ Aspoň jeden platný súbor .gguf v modeloch\llm\ (pozri modely\llm\README.txt)?
+  □ Dostatok voľného miesta na disku (model + chaty + aktualizácie)?
+  □ Po zmenách nastavení, cheatov alebo modelov: úplne ukončite Evi
+    a začať odznova?
+
+
+--------------------------------------------------------------------------------
+  1. Základy operačného systému
+--------------------------------------------------------------------------------
+
+Príznak: Chyby pri inštalácii alebo spustení, „nepodporované na ...“
+Vysvetlenie: Evi sa zameriava iba na Windows 10/11. Ostatné systémy nie sú podporované.
+
+Opravy:
+  • Používajte iba Windows 10 alebo 11.
+  • 32-bitový systém Windows zvyčajne nie je podporovaný – použite 64-bitový.
+  • Nainštalujte aktualizácie systému Windows, reštartujte počítač.
+
+Príznak: Dvojitým kliknutím na aplikáciu sa nič nestane
+Vysvetlenie: Blokovanie politiky, chýbajúce povolenia alebo spúšťač v zablokovanej ceste.
+
+Opravy:
+  • Kliknite pravým tlačidlom myši → Spustiť ako správca iba v prípade potreby (normálny prípad: štandardný používateľ).
+  • Nespúšťajte zvnútra ZIP – extrahujte úplne.
+  • Skontrolujte, či antivírus nezaprotokoloval blok (pozri časť 3).
+
+
+--------------------------------------------------------------------------------
+  2. Cesty k priečinkom, prenosnosť, cloud a antivírus
+--------------------------------------------------------------------------------
+
+Príznak: Súbory „zmiznú“, duplicitné priečinky, poškodený súbor .gguf
+Vysvetlenie: Synchronizácia v cloude (OneDrive, Dropbox, ...) môže uzamknúť súbory alebo nahrať čiastočné
+  dáta, kým Evi píše.
+
+Opravy:
+  • Umiestnite priečinok Evi na lokálny disk, napr. C:\EviPortable alebo D:\Tools\Evi —
+    nie „Dokumenty\OneDrive\…“ s aktívnou synchronizáciou živých údajov.
+  • Pridajte vylúčenie bezpečnostného softvéru pre koreňový adresár Evi (skenovanie každého malého
+    zápis môže spomaliť alebo zle uzamknúť LLM/Piper).
+
+Príznak: Inštalácia USB — veľmi pomalá alebo chyby
+Vysvetlenie: Pomalé pripojenie, obmedzenia veľkosti FAT32, zlé pripojenie.
+
+Opravy:
+  • USB 3.x kľúč, NTFS, dostatok miesta; radšej interný SSD.
+  • Nespúšťajte veľké modely na veľmi pomalých médiách – použite menšie GGUF.
+
+Symptóm: „Cesta je príliš dlhá“ alebo chyby špeciálnych znakov
+Vysvetlenie: Windows MAX_PATH / Unicode — zriedkavé, ale hlboké cesty + nepárne znaky
+  zlomiť niektoré nástroje.
+
+Opravy:
+  • Použite krátku cestu, napr. C:\Evi\, ak je to možné, vyhnite sa v ceste bez ASCII.
+
+
+--------------------------------------------------------------------------------
+  3. Jazykový model (.gguf) — žiadne odpovede, chyby modelu, visí
+--------------------------------------------------------------------------------
+
+Symptóm: „Žiadna AI“, prázdne odpovede, model sa nenačíta
+Vysvetlenie: V očakávanom priečinku nie je platný GGUF, sťahovanie je neúplné, nesprávne
+  formát alebo poškodený súbor.
+
+Opravy:
+  • Otvorené modely\llm\: aspoň jeden súbor .gguf s hodnovernou veľkosťou (nie 0 bajtov).
+  • Znovu stiahnuť; v prehliadači skontrolujte, či v názve nie sú nepárne prípony - premenujte
+    iba ak viete, že súbor je úplný.
+  • Čítanie modelov\llm\README.txt: odporúčané súbory Qwen-2.5 a úrovne VRAM.
+  • Viacnásobné GGUF: na README môže existovať niekoľko súborov – Evi vyberie, aby zodpovedali VRAM.
+    Ak máte pochybnosti, ponechajte v priečinku iba JEDEN dobrý súbor.
+
+Symptóm: Odpovede sú extrémne pomalé napriek GPU
+Vysvetlenie: Model je príliš veľký pre GPU → offload/CPU alebo nesprávne prednastavené.
+
+Opravy:
+  • Menší model (napr. 7B q4_k_m namiesto 14B).
+  • Prispôsobte predvoľbu GPU na bočnom paneli skutočnému hardvéru.
+Príznak: Chyba CUDA / GPU, „nedostatok pamäte“, zlyhanie počas generovania
+Vysvetlenie: Nedostatok VRAM, iný proces používa GPU, laptop je zaseknutý na iGPU.
+
+Opravy:
+  • Aktualizujte ovládač NVIDIA (nvidia.com).
+  • Na prenosných počítačoch v systéme BIOS/Windows vynútite „diskrétny GPU“ / „vysoký výkon“ pre Evi
+    ak je k dispozícii.
+  • Vyskúšajte predvoľbu CPU v Evi (pomalé, ale stabilné).
+  • Zatvorte ostatné aplikácie náročné na GPU (hry, iné nástroje AI).
+
+
+--------------------------------------------------------------------------------
+  4. GPU, ovládače, hybridná grafika notebooku
+--------------------------------------------------------------------------------
+
+Symptóm: Evi nevidí NVIDIA GPU, hoci je nainštalovaný
+Vysvetlenie: Nesprávny režim napájania, chýbajúci ovládač, hybrid vždy na iGPU.
+
+Opravy:
+  • Správca zariadení: NVIDIA bez kódu chyby?
+  • Režim „Vysoký výkon“ / „Ultimate“ (aplikácie dodávateľov: Lenovo Vantage, ...).
+  • Reštartujte po aktualizácii ovládača.
+
+Príznak: Blikanie obrazovky, zlyhanie ovládača (TDR)
+Vysvetlenie: Časový limit grafiky – často príliš veľké zaťaženie GPU alebo nestabilné pretaktovanie.
+
+Opravy:
+  • Žiadne pretaktovanie počas testov; menší model; lepšie chladenie.
+
+
+--------------------------------------------------------------------------------
+  5. Iba CPU – očakávania a limity
+--------------------------------------------------------------------------------
+
+Symptóm: „Trvá to večnosť“
+Vysvetlenie: Vyvodenie CPU pri 7B+ je oveľa pomalšie ako GPU – to je normálne.
+
+Opravy:
+  • Ponechajte dostatok pamäte RAM pre modely\llm\README.txt.
+  • Zatvorte úlohy na pozadí; plán napájania „Vysoký výkon“.
+
+
+--------------------------------------------------------------------------------
+  6. Aktivácia, licencia, ID stroja
+--------------------------------------------------------------------------------
+
+Symptóm: Sériové číslo nie je akceptované
+Vysvetlenie: Preklepy, medzery, kľúč pre iný hardvér, zastarané ID.
+
+Opravy:
+  • Prilepte kľúč opatrne, žiadne medzery na začiatku/na konci.
+  • Uistite sa, že pošta sa zhoduje s týmto PC / platným ID stroja.
+  • Po výmene základnej dosky/CPU: nové ID – kontaktujte podporu s overovacím reťazcom.
+
+Symptóm: Žiadna odpoveď
+Vysvetlenie: Priečinok Spam, nesprávna adresa odosielateľa, nesprávny predmet.
+
+Opravy:
+  • Skontrolujte nevyžiadanú poštu; znova odoslať s jasným predmetom a ID stroja.
+
+
+--------------------------------------------------------------------------------
+  7. Mikrofón — žiadna úroveň, Evi nič nepočuje
+--------------------------------------------------------------------------------
+
+Symptóm: Žiadny záber, glukomer je prázdny
+Vysvetlenie: Windows blokuje prístup, nesprávne vstupné zariadenie, kábel/USB.
+
+Opravy:
+  • Nastavenia → Súkromie → Mikrofón → povoliť aplikácie pre stolné počítače.
+  • Nastavenia zvuku → Vstup: nastavenie a testovanie správneho predvoleného nastavenia („reč“).
+  • V Evi: vyberte mikrofón, Uložte, reštartujte aplikáciu.
+  • Bluetooth slúchadlá: párovanie, batéria; latencia môže byť zlá – skúste USB mikrofón.
+
+Príznak: Mikrofón funguje iba v niektorých aplikáciách
+Vysvetlenie: Zariadenie blokuje exkluzívny režim inej aplikácie.
+
+Opravy:
+  • Zatvorte ostatné komunikačné aplikácie alebo vypnite „exkluzívny mikrofón“.
+
+
+--------------------------------------------------------------------------------
+  8. Rozpoznávanie reči (miestne)
+--------------------------------------------------------------------------------
+
+Symptóm: Reč nie je rozpoznaná, spracovanie je „zaseknuté“.
+Vysvetlenie: Model Whisper chýba/neplatný, prvé sťahovanie, zaneprázdnený CPU/GPU.
+
+Opravy:
+  • Sieť iba v prípade, že je potrebné získať modely – pozri modely\šepot.
+  • Namiesto rozprávania píšte krátko, aby ste Evi izolovali.
+  • Po veľkých aktualizáciách: reštartujte Evi.
+
+
+--------------------------------------------------------------------------------
+  9. Hlasový výstup (TTS / Piper) — tichý alebo nesprávny jazyk
+--------------------------------------------------------------------------------
+
+Príznak: Žiadny zvuk, aj keď sa zobrazuje textová odpoveď
+Vysvetlenie: Žiadny hlasový balík pre jazyk, nesprávne zadanie hlasu, hlasitosť systému Windows.
+
+Opravy:
+  • Check piper\ — sú prítomné hlasy pre zvolený jazyk?
+  • V Evi vyberte jazyk používateľského rozhrania zhody hlasu a uložte.
+  • Miešač hlasitosti Windows: Evi nie je stlmená?
+  • Skúste iné výstupné zariadenie (slúchadlá vs. monitor).
+
+
+--------------------------------------------------------------------------------
+ 10. Sieť, firewall, „Blokovať všetku komunikáciu“
+--------------------------------------------------------------------------------
+
+Príznak: Web, pomocníci pošty, počasie, sťahovanie zlyhá
+Vysvetlenie: Globálny blok v Evi, Windows firewall, firemný proxy, VPN.
+
+Opravy:
+  • V Evi vypnite „Blokovať všetku premávku“ (alebo ekvivalent), ak sú online funkcie
+    sú žiadaní.
+  • Dočasne uvoľnite VPN/firewall (iba ak je to povolené).
+  • Firemná sieť: požiadajte IT o výnimky proxy.
+
+
+--------------------------------------------------------------------------------
+ 11. YouTube, médiá, VLC Portable
+--------------------------------------------------------------------------------
+
+Príznak: Video sa nespustí, „chýba komponent“
+Vysvetlenie: VLC Portable chýba, sieť je zablokovaná, nesprávna cesta.
+
+Opravy:
+  • Neodstraňujte Portable\VLCPortable (alebo dodané rozloženie).
+  • Povoliť sieť (pozri časť 10).
+
+
+--------------------------------------------------------------------------------
+ 12. Jazyk používateľského rozhrania, cheat sheets
+--------------------------------------------------------------------------------
+
+Príznak: Príkaz nefunguje, starý text
+Vysvetlenie: Cheat list bol upravený, ale Evi nebola reštartovaná; nesprávny názov súboru.
+
+Opravy:
+  • Čítať cheatsheets\README.txt — jeden súbor na kód jazyka (napr. de.txt, en.txt).
+  • Po manuálnych úpravách úplne reštartujte Evi.
+  • Uložte súbor ako UTF-8 (akcenty).
+
+
+--------------------------------------------------------------------------------
+ 13. Zabezpečenie: odblokovanie PIN a hlas
+--------------------------------------------------------------------------------
+
+Príznak: Zabudli ste PIN, odomknutie hlasom vždy zlyhá
+Vysvetlenie: Bezpečnostný prvok – zámerne ťažké ho obísť; miestnosť príliš hlučná.
+
+Opravy:
+  • Tichá miestnosť, úroveň mikrofónu, žiadne prekrývajúce sa hlasy od ostatných.
+  • PIN/osobné obnovenie len podľa pravidiel dodávateľa – podpora s dôkazom.
+  • Nikdy nezdieľajte svoj PIN.
+
+
+--------------------------------------------------------------------------------
+ 14. Výkon, pády, protokoly
+--------------------------------------------------------------------------------
+
+Symptóm: Zamrznutie, náhla havária
+Vysvetlenie: VRAM, RAM, tepelná škrtiaca klapka, chybný súbor, chyba po aktualizácii.
+
+Opravy:
+  • Menší model; zatvorte ostatné aplikácie; skontrolujte chladenie.
+  • Skontrolujte crash.log alebo podobný v priečinku Evi, ak je prítomný.
+  • Vrátiť späť poslednú zmenu (odstrániť nový model, vrátiť nastavenie).
+
+Symptóm: Všetko sa zdá byť pomalé
+Vysvetlenie: Služby na pozadí, plný SSD, veľmi rozsiahly modelový kontext.
+
+Opravy:
+  • Správca úloh: CPU/RAM/GPU; plán napájania; voľné miesto na SSD (asi 10–15 % prázdnych).
+
+
+--------------------------------------------------------------------------------
+ 15. Ak nič nepomôže — informácie pre e-mail podpory
+--------------------------------------------------------------------------------
+
+  • ID stroja (aktivačná / informačná obrazovka)
+  • Verzia systému Windows (winver), 64-bitová
+  • Model GPU + VRAM + verzia ovládača
+  • Ktorý .gguf (názov súboru, približná veľkosť)
+  • Krátke kroky, ktoré ste urobili
+  • Presný text chyby alebo snímka obrazovky (nezobrazovať súkromné kľúče!)
+
+  E-mail: Brielbeck@hotmail.de
+
+=================================================================================
