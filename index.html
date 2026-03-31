@@ -552,6 +552,53 @@
       color: var(--text-main);
       word-break: break-all;
     }
+    .dl-llm-heavy {
+      margin: 0 0 1.25rem;
+      padding: 1.2rem 1.25rem 1.15rem;
+      border-radius: 12px;
+      border: 2px solid #ef4444;
+      background: linear-gradient(155deg, rgba(185, 28, 28, 0.2) 0%, rgba(18, 12, 14, 0.98) 55%, #151018 100%);
+      box-shadow:
+        0 0 0 1px rgba(254, 202, 202, 0.12),
+        0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+    .dl-llm-heavy__title {
+      margin: 0 0 0.7rem;
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #fecaca;
+      letter-spacing: 0.02em;
+      line-height: 1.35;
+    }
+    .dl-llm-heavy__body {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.68;
+      color: #f1d4d4;
+    }
+    .dl-llm-heavy__body code {
+      font-size: 0.86em;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0.15rem 0.45rem;
+      border-radius: 5px;
+      color: #fde68a;
+      word-break: break-all;
+      border: 1px solid rgba(251, 191, 36, 0.25);
+    }
+    .dl-llm-heavy__body strong { color: #fff; }
+    .dl-llm-heavy--manual { margin-top: 1.15rem; }
+    a.dl-llm-heavy__dl {
+      color: #fde047;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 600;
+    }
+    a.dl-llm-heavy__dl:hover { color: #fef08a; }
+    a.dl-llm-heavy__dl code {
+      color: inherit;
+      background: rgba(0, 0, 0, 0.35);
+      border-color: rgba(250, 204, 21, 0.45);
+    }
 
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.5rem; }
@@ -685,6 +732,12 @@
         </tfoot>
       </table>
     </div>
+    <div class="dl-llm-heavy" role="alert" data-i18n="dl_llm_heavy">
+      <p class="dl-llm-heavy__title">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p>
+      <p class="dl-llm-heavy__body">
+        The <strong>14B instruct GGUF</strong> is <a class="dl-llm-heavy__dl evi-llm-download" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive is the one that contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not attempt to use this checkpoint on anything less</strong> &mdash; you risk out-of-memory errors, unusable speed, or crashes. If your GPU is below that class, use the <strong>standard LLM download</strong> above and a smaller model per <code>models\llm\README.txt</code>, not this 14B file.
+      </p>
+    </div>
     <p class="dl-pack-footnote" data-i18n="dl_txl_note">
       Your browser may save each download under an auto-generated name (often a <code>.zip</code>). Extract the archives first, then place the main app folder where you want it and move the <code>.gguf</code> into <code>models\llm\</code> as described in the manual.
     </p>
@@ -746,6 +799,12 @@
       </ol>
       <p class="manual-callout"><strong>Right model, right place:</strong> After you click <strong>Download AI model (GGUF)</strong> and obtain the file, place <strong>exactly one</strong> suitable <code>.gguf</code> in <code>models\llm\</code>, then start Evi; it detects the model when possible.</p>
       <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="hero_llm_dl">Download AI model (GGUF)</a></p>
+      <div class="dl-llm-heavy dl-llm-heavy--manual" role="alert" data-i18n="man_llm_heavy">
+        <p class="dl-llm-heavy__title">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p>
+        <p class="dl-llm-heavy__body">
+          The <strong>14B instruct GGUF</strong> is <a class="dl-llm-heavy__dl evi-llm-download" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not attempt to use this checkpoint on anything less</strong> &mdash; you risk out-of-memory errors, unusable speed, or crashes. If your GPU is below that, use the <strong>standard LLM download</strong> on <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">the Download section</a> and a smaller model per <code>models\llm\README.txt</code>, not this 14B file.
+        </p>
+      </div>
       <ol start="4">
         <li><strong>First launch &mdash; activation.</strong> When you start Evi the first time, an activation window appears. Your PC shows a <strong>Machine ID</strong>. Use <strong>Copy Machine ID</strong> and e-mail it to <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. You receive a serial key that works only on that PC. Paste the key and choose Activate. If you change major hardware in a way that changes the ID, contact the same address for a replacement key.</li>
         <li><strong>After activation.</strong> The main window opens. Choose language, microphone, and voice in the left settings panel. Say &ldquo;open the cheat sheet&rdquo; anytime for command examples (<code>cheatsheets\en.txt</code> and sister files; see <code>cheatsheets\README.txt</code>).</li>
@@ -799,6 +858,12 @@
       </ol>
       <p class="manual-callout"><strong>Richtiges Modell, richtiger Ordner:</strong> Nach dem Download die Datei ablegen: <strong>genau eine</strong> passende <code>.gguf</code> in <code>models\llm\</code>, dann Evi starten.</p>
       <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="hero_llm_dl">KI-Modell herunterladen (GGUF)</a></p>
+      <div class="dl-llm-heavy dl-llm-heavy--manual" role="alert" data-i18n="man_llm_heavy">
+        <p class="dl-llm-heavy__title">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p>
+        <p class="dl-llm-heavy__body">
+          Die <strong>14B-Instruct-GGUF</strong> lautet <a class="dl-llm-heavy__dl evi-llm-download" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick auf den Dateinamen startet den <strong>LLM-Modell-Download</strong> (dieses Archiv enth&auml;lt die Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong> und vergleichbar). <strong>Nicht auf schw&auml;cherer Hardware verwenden</strong> &mdash; Speicherfehler, extreme Langsamkeit oder Abst&uuml;rze sind m&ouml;glich. Sonst normalen LLM-Download im <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">Download-Bereich</a> und ein kleineres Modell laut <code>models\llm\README.txt</code> nutzen, nicht diese 14B-Datei.
+        </p>
+      </div>
       <ol start="4">
         <li><strong>Erster Start &mdash; Aktivierung.</strong> Aktivierungsfenster mit <strong>Machine ID</strong>. <strong>Copy Machine ID</strong>, E-Mail an <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. Serienschl&uuml;ssel nur f&uuml;r diesen PC. Bei Hardwarewechsel gleiche Adresse.</li>
         <li><strong>Nach Aktivierung.</strong> Hauptsprache, Mikrofon, Stimme links w&auml;hlen. &bdquo;open the cheat sheet&ldquo; f&uuml;r Befehlsbeispiele (<code>cheatsheets\</code>).</li>
@@ -1103,6 +1168,7 @@ I18N.EN.dl_tbl_r2s = "~9.1 GB";
 I18N.EN.dl_tbl_total = "Total";
 I18N.EN.dl_tbl_totals = "~46 GB";
 I18N.EN.dl_txl_note = "Your browser may save each download under an auto-generated name (often a <code>.zip</code>). Extract the archives first, then place the main app folder where you want it and move the <code>.gguf</code> into <code>models\\llm\\</code> as described in the manual.";
+I18N.EN.dl_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p><p class=\"dl-llm-heavy__body\">The <strong>14B instruct GGUF</strong> is <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not use this checkpoint on weaker GPUs</strong> &mdash; expect OOM, extreme slowness, or crashes. Otherwise use the <strong>standard LLM download</strong> above and a smaller model per <code>models\\llm\\README.txt</code>.</p>";
 
 I18N.DE.dl_pack_title = "Evi Portable herunterladen";
 I18N.DE.dl_pack_before_title = "Vor dem Download";
@@ -1120,6 +1186,10 @@ I18N.DE.dl_tbl_r2s = "~9,1 GB";
 I18N.DE.dl_tbl_total = "Gesamt";
 I18N.DE.dl_tbl_totals = "~46 GB";
 I18N.DE.dl_txl_note = "Der Browser kann Downloads unter automatischen Dateinamen speichern (oft <code>.zip</code>). Zuerst entpacken, den App-Ordner an den gew&uuml;nschten Ort legen und die <code>.gguf</code> nach <code>models\\llm\\</code> verschieben wie im Handbuch beschrieben.";
+I18N.DE.dl_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p><p class=\"dl-llm-heavy__body\">Die <strong>14B-Instruct-GGUF</strong> lautet <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick auf den Dateinamen startet den <strong>LLM-Modell-Download</strong> (dieses Archiv enth&auml;lt die Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong>). <strong>Nicht auf schw&auml;cherer Hardware</strong> &mdash; Speicherfehler, extreme Langsamkeit oder Abst&uuml;rze. Sonst <strong>normalen LLM-Download</strong> oben und ein kleineres Modell laut <code>models\\llm\\README.txt</code>.</p>";
+
+I18N.EN.man_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p><p class=\"dl-llm-heavy__body\">The <strong>14B instruct GGUF</strong> is <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not use this checkpoint on weaker GPUs</strong> &mdash; OOM, extreme slowness, or crashes. Otherwise the <strong>standard LLM download</strong> on <a href=\"https://toscano8070.github.io/Evi-Portable/#download-pack\">the Download section</a> and a smaller model per <code>models\\llm\\README.txt</code>.</p>";
+I18N.DE.man_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p><p class=\"dl-llm-heavy__body\">Die <strong>14B-Instruct-GGUF</strong> lautet <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick startet den <strong>LLM-Modell-Download</strong> (Archiv mit dieser Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong>). <strong>Nicht auf schw&auml;cherer Hardware.</strong> Sonst <strong>normalen LLM-Download</strong> im <a href=\"https://toscano8070.github.io/Evi-Portable/#download-pack\">Download-Bereich</a> und ein kleineres Modell laut <code>models\\llm\\README.txt</code>.</p>";
 
 /** Real download targets (not shown in raw HTML). Replace base64 if you change hosts or paths. */
 function eviDecodedDownload(which) {
