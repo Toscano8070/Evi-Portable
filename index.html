@@ -253,25 +253,50 @@
     .req-banner a:hover { text-decoration: underline; }
 
     .pricing-banner {
-      padding: 2.25rem 5%;
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.12) 0%, #151824 50%, #12141c 100%);
+      padding: 2.5rem 5%;
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.18) 0%, #151824 45%, #0f111a 100%);
       border-top: 1px solid #333;
       text-align: center;
+      position: relative;
     }
-    .pricing-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+    .pricing-offer-pill {
+      display: inline-block;
+      padding: 0.45rem 1.15rem;
+      border-radius: 999px;
+      background: linear-gradient(100deg, var(--accent-primary) 0%, #6b21a8 40%, var(--accent-secondary) 100%);
       color: #fff;
       font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+      box-shadow: 0 4px 22px rgba(138, 43, 226, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .pricing-title {
+      font-size: 1.55rem;
+      margin-bottom: 0.85rem;
+      color: #fff;
+      font-weight: 700;
+      line-height: 1.3;
     }
     .pricing-detail {
-      font-size: 1.15rem;
-      color: var(--text-main);
-      max-width: 640px;
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      max-width: 620px;
       margin: 0 auto;
-      line-height: 1.65;
+      line-height: 1.7;
     }
-    .pricing-detail strong { color: var(--accent-secondary); font-size: 1.25rem; }
+    .pricing-detail .pricing-price {
+      display: block;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent-secondary);
+      margin: 0.35rem 0 0.85rem;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 28px rgba(0, 212, 255, 0.25);
+    }
+    .pricing-detail strong:not(.pricing-price) { color: var(--text-main); }
 
     .activation-section {
       padding: 4rem 10%;
@@ -432,9 +457,11 @@
 </section>
 
 <section class="pricing-banner" id="pricing" aria-label="Pricing">
-  <h2 class="pricing-title" data-i18n="pricing_title">Pricing</h2>
+  <div class="pricing-offer-pill" data-i18n="pricing_badge">Introductory offer</div>
+  <h2 class="pricing-title" data-i18n="pricing_title">One payment. Your secretary for years.</h2>
   <p class="pricing-detail" data-i18n="pricing_detail">
-    One-time purchase. No subscriptions. Includes 1 year of updates. 3× e-mail support! <strong>€35</strong>
+    <span class="pricing-price">35 Euro</span>
+    For a limited time, lock in this launch price: pay once, no subscriptions, no surprise fees. Includes <strong>1 year of updates</strong> and <strong>3× e-mail support</strong>. Windows 10/11 only. Pay with PayPal, then activate with your Machine ID below.
   </p>
 </section>
 
@@ -588,7 +615,7 @@ const LANGS = [
   {code:"VI",name:"Vietnamese",native:"Ti\u1EBFng Vi\u1EC7t",flag:"linear-gradient(135deg,#DA251D 0%,#DA251D 100%)"}
 ];
 
-function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navActivation, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerPaypal, footerDisc, reqWin, reqActivation, actTitle, actIntro, actS1, actS2, actS3, actS4, actS5, actS6, actFormat, pricingTitle, pricingDetail) {
+function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navActivation, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerPaypal, footerDisc, reqWin, reqActivation, actTitle, actIntro, actS1, actS2, actS3, actS4, actS5, actS6, actFormat, pricingBadge, pricingTitle, pricingDetail) {
   return {
     nav_features: navFeatures, nav_languages: navLangs, nav_accessibility: navAcc, nav_requirements: navRequirements, nav_pricing: navPricing, nav_activation: navActivation, nav_setup: navSetup, nav_download: navDl,
     hero_title: heroTitle, hero_sub: heroSub, hero_dl: "\u2B07 " + heroDl, hero_langs: heroLangs, hero_note: heroNote,
@@ -600,7 +627,7 @@ function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navAct
     footer_tag: footerTag, footer_manual: footerManual, footer_setup: footerSetup, footer_contact: footerContact, footer_paypal: footerPaypal, footer_disc: footerDisc,
     req_win: reqWin, req_activation: reqActivation,
     act_title: actTitle, act_intro: actIntro, act_s1: actS1, act_s2: actS2, act_s3: actS3, act_s4: actS4, act_s5: actS5, act_s6: actS6, act_format: actFormat,
-    pricing_title: pricingTitle, pricing_detail: pricingDetail
+    pricing_badge: pricingBadge, pricing_title: pricingTitle, pricing_detail: pricingDetail
   };
 }
 
@@ -648,8 +675,9 @@ const I18N = {
     "<strong>Receive serial key</strong> &mdash; You receive your personalized key within about 24&ndash;48 hours.",
     "<strong>Activate!</strong> &mdash; Paste the serial key into the activation window and click <strong>Activate</strong>. Done!",
     "EVI-XXXXX-XXXXX-XXXXX-XXXXX<small>Serial key format (provided after purchase &mdash; example placeholder)</small>",
-    "Pricing",
-    "One-time purchase. No subscriptions. Includes 1 year of updates. 3&times; e-mail support! <strong>&euro;35</strong>"
+    "Introductory offer &mdash; limited time",
+    "One payment. Your secretary for years.",
+    "<span class=\"pricing-price\">35 Euro</span> For a limited time, lock in this launch price: pay once&mdash;no subscriptions, no hidden fees. Includes <strong>1 year of updates</strong> and <strong>3&times; e-mail support</strong>. Windows&nbsp;10/11 only. Pay with PayPal, then activate with your Machine ID below."
   ),
   DE: pack(
     "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Einrichtung &amp; Lizenz","Download",
@@ -692,8 +720,9 @@ const I18N = {
     "<strong>Serienschl&uuml;ssel erhalten</strong> &mdash; Sie erhalten Ihren personalisierten Schl&uuml;ssel innerhalb von ca. 24&ndash;48 Stunden.",
     "<strong>Aktivieren!</strong> &mdash; F&uuml;gen Sie den Serienschl&uuml;ssel in das Aktivierungsfenster ein und klicken Sie auf <strong>Aktivieren</strong>. Fertig!",
     "EVI-XXXXX-XXXXX-XXXXX-XXXXX<small>Format des Serienschl&uuml;ssels (wird nach dem Kauf bereitgestellt &mdash; Beispielplatzhalter)</small>",
-    "Preise",
-    "Einmaliger Kauf. Keine Abonnements. Inklusive 1 Jahr Updates. 3&times; E-Mail-Support! <strong>35 Euro</strong>"
+    "Sonderangebot &mdash; nur begrenzte Zeit",
+    "Einmal zahlen. Ihre Sekret&auml;rin f&uuml;r viele Jahre.",
+    "<span class=\"pricing-price\">35 Euro</span> <strong>Jetzt zugreifen:</strong> zum Einf&uuml;hrungspreis nur einmal zahlen &mdash; kein Abo, keine versteckten Kosten. Inklusive <strong>1 Jahr Updates</strong> und <strong>3&times; E-Mail-Support</strong>. Nur Windows&nbsp;10/11. Bezahlung per PayPal, danach Aktivierung mit Ihrer Machine ID wie unten beschrieben."
   )
 };
 
