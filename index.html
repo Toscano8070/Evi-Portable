@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Evi Portable — Local secretary: mail, calendar, voice assistant</title>
-  <meta name="description" content="Evi Portable: a local digital secretary — draft mail, manage your calendar, reminders, voice and text, long-term memory. Optional network for sending and sync. USB stick deploy. By Hardy Brielbeck.">
+  <meta name="description" content="Evi Portable — Windows 10/11 only. Local digital secretary: mail, calendar, reminders, voice and text, long-term memory. Activate by e-mail: Brielbeck@hotmail.de with your Machine ID. USB-ready. By Hardy Brielbeck.">
   <style>
     :root {
       --bg-color: #0f111a;
@@ -241,6 +241,100 @@
     }
     .disclaimer { font-size: 0.8rem; margin-top: 1rem; opacity: 0.7; }
 
+    .req-banner {
+      padding: 1.5rem 5%;
+      background: linear-gradient(180deg, #151824 0%, #12141c 100%);
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+      text-align: center;
+    }
+    .req-banner p { max-width: 760px; margin-left: auto; margin-right: auto; line-height: 1.55; }
+    .req-banner a { color: var(--accent-secondary); font-weight: 600; text-decoration: none; }
+    .req-banner a:hover { text-decoration: underline; }
+
+    .pricing-banner {
+      padding: 2.25rem 5%;
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.12) 0%, #151824 50%, #12141c 100%);
+      border-top: 1px solid #333;
+      text-align: center;
+    }
+    .pricing-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    .pricing-detail {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+    .pricing-detail strong { color: var(--accent-secondary); font-size: 1.25rem; }
+
+    .activation-section {
+      padding: 4rem 10%;
+      background: linear-gradient(180deg, #12141c 0%, var(--bg-color) 100%);
+      border-top: 1px solid #333;
+    }
+    .act-intro {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+    }
+    .act-steps {
+      max-width: 640px;
+      margin: 0 auto;
+      list-style: none;
+      counter-reset: act;
+    }
+    .act-steps li {
+      counter-increment: act;
+      position: relative;
+      padding: 0 0 1.35rem 3.25rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+    .act-steps li::before {
+      content: counter(act);
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .act-format {
+      margin: 2rem auto 0;
+      max-width: 640px;
+      padding: 1rem 1.25rem;
+      background: var(--card-bg);
+      border: 1px solid #444;
+      border-radius: 10px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.9rem;
+      color: var(--accent-secondary);
+      text-align: center;
+    }
+    .act-format small {
+      display: block;
+      margin-top: 0.65rem;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.5rem; }
       .hero-showcase { flex-direction: column; align-items: center; margin-bottom: 1.75rem; }
@@ -263,6 +357,9 @@
       <li><a href="#features" data-i18n="nav_features">Features</a></li>
       <li><a href="#languages" data-i18n="nav_languages">Languages</a></li>
       <li><a href="#accessibility" data-i18n="nav_accessibility">Accessibility</a></li>
+      <li><a href="#requirements" data-i18n="nav_requirements">Windows &amp; activation</a></li>
+      <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+      <li><a href="#activation" data-i18n="nav_activation">License activation</a></li>
       <li><a href="#setup" data-i18n="nav_setup">Setup &amp; Licensing</a></li>
       <li><a href="#download" class="btn-download-nav" data-i18n="nav_download">Download</a></li>
     </ul>
@@ -323,6 +420,42 @@
   <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #888;" data-i18n="hero_note">
     *Windows 10/11 + NVIDIA GPU recommended for best performance. Personal vs commercial licensing may apply.
   </p>
+</section>
+
+<section class="req-banner" id="requirements" aria-label="System requirements and activation">
+  <p style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 0.85rem;" data-i18n="req_win">
+    <strong>System:</strong> Evi Portable requires <strong>Microsoft Windows 10 or Windows 11</strong>. Other operating systems are not supported.
+  </p>
+  <p style="color: var(--text-muted); font-size: 0.98rem;" data-i18n="req_activation">
+    <strong>Activation:</strong> When you first start Evi, copy your <strong>Machine ID</strong> from the activation window and e-mail it to <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. You will receive a serial key <strong>tied to that PC</strong>.
+  </p>
+</section>
+
+<section class="pricing-banner" id="pricing" aria-label="Pricing">
+  <h2 class="pricing-title" data-i18n="pricing_title">Pricing</h2>
+  <p class="pricing-detail" data-i18n="pricing_detail">
+    One-time purchase. No subscriptions. Includes 1 year of updates. 3× e-mail support! <strong>€35</strong>
+  </p>
+</section>
+
+<section class="activation-section" id="activation" aria-label="License activation steps">
+  <h2 class="section-title" data-i18n="act_title">How to activate your license</h2>
+  <p class="act-intro" data-i18n="act_intro">
+    Purchased a paid tier? Follow the same flow as our portable activation guide:
+    Machine ID by e-mail, then serial key tied to your PC.
+  </p>
+  <ol class="act-steps">
+    <li data-i18n="act_s1"><strong>Purchase</strong> &mdash; Choose your package and pay via <a href="https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY" target="_blank" rel="noopener noreferrer">PayPal</a>.</li>
+    <li data-i18n="act_s2"><strong>Launch Evi</strong> &mdash; On first start, the license activation window appears.</li>
+    <li data-i18n="act_s3"><strong>Copy Machine ID</strong> &mdash; The app creates a unique ID for this computer. Click <strong>Copy Machine ID</strong>.</li>
+    <li data-i18n="act_s4"><strong>E-mail your ID</strong> &mdash; Send your Machine ID and proof of purchase to <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>.</li>
+    <li data-i18n="act_s5"><strong>Receive serial key</strong> &mdash; You receive your personal key within about 24&ndash;48 hours.</li>
+    <li data-i18n="act_s6"><strong>Activate</strong> &mdash; Paste the serial key into the activation window and click <strong>Activate</strong>. Done!</li>
+  </ol>
+  <div class="act-format" data-i18n="act_format">
+    EVI-XXXXX-XXXXX-XXXXX-XXXXX
+    <small>Serial key format (issued after purchase &mdash; example placeholder)</small>
+  </div>
 </section>
 
 <section id="features" class="features">
@@ -417,6 +550,7 @@
     <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_manual">Manual</a>
     <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_setup">Download &amp; setup</a>
     <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_contact">Contact</a>
+    <a href="https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY" target="_blank" rel="noopener noreferrer" style="color:white;margin:0 10px;" data-i18n="footer_paypal">Pay with PayPal</a>
   </div>
   <p class="disclaimer" data-i18n="footer_disc">
     Replace placeholder links before publishing. Created by Hardy Brielbeck. Third-party components keep their own licenses.
@@ -454,16 +588,19 @@ const LANGS = [
   {code:"VI",name:"Vietnamese",native:"Ti\u1EBFng Vi\u1EC7t",flag:"linear-gradient(135deg,#DA251D 0%,#DA251D 100%)"}
 ];
 
-function pack(navFeatures, navLangs, navAcc, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerDisc) {
+function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navActivation, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerPaypal, footerDisc, reqWin, reqActivation, actTitle, actIntro, actS1, actS2, actS3, actS4, actS5, actS6, actFormat, pricingTitle, pricingDetail) {
   return {
-    nav_features: navFeatures, nav_languages: navLangs, nav_accessibility: navAcc, nav_setup: navSetup, nav_download: navDl,
+    nav_features: navFeatures, nav_languages: navLangs, nav_accessibility: navAcc, nav_requirements: navRequirements, nav_pricing: navPricing, nav_activation: navActivation, nav_setup: navSetup, nav_download: navDl,
     hero_title: heroTitle, hero_sub: heroSub, hero_dl: "\u2B07 " + heroDl, hero_langs: heroLangs, hero_note: heroNote,
     soc_llm: socLlm, soc_voice: socVoice, soc_mem: socMem, soc_tools: socTools, soc_priv: socPriv,
     feat_title: featTitle, f1_h: f1h, f1_p: f1p, f2_h: f2h, f2_p: f2p, f3_h: f3h, f3_p: f3p, f4_h: f4h, f4_p: f4p, f5_h: f5h, f5_p: f5p, f6_h: f6h, f6_p: f6p,
     lang_title: langTitle, lang_sub: langSub, acc_title: accTitle, acc_sub: accSub, ac1_h: ac1h, ac1_p: ac1p, ac2_h: ac2h, ac2_p: ac2p,
     term_block: termBlock, hood_title: hoodTitle, hood1_h: h1h, hood1_p: h1p, hood2_h: h2h, hood2_p: h2p, hood3_h: h3h, hood3_p: h3p, hood4_h: h4h, hood4_p: h4p, hood5_h: h5h, hood5_p: h5p, hood_btn: hoodBtn,
     document_title: docTitle,
-    footer_tag: footerTag, footer_manual: footerManual, footer_setup: footerSetup, footer_contact: footerContact, footer_disc: footerDisc
+    footer_tag: footerTag, footer_manual: footerManual, footer_setup: footerSetup, footer_contact: footerContact, footer_paypal: footerPaypal, footer_disc: footerDisc,
+    req_win: reqWin, req_activation: reqActivation,
+    act_title: actTitle, act_intro: actIntro, act_s1: actS1, act_s2: actS2, act_s3: actS3, act_s4: actS4, act_s5: actS5, act_s6: actS6, act_format: actFormat,
+    pricing_title: pricingTitle, pricing_detail: pricingDetail
   };
 }
 
@@ -471,11 +608,11 @@ const TERM_EN = "[SYSTEM] Initializing...\n[USB]    Mode: Portable\n[GPU]    LLM
 
 const I18N = {
   EN: pack(
-    "Features","Languages","Accessibility","Setup & Licensing","Download",
+    "Features","Languages","Accessibility","Windows & activation","Pricing","License activation","Setup & Licensing","Download",
     "Evi &mdash; your voice-first digital secretary.<br><em>Private, portable, built for sustained use.</em>",
     "Evi behaves like a skilled secretary: it drafts and revises mail, prepares replies in the right tone, helps you insert appointments and blocks into your calendar, and chases reminders so nothing slips. Ask by voice or keyboard &mdash; it answers clearly, reads context and mood, and learns your preferences over time. Long-term memory holds people, projects, and facts so you can recall them later from local storage, not public search. Optional network tools unlock checking inboxes and sending messages; the heavy lifting still runs on your PC inside a portable folder (USB-ready).",
     "Get Evi Portable","See all languages",
-    "*Windows 10/11 + NVIDIA GPU recommended for best performance. Personal vs commercial licensing may apply.",
+    "*Requires Windows 10 or Windows 11. NVIDIA GPU strongly recommended for responsive performance. Personal vs commercial licensing may apply.",
     "Voice &amp;<br>text","Context<br>aware","Long-term<br>memory","Mail &amp;<br>calendar","Local &amp;<br>private",
     "Why Evi Portable?",
     "USB Portable","No system installation required. Deploy to a USB drive or folder, run the launcher. Embedded runtime and relative paths keep data and models together.",
@@ -498,15 +635,28 @@ const I18N = {
     "Read the manual",
     "Evi Portable — Local secretary: mail, calendar, voice assistant",
     "Draft your mail, fill your calendar, and keep your week on track &mdash; a local secretary you can carry on a stick.",
-    "Manual","Download & setup","Contact",
-    "Replace placeholder links before publishing. Created by Hardy Brielbeck. Third-party components keep their own licenses."
+    "Manual","Download & setup","Contact","Pay with PayPal",
+    "Replace placeholder links before publishing. Created by Hardy Brielbeck. Third-party components keep their own licenses.",
+    "<strong>System:</strong> Evi Portable requires <strong>Microsoft Windows 10 or Windows 11</strong>. Other operating systems are not supported.",
+    "<strong>Activation:</strong> When you first start Evi, copy your <strong>Machine ID</strong> from the activation window and e-mail it to <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>. You will receive a serial key <strong>tied to that PC</strong>.",
+    "How to activate your license",
+    "Purchased a Freelancer, Business, or Enterprise license? Here is how to activate it &mdash; same idea as our other portable products (<a href=\"https://toscano8070.github.io/s2s-portable-site/S2S_Portable_Download.html\" target=\"_blank\" rel=\"noopener noreferrer\">S2S Portable guide</a>): Machine ID by e-mail, then a key bound to your hardware.",
+    "<strong>Purchase</strong> &mdash; Choose your package and pay securely via <a href=\"https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY\" target=\"_blank\" rel=\"noopener noreferrer\">PayPal</a>.",
+    "<strong>Launch Evi</strong> &mdash; On first start, the license activation window appears.",
+    "<strong>Copy Machine ID</strong> &mdash; The app generates a unique Machine ID for this computer. Click <strong>Copy Machine ID</strong>.",
+    "<strong>E-mail your ID</strong> &mdash; Send your Machine ID and proof of purchase to <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>.",
+    "<strong>Receive serial key</strong> &mdash; You receive your personalized key within about 24&ndash;48 hours.",
+    "<strong>Activate!</strong> &mdash; Paste the serial key into the activation window and click <strong>Activate</strong>. Done!",
+    "EVI-XXXXX-XXXXX-XXXXX-XXXXX<small>Serial key format (provided after purchase &mdash; example placeholder)</small>",
+    "Pricing",
+    "One-time purchase. No subscriptions. Includes 1 year of updates. 3&times; e-mail support! <strong>&euro;35</strong>"
   ),
   DE: pack(
-    "Funktionen","Sprachen","Barrierefreiheit","Einrichtung & Lizenz","Download",
+    "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Einrichtung &amp; Lizenz","Download",
     "Evi &mdash; digitale Sekret&auml;rin mit Sprachfokus.<br><em>Privat, portabel, f&uuml;r den Dauerbetrieb gedacht.</em>",
     "Evi arbeitet wie eine erfahrene Sekret&auml;rin: Entwurf und &Uuml;berarbeitung von E-Mails, Formulierung von Antworten im passenden Ton, Hilfe beim Eintragen von Terminen und Zeitbl&ouml;cken in den Kalender sowie zuverl&auml;ssige Erinnerungen. Fragen Sie per Sprache oder Tastatur &mdash; Evi antwortet klar, liest Kontext und Stimmung und lernt Ihre Vorlieben mit der Zeit. Das Langzeitged&auml;chtnis h&auml;lt Personen, Projekte und Fakten zum Abruf aus lokalem Speicher, nicht aus &ouml;ffentlicher Suche. Optionale Netzwerkfunktionen erm&ouml;glichen Posteingang und Versand; die Hauptarbeit l&auml;uft weiterhin lokal auf Ihrem PC in einem portablen Ordner (USB-tauglich).",
     "Evi Portable laden","Alle Sprachen",
-    "*Windows 10/11 + NVIDIA-GPU empfohlen. Lizenz je nach Nutzung.",
+    "*Ben&ouml;tigt Windows 10 oder Windows 11. NVIDIA-GPU dringend f&uuml;r fl&uuml;ssige Performance empfohlen. Lizenz je nach Nutzung.",
     "Sprache &amp;<br>Text","Kontext-<br>sensibel","Dauer-<br>ged&auml;chtnis","E-Mail &amp;<br>Kalender","Lokal &amp;<br>privat",
     "Warum Evi Portable?",
     "USB portabel","Keine Systeminstallation n&ouml;tig. Auf USB oder Ordner ausrollen, Starter ausf&uuml;hren. Eingebettete Laufzeit und relative Pfade halten Daten und Modelle zusammen.",
@@ -529,8 +679,21 @@ const I18N = {
     "Handbuch lesen",
     "Evi Portable &mdash; Lokale Sekret&auml;rin: E-Mail, Kalender, Sprachassistent",
     "E-Mails formulieren, Kalender f&uuml;llen und die Woche im Griff &mdash; eine lokale Sekret&auml;rin auf dem Stick.",
-    "Handbuch","Download &amp; Setup","Kontakt",
-    "Platzhalter-Links ersetzen. Hardy Brielbeck. Fremdkomponenten: eigene Lizenzen."
+    "Handbuch","Download &amp; Setup","Kontakt","Mit PayPal bezahlen",
+    "Platzhalter-Links ersetzen. Hardy Brielbeck. Fremdkomponenten: eigene Lizenzen.",
+    "<strong>System:</strong> Evi Portable setzt <strong>Microsoft Windows 10 oder Windows 11</strong> voraus. Andere Betriebssysteme werden nicht unterst&uuml;tzt.",
+    "<strong>Aktivierung:</strong> Beim ersten Start zeigt Evi Ihre <strong>Machine ID</strong> im Aktivierungsfenster. Senden Sie diese ID per E-Mail an <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>. Sie erhalten einen Serienschl&uuml;ssel, der <strong>an diesen PC gebunden</strong> ist.",
+    "So aktivieren Sie Ihre Lizenz",
+    "Sie haben eine Freelancer-, Business- oder Enterprise-Lizenz erworben? So aktivieren Sie diese:",
+    "<strong>Kaufen</strong> &mdash; W&auml;hlen Sie oben Ihr Paket und schlie&szlig;en Sie die Zahlung &uuml;ber <a href=\"https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY\" target=\"_blank\" rel=\"noopener noreferrer\">PayPal</a> ab.",
+    "<strong>Evi starten</strong> &mdash; Beim ersten Start erscheint ein Lizenzaktivierungsfenster.",
+    "<strong>Maschinen-ID kopieren</strong> &mdash; Die App erzeugt eine eindeutige Maschinen-ID f&uuml;r Ihren Computer. Klicken Sie auf <strong>Copy Machine ID</strong> (Maschinen-ID kopieren).",
+    "<strong>ID per E-Mail senden</strong> &mdash; Senden Sie Ihre Maschinen-ID und den Kaufbeleg an: <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>",
+    "<strong>Serienschl&uuml;ssel erhalten</strong> &mdash; Sie erhalten Ihren personalisierten Schl&uuml;ssel innerhalb von ca. 24&ndash;48 Stunden.",
+    "<strong>Aktivieren!</strong> &mdash; F&uuml;gen Sie den Serienschl&uuml;ssel in das Aktivierungsfenster ein und klicken Sie auf <strong>Aktivieren</strong>. Fertig!",
+    "EVI-XXXXX-XXXXX-XXXXX-XXXXX<small>Format des Serienschl&uuml;ssels (wird nach dem Kauf bereitgestellt &mdash; Beispielplatzhalter)</small>",
+    "Preise",
+    "Einmaliger Kauf. Keine Abonnements. Inklusive 1 Jahr Updates. 3&times; E-Mail-Support! <strong>35 Euro</strong>"
   )
 };
 
