@@ -219,6 +219,7 @@
     .spotlight {
       background: #151824; padding: 5rem 10%;
       display: flex; flex-wrap: wrap; align-items: center; gap: 4rem;
+      scroll-margin-top: 5.5rem;
     }
     .spotlight-text { flex: 1; min-width: 300px; }
     .spotlight-visual {
@@ -444,6 +445,114 @@
       pointer-events: none;
     }
 
+    .dl-pack-section {
+      padding: 2.5rem 8% 3.5rem;
+      background: linear-gradient(180deg, #141a24 0%, var(--bg-color) 100%);
+      border-top: 1px solid #2a3040;
+      scroll-margin-top: 5.5rem;
+    }
+    .dl-pack-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid #3d4456;
+      border-radius: 16px;
+      padding: 2.25rem 2rem 2rem;
+      box-shadow:
+        0 24px 48px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    }
+    .dl-pack-title {
+      font-size: clamp(1.35rem, 4vw, 1.85rem);
+      text-align: center;
+      margin: 0 0 1.5rem;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .dl-pack-sub {
+      font-size: 1.08rem;
+      color: #e8eaef;
+      margin: 0 0 0.85rem;
+      font-weight: 700;
+    }
+    .dl-checklist {
+      list-style: none;
+      margin: 0 0 1.75rem;
+      padding: 0;
+      border: 1px solid #3a4152;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .dl-checklist li {
+      padding: 0.65rem 1rem 0.65rem 2.35rem;
+      position: relative;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.45;
+      border-bottom: 1px solid #2f3545;
+    }
+    .dl-checklist li:last-child { border-bottom: none; }
+    .dl-checklist li::before {
+      content: "\2713";
+      position: absolute;
+      left: 0.9rem;
+      top: 0.65rem;
+      color: #34d399;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+    .dl-pack-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.5rem;
+    }
+    .dl-pack-actions .btn { justify-content: center; width: 100%; box-sizing: border-box; }
+    .dl-pack-table-wrap {
+      overflow-x: auto;
+      margin: 0 0 1.1rem;
+      border-radius: 10px;
+      border: 1px solid #3a4152;
+    }
+    .dl-pack-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+    .dl-pack-table th,
+    .dl-pack-table td {
+      padding: 0.7rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #2f3545;
+    }
+    .dl-pack-table th {
+      background: linear-gradient(180deg, rgba(138, 43, 226, 0.22) 0%, rgba(30, 32, 44, 0.95) 100%);
+      color: var(--text-main);
+      font-weight: 700;
+    }
+    .dl-pack-table tbody tr:last-child td { border-bottom: none; }
+    .dl-pack-table tfoot td {
+      background: rgba(0, 212, 255, 0.08);
+      font-weight: 700;
+      color: var(--accent-secondary);
+      border-bottom: none;
+    }
+    .dl-pack-footnote {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .dl-pack-footnote code {
+      font-size: 0.88em;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0.12rem 0.4rem;
+      border-radius: 4px;
+      color: var(--text-main);
+      word-break: break-all;
+    }
+
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.5rem; }
       .hero-showcase { flex-direction: column; align-items: center; margin-bottom: 1.75rem; }
@@ -454,6 +563,7 @@
       .lang-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
       nav ul { display: none; }
       .lang-switcher { margin-left: auto; }
+      .dl-pack-inner { padding: 1.5rem 1.15rem; }
     }
   </style>
 </head>
@@ -470,8 +580,8 @@
       <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
       <li><a href="#activation" data-i18n="nav_activation">License activation</a></li>
       <li><a href="#manual" data-i18n="nav_manual">Manual</a></li>
-      <li><a href="#setup" data-i18n="nav_setup">Setup &amp; Licensing</a></li>
-      <li><a href="#download" class="btn-download-nav" data-i18n="nav_download">Download</a></li>
+      <li><a href="#under-the-hood" data-i18n="nav_setup">Under the Hood</a></li>
+      <li><a href="#download-pack" class="btn-download-nav" data-i18n="nav_download">Download</a></li>
     </ul>
   </nav>
   <div class="lang-switcher">
@@ -517,7 +627,7 @@
     </figure>
   </div>
   <div class="hero-btns hero-dl-row">
-    <a href="https://www.transferxl.com/download/08vC40LrcLpRqy" class="btn btn-primary" id="evi-program-download" target="_blank" rel="noopener noreferrer" data-i18n="hero_dl">&#x2B07; Get Evi Portable</a>
+    <a href="#download-pack" class="btn btn-primary evi-dl-program" id="evi-program-download" data-i18n="hero_dl">&#x2B07; Get Evi Portable</a>
     <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" id="evi-llm-download" data-i18n="hero_llm_dl">Download AI model (GGUF)</a>
     <a href="#languages" class="btn btn-outline" data-i18n="hero_langs">See all languages</a>
   </div>
@@ -534,6 +644,51 @@
   <p style="margin-top: 1.5rem; font-size: 0.85rem; color: #888;" data-i18n="hero_note">
     *Windows 10/11 + NVIDIA GPU recommended for best performance. Personal vs commercial licensing may apply.
   </p>
+</section>
+
+<section class="dl-pack-section" id="download-pack" aria-label="Download packages">
+  <div class="dl-pack-inner">
+    <h2 class="dl-pack-title" data-i18n="dl_pack_title">Download Evi Portable</h2>
+    <h3 class="dl-pack-sub" data-i18n="dl_pack_before_title">Before you download</h3>
+    <ul class="dl-checklist">
+      <li data-i18n="dl_chk_1">I have an NVIDIA GPU (RTX 3060 or better)</li>
+      <li data-i18n="dl_chk_2">I have ~50 GB of free disk space</li>
+      <li data-i18n="dl_chk_3">I will download the LLM model separately (instructions above &amp; in the manual)</li>
+    </ul>
+    <div class="dl-pack-actions">
+      <a href="#download-pack" class="btn btn-primary evi-dl-program" data-i18n="dl_btn_program">&#x2B07; Download Evi Portable (~37 GB)</a>
+      <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="dl_btn_llm">&#x2B07; Download LLM model (~9.1 GB)</a>
+    </div>
+    <div class="dl-pack-table-wrap">
+      <table class="dl-pack-table">
+        <thead>
+          <tr>
+            <th data-i18n="dl_tbl_file">File</th>
+            <th data-i18n="dl_tbl_size">Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="dl_tbl_r1f">Evi Portable</td>
+            <td data-i18n="dl_tbl_r1s">~37 GB</td>
+          </tr>
+          <tr>
+            <td data-i18n="dl_tbl_r2f">LLM model</td>
+            <td data-i18n="dl_tbl_r2s">~9.1 GB</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td data-i18n="dl_tbl_total">Total</td>
+            <td data-i18n="dl_tbl_totals">~46 GB</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <p class="dl-pack-footnote" data-i18n="dl_txl_note">
+      Your browser may save each download under an auto-generated name (often a <code>.zip</code>). Extract the archives first, then place the main app folder where you want it and move the <code>.gguf</code> into <code>models\llm\</code> as described in the manual.
+    </p>
+  </div>
 </section>
 
 <section class="req-banner" id="requirements" aria-label="System requirements and activation">
@@ -586,7 +741,7 @@
       <h3>First start &mdash; from download to running Evi</h3>
       <ol>
         <li><strong>Install location.</strong> Copy or extract the whole Evi folder somewhere you control &mdash; Desktop, Documents, or a USB stick. Keep the folder structure as delivered (do not delete subfolders you did not create yourself).</li>
-        <li><strong>Download the program.</strong> Use <strong>Get Evi Portable</strong> at the top of <a href="https://toscano8070.github.io/Evi-Portable/#download">this page</a> (hosted file transfer). That archive is the application; it does not include the main LLM file.</li>
+        <li><strong>Download the program.</strong> Use <strong>Get Evi Portable</strong> or the download card on <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">this page</a>. That archive is the application; it does not include the main LLM file.</li>
         <li><strong>Language model (required).</strong> Evi needs <strong>one</strong> main AI model file (<code>.gguf</code>) in <code>models\llm\</code>. On this site, click <strong>Download AI model (GGUF)</strong> in the hero section when the publisher has attached the link &mdash; that is the recommended package for this build. Until then, the button jumps here; you may use any compatible <code>.gguf</code> from another source. See <code>models\llm\README.txt</code> in your folder for size and preset hints.</li>
       </ol>
       <p class="manual-callout"><strong>Right model, right place:</strong> After you click <strong>Download AI model (GGUF)</strong> and obtain the file, place <strong>exactly one</strong> suitable <code>.gguf</code> in <code>models\llm\</code>, then start Evi; it detects the model when possible.</p>
@@ -639,7 +794,7 @@
       <h3>Erster Start &mdash; vom Download bis Evi l&auml;uft</h3>
       <ol>
         <li><strong>Installationsort.</strong> Kopieren Sie den gesamten Evi-Ordner an einen Ort Ihrer Wahl (Desktop, Dokumente, USB). Ordnerstruktur beibehalten.</li>
-        <li><strong>Programm laden.</strong> Nutzen Sie oben <strong>Evi Portable laden</strong> auf <a href="https://toscano8070.github.io/Evi-Portable/#download">dieser Seite</a>. Das Archiv ist die Anwendung ohne das Haupt-LLM.</li>
+        <li><strong>Programm laden.</strong> Nutzen Sie <strong>Evi Portable laden</strong> oder die Download-Karte auf <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">dieser Seite</a>. Das Archiv ist die Anwendung ohne das Haupt-LLM.</li>
         <li><strong>Sprachmodell (Pflicht).</strong> Evi braucht <strong>eine</strong> Haupt-KI-Datei (<code>.gguf</code>) in <code>models\llm\</code>. Klicken Sie auf dieser Seite auf <strong>KI-Modell herunterladen (GGUF)</strong>, sobald der Herausgeber den Link gesetzt hat &mdash; das empfohlene Paket f&uuml;r diesen Build. Bis dahin springt die Schaltfl&auml;che hierher; ein anderes kompatibles <code>.gguf</code> ist m&ouml;glich. Hinweise: <code>models\llm\README.txt</code>.</li>
       </ol>
       <p class="manual-callout"><strong>Richtiges Modell, richtiger Ordner:</strong> Nach dem Download die Datei ablegen: <strong>genau eine</strong> passende <code>.gguf</code> in <code>models\llm\</code>, dann Evi starten.</p>
@@ -746,7 +901,7 @@
   </div>
 </section>
 
-<section class="spotlight" id="setup">
+<section class="spotlight" id="under-the-hood">
   <div class="spotlight-visual">
     <pre data-i18n="term_block">[SYSTEM] Initializing...
 [USB]    Mode: Portable
@@ -773,7 +928,7 @@
   <p data-i18n="footer_tag">Draft your mail, fill your calendar, and keep your week on track &mdash; a local secretary you can carry on a stick.</p>
   <div style="margin:2rem 0;">
     <a href="#manual" style="color:white;margin:0 10px;" data-i18n="footer_manual">Manual</a>
-    <a href="#download" style="color:white;margin:0 10px;" data-i18n="footer_setup">Download &amp; setup</a>
+    <a href="#download-pack" style="color:white;margin:0 10px;" data-i18n="footer_setup">Download &amp; setup</a>
     <a href="#" style="color:white;margin:0 10px;" data-i18n="footer_contact">Contact</a>
     <a href="https://www.paypal.com/donate/?hosted_button_id=CYAHBMQ6VKGEY" target="_blank" rel="noopener noreferrer" style="color:white;margin:0 10px;" data-i18n="footer_paypal">Pay with PayPal</a>
   </div>
@@ -833,7 +988,7 @@ const TERM_EN = "[SYSTEM] Initializing...\n[USB]    Mode: Portable\n[GPU]    LLM
 
 const I18N = {
   EN: pack(
-    "Features","Languages","Accessibility","Windows & activation","Pricing","License activation","Manual","Setup & Licensing","Download",
+    "Features","Languages","Accessibility","Windows & activation","Pricing","License activation","Manual","Under the Hood","Download",
     "Evi &mdash; your voice-first digital secretary.<br><em>Private, portable, built for sustained use.</em>",
     "Evi behaves like a skilled secretary: it drafts and revises mail, prepares replies in the right tone, helps you insert appointments and blocks into your calendar, and chases reminders so nothing slips. Ask by voice or keyboard &mdash; it answers clearly, reads context and mood, and learns your preferences over time. Long-term memory holds people, projects, and facts so you can recall them later from local storage, not public search. Optional network tools unlock checking inboxes and sending messages; the heavy lifting still runs on your PC inside a portable folder (USB-ready).",
     "Get Evi Portable","See all languages",
@@ -878,7 +1033,7 @@ const I18N = {
     "<span class=\"pricing-price\">35 Euro</span> For a limited time, lock in this launch price: pay once&mdash;no subscriptions, no hidden fees. Includes <strong>1 year of updates</strong> and <strong>3&times; e-mail support</strong>. Windows&nbsp;10/11 only. Pay with PayPal, then activate with your Machine ID below."
   ),
   DE: pack(
-    "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Handbuch","Einrichtung &amp; Lizenz","Download",
+    "Funktionen","Sprachen","Barrierefreiheit","Windows &amp; Aktivierung","Preise","Lizenzaktivierung","Handbuch","Technik","Download",
     "Evi &mdash; digitale Sekret&auml;rin mit Sprachfokus.<br><em>Privat, portabel, f&uuml;r den Dauerbetrieb gedacht.</em>",
     "Evi arbeitet wie eine erfahrene Sekret&auml;rin: Entwurf und &Uuml;berarbeitung von E-Mails, Formulierung von Antworten im passenden Ton, Hilfe beim Eintragen von Terminen und Zeitbl&ouml;cken in den Kalender sowie zuverl&auml;ssige Erinnerungen. Fragen Sie per Sprache oder Tastatur &mdash; Evi antwortet klar, liest Kontext und Stimmung und lernt Ihre Vorlieben mit der Zeit. Das Langzeitged&auml;chtnis h&auml;lt Personen, Projekte und Fakten zum Abruf aus lokalem Speicher, nicht aus &ouml;ffentlicher Suche. Optionale Netzwerkfunktionen erm&ouml;glichen Posteingang und Versand; die Hauptarbeit l&auml;uft weiterhin lokal auf Ihrem PC in einem portablen Ordner (USB-tauglich).",
     "Evi Portable laden","Alle Sprachen",
@@ -932,16 +1087,63 @@ I18N.DE.hero_llm_dl = "KI-Modell herunterladen (GGUF)";
 I18N.EN.hero_dl_hint = "Download the <strong>program archive</strong> first. Then click <strong>Download AI model (GGUF)</strong> &mdash; the official package link will appear on this button when published. Until then it scrolls to the manual below. Put exactly one suitable <code>.gguf</code> in <code>models\\llm\\</code> before chatting; see <code>models\\llm\\README.txt</code> in the folder.";
 I18N.DE.hero_dl_hint = "Laden Sie zuerst das <strong>Programmarchiv</strong>. Klicken Sie dann auf <strong>KI-Modell (GGUF)</strong> &mdash; der offizielle Paket-Link erscheint hier, sobald er ver&ouml;ffentlicht ist. Bis dahin springt die Schaltfl&auml;che zum Handbuch. Legen Sie genau eine passende <code>.gguf</code> nach <code>models\\llm\\</code>; siehe <code>models\\llm\\README.txt</code>.";
 
-/** Paste your LLM file share URL here (e.g. TransferXL); leave empty until the package is ready. */
-var EVI_DOWNLOAD = {
-  program: "https://www.transferxl.com/download/08vC40LrcLpRqy",
-  llm: ""
-};
+I18N.EN.dl_pack_title = "Download Evi Portable";
+I18N.EN.dl_pack_before_title = "Before you download";
+I18N.EN.dl_chk_1 = "I have an NVIDIA GPU (RTX 3060 or better)";
+I18N.EN.dl_chk_2 = "I have ~50 GB of free disk space";
+I18N.EN.dl_chk_3 = "I will download the LLM model separately (instructions above &amp; in the manual)";
+I18N.EN.dl_btn_program = "&#x2B07; Download Evi Portable (~37 GB)";
+I18N.EN.dl_btn_llm = "&#x2B07; Download LLM model (~9.1 GB)";
+I18N.EN.dl_tbl_file = "File";
+I18N.EN.dl_tbl_size = "Size";
+I18N.EN.dl_tbl_r1f = "Evi Portable";
+I18N.EN.dl_tbl_r1s = "~37 GB";
+I18N.EN.dl_tbl_r2f = "LLM model";
+I18N.EN.dl_tbl_r2s = "~9.1 GB";
+I18N.EN.dl_tbl_total = "Total";
+I18N.EN.dl_tbl_totals = "~46 GB";
+I18N.EN.dl_txl_note = "Your browser may save each download under an auto-generated name (often a <code>.zip</code>). Extract the archives first, then place the main app folder where you want it and move the <code>.gguf</code> into <code>models\\llm\\</code> as described in the manual.";
+
+I18N.DE.dl_pack_title = "Evi Portable herunterladen";
+I18N.DE.dl_pack_before_title = "Vor dem Download";
+I18N.DE.dl_chk_1 = "Ich habe eine NVIDIA-GPU (RTX 3060 oder besser)";
+I18N.DE.dl_chk_2 = "Ich habe ~50 GB freien Speicherplatz";
+I18N.DE.dl_chk_3 = "Ich lade das LLM-Modell separat herunter (Anleitung oben &amp; im Handbuch)";
+I18N.DE.dl_btn_program = "&#x2B07; Evi Portable herunterladen (~37 GB)";
+I18N.DE.dl_btn_llm = "&#x2B07; LLM-Modell herunterladen (~9,1 GB)";
+I18N.DE.dl_tbl_file = "Datei";
+I18N.DE.dl_tbl_size = "Gr&ouml;&szlig;e";
+I18N.DE.dl_tbl_r1f = "Evi Portable";
+I18N.DE.dl_tbl_r1s = "~37 GB";
+I18N.DE.dl_tbl_r2f = "LLM-Modell";
+I18N.DE.dl_tbl_r2s = "~9,1 GB";
+I18N.DE.dl_tbl_total = "Gesamt";
+I18N.DE.dl_tbl_totals = "~46 GB";
+I18N.DE.dl_txl_note = "Der Browser kann Downloads unter automatischen Dateinamen speichern (oft <code>.zip</code>). Zuerst entpacken, den App-Ordner an den gew&uuml;nschten Ort legen und die <code>.gguf</code> nach <code>models\\llm\\</code> verschieben wie im Handbuch beschrieben.";
+
+/** Real download targets (not shown in raw HTML). Replace base64 if you change hosts or paths. */
+function eviDecodedDownload(which) {
+  var b64 = {
+    program: "aHR0cHM6Ly93d3cudHJhbnNmZXJ4bC5jb20vZG93bmxvYWQvMDh2QzQwTHJjTHBScXk=",
+    llm: "aHR0cHM6Ly93d3cudHJhbnNmZXJ4bC5jb20vZG93bmxvYWQvMDh2Y2hidEdER1d4MmY="
+  };
+  try {
+    return b64[which] ? atob(b64[which]) : "";
+  } catch (e) {
+    return "";
+  }
+}
 
 function applyEviDownloadUrls() {
-  var prog = document.getElementById("evi-program-download");
-  if (prog && EVI_DOWNLOAD.program) prog.href = EVI_DOWNLOAD.program;
-  var llmUrl = (EVI_DOWNLOAD.llm || "").replace(/^\s+|\s+$/g, "");
+  var progUrl = eviDecodedDownload("program");
+  var llmUrl = eviDecodedDownload("llm");
+  document.querySelectorAll(".evi-dl-program").forEach(function (a) {
+    if (progUrl) {
+      a.href = progUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    }
+  });
   var fallback = "#manual-llm";
   document.querySelectorAll(".evi-llm-download").forEach(function (a) {
     if (llmUrl) {
