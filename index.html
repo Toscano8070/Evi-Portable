@@ -189,9 +189,41 @@
     .languages {
       padding: 5rem 10%;
       background: linear-gradient(180deg, var(--bg-color) 0%, #151824 100%);
-      text-align: center;
+      text-align: left;
     }
-    .lang-subtitle { color: var(--text-muted); max-width: 700px; margin: 0 auto; font-size: 1.05rem; }
+    .languages-layout {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2.5rem 3rem;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .languages-intro {
+      flex: 1 1 260px;
+      max-width: 480px;
+    }
+    .languages-intro .section-title {
+      text-align: left;
+      margin-bottom: 1.25rem;
+    }
+    .lang-subtitle {
+      color: var(--text-muted);
+      max-width: none;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+    .languages-aside {
+      flex: 1 1 340px;
+      min-width: min(100%, 300px);
+      max-width: 560px;
+      margin-left: auto;
+    }
+    .languages-aside .lang-grid {
+      margin-top: 0;
+    }
     .lang-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
       gap: 0.8rem; margin-top: 2.5rem;
@@ -587,6 +619,27 @@
     }
     .dl-llm-heavy__body strong { color: #fff; }
     .dl-llm-heavy--manual { margin-top: 1.15rem; }
+    .dl-14b-block {
+      margin-bottom: 1.35rem;
+    }
+    .dl-14b-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-secondary);
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .dl-pack-hostnote {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 1.15rem;
+      padding: 0.75rem 1rem;
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 8px;
+      border: 1px solid #3a4152;
+    }
+    .dl-pack-hostnote strong { color: var(--text-main); }
     a.dl-llm-heavy__dl {
       color: #fde047;
       text-decoration: underline;
@@ -608,6 +661,11 @@
       .spotlight { flex-direction: column; }
       .access-grid { grid-template-columns: 1fr; }
       .lang-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .languages-layout { flex-direction: column; }
+      .languages-aside { margin-left: 0; max-width: none; width: 100%; }
+      .languages-intro .section-title { text-align: center; }
+      .languages-intro { max-width: none; text-align: center; }
+      .lang-subtitle { margin-left: auto; margin-right: auto; max-width: 36rem; }
       nav ul { display: none; }
       .lang-switcher { margin-left: auto; }
       .dl-pack-inner { padding: 1.5rem 1.15rem; }
@@ -674,8 +732,8 @@
     </figure>
   </div>
   <div class="hero-btns hero-dl-row">
-    <a href="#download-pack" class="btn btn-primary evi-dl-program" id="evi-program-download" data-i18n="hero_dl">&#x2B07; Get Evi Portable</a>
-    <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" id="evi-llm-download" data-i18n="hero_llm_dl">Download AI model (GGUF)</a>
+    <a href="#download-pack" class="btn btn-primary evi-dl-program" id="evi-program-download" data-evi-url="program" data-i18n="hero_dl">&#x2B07; Get Evi Portable</a>
+    <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" id="evi-llm-download" data-evi-url="llm" data-i18n="hero_llm_dl">Download AI model (GGUF)</a>
     <a href="#languages" class="btn btn-outline" data-i18n="hero_langs">See all languages</a>
   </div>
   <p class="hero-dl-hint" data-i18n="hero_dl_hint">
@@ -703,8 +761,20 @@
       <li data-i18n="dl_chk_3">I will download the LLM model separately (instructions above &amp; in the manual)</li>
     </ul>
     <div class="dl-pack-actions">
-      <a href="#download-pack" class="btn btn-primary evi-dl-program" data-i18n="dl_btn_program">&#x2B07; Download Evi Portable (~37 GB)</a>
-      <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="dl_btn_llm">&#x2B07; Download LLM model (~9.1 GB)</a>
+      <a href="#download-pack" class="btn btn-primary evi-dl-program" data-evi-url="program" data-i18n="dl_btn_program">&#x2B07; Download Evi Portable (~37 GB)</a>
+      <a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-evi-url="llm" data-i18n="dl_btn_llm">&#x2B07; Download LLM model (~9.1 GB)</a>
+    </div>
+    <p class="dl-pack-hostnote" data-i18n="dl_hostnote">
+      Download buttons send you straight to our file host in <strong>this tab</strong>. On the next screen, confirm the download &mdash; browsers cannot skip that step from this site alone.
+    </p>
+    <div class="dl-14b-block">
+      <p class="dl-14b-heading" data-i18n="dl_14b_heading">14B GGUF (same LLM download) &mdash; <code>qwen2.5-14b-instruct-q4_k_m.gguf</code> &mdash; RTX 5090 class only (read warning)</p>
+      <div class="dl-llm-heavy" role="alert" data-i18n="dl_llm_heavy">
+        <p class="dl-llm-heavy__title">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p>
+        <p class="dl-llm-heavy__body">
+          The <strong>14B instruct GGUF</strong> is <a class="dl-llm-heavy__dl evi-llm-download" data-evi-url="llm" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive is the one that contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not attempt to use this checkpoint on anything less</strong> &mdash; you risk out-of-memory errors, unusable speed, or crashes. If your GPU is below that class, use the <strong>standard LLM download</strong> above and a smaller model per <code>models\llm\README.txt</code>, not this 14B file.
+        </p>
+      </div>
     </div>
     <div class="dl-pack-table-wrap">
       <table class="dl-pack-table">
@@ -731,12 +801,6 @@
           </tr>
         </tfoot>
       </table>
-    </div>
-    <div class="dl-llm-heavy" role="alert" data-i18n="dl_llm_heavy">
-      <p class="dl-llm-heavy__title">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p>
-      <p class="dl-llm-heavy__body">
-        The <strong>14B instruct GGUF</strong> is <a class="dl-llm-heavy__dl evi-llm-download" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive is the one that contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not attempt to use this checkpoint on anything less</strong> &mdash; you risk out-of-memory errors, unusable speed, or crashes. If your GPU is below that class, use the <strong>standard LLM download</strong> above and a smaller model per <code>models\llm\README.txt</code>, not this 14B file.
-      </p>
     </div>
     <p class="dl-pack-footnote" data-i18n="dl_txl_note">
       Your browser may save each download under an auto-generated name (often a <code>.zip</code>). Extract the archives first, then place the main app folder where you want it and move the <code>.gguf</code> into <code>models\llm\</code> as described in the manual.
@@ -783,7 +847,7 @@
 
 <section class="manual-section" id="manual" aria-label="User manual">
   <div id="manual-llm" class="manual-jump-target" aria-hidden="true"></div>
-  <div class="manual-lang" data-manual-lang="en">
+  <div id="manualBody" class="manual-body" data-i18n="manual_html">
     <h2 class="section-title">Evi Portable &mdash; User manual (overview)</h2>
     <p class="manual-lead">This overview matches <strong>Manual\README.txt</strong> in your build. It is optional for Evi to run; read or print it for setup and troubleshooting.</p>
     <div class="manual-block">
@@ -798,11 +862,11 @@
         <li><strong>Language model (required).</strong> Evi needs <strong>one</strong> main AI model file (<code>.gguf</code>) in <code>models\llm\</code>. On this site, click <strong>Download AI model (GGUF)</strong> in the hero section when the publisher has attached the link &mdash; that is the recommended package for this build. Until then, the button jumps here; you may use any compatible <code>.gguf</code> from another source. See <code>models\llm\README.txt</code> in your folder for size and preset hints.</li>
       </ol>
       <p class="manual-callout"><strong>Right model, right place:</strong> After you click <strong>Download AI model (GGUF)</strong> and obtain the file, place <strong>exactly one</strong> suitable <code>.gguf</code> in <code>models\llm\</code>, then start Evi; it detects the model when possible.</p>
-      <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="hero_llm_dl">Download AI model (GGUF)</a></p>
-      <div class="dl-llm-heavy dl-llm-heavy--manual" role="alert" data-i18n="man_llm_heavy">
+      <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-evi-url="llm">Download AI model (GGUF)</a></p>
+      <div class="dl-llm-heavy dl-llm-heavy--manual" role="alert">
         <p class="dl-llm-heavy__title">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p>
         <p class="dl-llm-heavy__body">
-          The <strong>14B instruct GGUF</strong> is <a class="dl-llm-heavy__dl evi-llm-download" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not attempt to use this checkpoint on anything less</strong> &mdash; you risk out-of-memory errors, unusable speed, or crashes. If your GPU is below that, use the <strong>standard LLM download</strong> on <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">the Download section</a> and a smaller model per <code>models\llm\README.txt</code>, not this 14B file.
+          The <strong>14B instruct GGUF</strong> is <a class="dl-llm-heavy__dl evi-llm-download" data-evi-url="llm" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not attempt to use this checkpoint on anything less</strong> &mdash; you risk out-of-memory errors, unusable speed, or crashes. If your GPU is below that, use the <strong>standard LLM download</strong> on <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">the Download section</a> and a smaller model per <code>models\llm\README.txt</code>, not this 14B file.
         </p>
       </div>
       <ol start="4">
@@ -840,65 +904,6 @@
     <div class="manual-block">
       <h3>Support &mdash; serial keys and Machine ID</h3>
       <p>E-mail: <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. Always include your <strong>Machine ID</strong> from the activation screen when requesting a serial key or a replacement after hardware changes.</p>
-    </div>
-  </div>
-  <div class="manual-lang" data-manual-lang="de" hidden>
-    <h2 class="section-title">Evi Portable &mdash; Benutzerhandbuch (&Uuml;berblick)</h2>
-    <p class="manual-lead">Dieser &Uuml;berblick entspricht <strong>Manual\README.txt</strong> in Ihrem Build. Er ist zum Lesen oder Ausdrucken; Evi l&auml;uft auch ohne ihn.</p>
-    <div class="manual-block">
-      <h3>Betriebssystem</h3>
-      <p>Evi Portable ist nur f&uuml;r <strong>Microsoft Windows 10 und Windows 11</strong>. Windows 7/8, macOS, Linux und Mobilger&auml;te werden nicht unterst&uuml;tzt.</p>
-    </div>
-    <div class="manual-block">
-      <h3>Erster Start &mdash; vom Download bis Evi l&auml;uft</h3>
-      <ol>
-        <li><strong>Installationsort.</strong> Kopieren Sie den gesamten Evi-Ordner an einen Ort Ihrer Wahl (Desktop, Dokumente, USB). Ordnerstruktur beibehalten.</li>
-        <li><strong>Programm laden.</strong> Nutzen Sie <strong>Evi Portable laden</strong> oder die Download-Karte auf <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">dieser Seite</a>. Das Archiv ist die Anwendung ohne das Haupt-LLM.</li>
-        <li><strong>Sprachmodell (Pflicht).</strong> Evi braucht <strong>eine</strong> Haupt-KI-Datei (<code>.gguf</code>) in <code>models\llm\</code>. Klicken Sie auf dieser Seite auf <strong>KI-Modell herunterladen (GGUF)</strong>, sobald der Herausgeber den Link gesetzt hat &mdash; das empfohlene Paket f&uuml;r diesen Build. Bis dahin springt die Schaltfl&auml;che hierher; ein anderes kompatibles <code>.gguf</code> ist m&ouml;glich. Hinweise: <code>models\llm\README.txt</code>.</li>
-      </ol>
-      <p class="manual-callout"><strong>Richtiges Modell, richtiger Ordner:</strong> Nach dem Download die Datei ablegen: <strong>genau eine</strong> passende <code>.gguf</code> in <code>models\llm\</code>, dann Evi starten.</p>
-      <p style="margin-top:1rem"><a href="#manual-llm" class="btn btn-outline btn-muted evi-llm-download" data-i18n="hero_llm_dl">KI-Modell herunterladen (GGUF)</a></p>
-      <div class="dl-llm-heavy dl-llm-heavy--manual" role="alert" data-i18n="man_llm_heavy">
-        <p class="dl-llm-heavy__title">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p>
-        <p class="dl-llm-heavy__body">
-          Die <strong>14B-Instruct-GGUF</strong> lautet <a class="dl-llm-heavy__dl evi-llm-download" href="#manual-llm"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick auf den Dateinamen startet den <strong>LLM-Modell-Download</strong> (dieses Archiv enth&auml;lt die Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong> und vergleichbar). <strong>Nicht auf schw&auml;cherer Hardware verwenden</strong> &mdash; Speicherfehler, extreme Langsamkeit oder Abst&uuml;rze sind m&ouml;glich. Sonst normalen LLM-Download im <a href="https://toscano8070.github.io/Evi-Portable/#download-pack">Download-Bereich</a> und ein kleineres Modell laut <code>models\llm\README.txt</code> nutzen, nicht diese 14B-Datei.
-        </p>
-      </div>
-      <ol start="4">
-        <li><strong>Erster Start &mdash; Aktivierung.</strong> Aktivierungsfenster mit <strong>Machine ID</strong>. <strong>Copy Machine ID</strong>, E-Mail an <a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a>. Serienschl&uuml;ssel nur f&uuml;r diesen PC. Bei Hardwarewechsel gleiche Adresse.</li>
-        <li><strong>Nach Aktivierung.</strong> Hauptsprache, Mikrofon, Stimme links w&auml;hlen. &bdquo;open the cheat sheet&ldquo; f&uuml;r Befehlsbeispiele (<code>cheatsheets\</code>).</li>
-        <li><strong>Handbuch lokal:</strong> <code>Manual\README.txt</code> im Explorer &ouml;ffnen.</li>
-      </ol>
-    </div>
-    <div class="manual-block">
-      <h3>Oberfl&auml;chensprache (GUI)</h3>
-      <p>Sprache oben in der linken Leiste unter <strong>Language</strong>. Men&uuml;s und Beschriftungen wechseln, wo &Uuml;bersetzungen vorliegen. Cheat-Sheets pro Sprachcode; dieses Handbuch ist der ausf&uuml;hrlichere &Uuml;berblick.</p>
-    </div>
-    <div class="manual-block">
-      <h3>Grafikkarte (GPU)</h3>
-      <p>Mittlere Premium-Wahl: z.&nbsp;B. <strong>NVIDIA GeForce RTX 4070 Ti</strong> mit 12 GB VRAM. RTX-3060-Bereich bis RTX-5090 je nach RAM und Modell m&ouml;glich. GPU-Preset in der Seitenleiste w&auml;hlen. <strong>Nur CPU</strong> als Notl&ouml;sung deutlich langsamer.</p>
-    </div>
-    <div class="manual-block">
-      <h3>Portabel &amp; Internet</h3>
-      <p>Gesamten Ordner kopieren und neu starten. Daten und Aktivierung bleiben im Ordner; die Lizenz h&auml;ngt am <strong>PC</strong>. Internet vor allem f&uuml;r Downloads und von Ihnen freigegebene Online-Funktionen.</p>
-    </div>
-    <div class="manual-block">
-      <h3>Sicherheit: PIN &amp; Sprach-Unlock</h3>
-      <p>PIN und optionale Sprachfreunde; bei Sprach-Unlock wechselnde <strong>Zufallsw&ouml;rter</strong> pro Versuch gegen einfache Aufnahmen-Wiedergabe. Kein Konsumentenprodukt ist gegen jeden Angriff immun &mdash; PIN geheim halten.</p>
-    </div>
-    <div class="manual-block">
-      <h3>Kurz-Fehlersuche</h3>
-      <ul>
-        <li><strong>Keine KI</strong> &mdash; Eine passende <code>.gguf</code> in <code>models\llm\</code>? Kleineres Modell oder CPU-Preset testen.</li>
-        <li><strong>Kein Mikrofon</strong> &mdash; Windows testen, in Evi Ger&auml;t w&auml;hlen und speichern.</li>
-        <li><strong>Keine Stimme</strong> &mdash; <code>piper\</code>-Dateien und Stimmenwahl pr&uuml;fen.</li>
-        <li><strong>Web/YouTube</strong> &mdash; &bdquo;Block all traffic&ldquo; aus; VLC und Netz f&uuml;r YouTube.</li>
-        <li><strong>Cheat-Sheets ge&auml;ndert</strong> &mdash; Evi neu starten.</li>
-      </ul>
-    </div>
-    <div class="manual-block">
-      <h3>Support</h3>
-      <p><a href="mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID">Brielbeck@hotmail.de</a> &mdash; immer <strong>Machine ID</strong> angeben.</p>
     </div>
   </div>
 </section>
@@ -940,9 +945,15 @@
 </section>
 
 <section id="languages" class="languages">
-  <h2 class="section-title" data-i18n="lang_title">40+ Languages, One App</h2>
-  <p class="lang-subtitle" data-i18n="lang_sub">Work in your language; the interface follows. Speech synthesis and conversation data remain under your control on the device.</p>
-  <div class="lang-grid" id="langGrid"></div>
+  <div class="languages-layout">
+    <div class="languages-intro">
+      <h2 class="section-title" data-i18n="lang_title">40+ Languages, One App</h2>
+      <p class="lang-subtitle" data-i18n="lang_sub">Work in your language; the interface follows. Speech synthesis and conversation data remain under your control on the device.</p>
+    </div>
+    <aside class="languages-aside" aria-label="Supported interface languages">
+      <div class="lang-grid" id="langGrid"></div>
+    </aside>
+  </div>
 </section>
 
 <section id="accessibility" class="accessibility">
@@ -1032,6 +1043,22 @@ const LANGS = [
   {code:"AR",name:"Arabic",native:"\u0627\u0644\u0639\u0631\u0628\u064A\u0629",flag:"linear-gradient(to bottom,#007A3D 0%,#007A3D 33%,#fff 33%,#fff 66%,#000 66%)"},
   {code:"VI",name:"Vietnamese",native:"Ti\u1EBFng Vi\u1EC7t",flag:"linear-gradient(135deg,#DA251D 0%,#DA251D 100%)"}
 ];
+
+/** BCP 47 for document.documentElement.lang */
+var EVI_HTML_LANG = {
+  EN: "en", JA: "ja", KO: "ko", ZH: "zh-Hans", "ZH-TW": "zh-Hant", ES: "es", FR: "fr", DE: "de", IT: "it", PT: "pt", "PT-BR": "pt-BR",
+  RU: "ru", UK: "uk", PL: "pl", NL: "nl", SV: "sv", DA: "da", NO: "no", FI: "fi", CS: "cs", SK: "sk", RO: "ro", HU: "hu", EL: "el", TR: "tr", AR: "ar", VI: "vi"
+};
+
+function eviResolveLocale(code) {
+  if (I18N[code]) return code;
+  var u = code.indexOf("-");
+  if (u > 0) {
+    var base = code.substring(0, u);
+    if (I18N[base]) return base;
+  }
+  return "EN";
+}
 
 function pack(navFeatures, navLangs, navAcc, navRequirements, navPricing, navActivation, navManual, navSetup, navDl, heroTitle, heroSub, heroDl, heroLangs, heroNote, socLlm, socVoice, socMem, socTools, socPriv, featTitle, f1h, f1p, f2h, f2p, f3h, f3p, f4h, f4p, f5h, f5p, f6h, f6p, langTitle, langSub, accTitle, accSub, ac1h, ac1p, ac2h, ac2p, termBlock, hoodTitle, h1h, h1p, h2h, h2p, h3h, h3p, h4h, h4p, h5h, h5p, hoodBtn, docTitle, footerTag, footerManual, footerSetup, footerContact, footerPaypal, footerDisc, reqWin, reqActivation, actTitle, actIntro, actS1, actS2, actS3, actS4, actS5, actS6, actFormat, pricingBadge, pricingTitle, pricingDetail) {
   return {
@@ -1159,6 +1186,8 @@ I18N.EN.dl_chk_2 = "I have ~50 GB of free disk space";
 I18N.EN.dl_chk_3 = "I will download the LLM model separately (instructions above &amp; in the manual)";
 I18N.EN.dl_btn_program = "&#x2B07; Download Evi Portable (~37 GB)";
 I18N.EN.dl_btn_llm = "&#x2B07; Download LLM model (~9.1 GB)";
+I18N.EN.dl_hostnote = "Download buttons go <strong>directly to the file host</strong> in this tab (no long URL shown here). Confirm the download on the next screen &mdash; we cannot force the file into your browser without that one host step.";
+I18N.EN.dl_14b_heading = "14B GGUF (inside the LLM package) &mdash; <code>qwen2.5-14b-instruct-q4_k_m.gguf</code> &mdash; RTX 5090 class only (read warning)";
 I18N.EN.dl_tbl_file = "File";
 I18N.EN.dl_tbl_size = "Size";
 I18N.EN.dl_tbl_r1f = "Evi Portable";
@@ -1168,7 +1197,7 @@ I18N.EN.dl_tbl_r2s = "~9.1 GB";
 I18N.EN.dl_tbl_total = "Total";
 I18N.EN.dl_tbl_totals = "~46 GB";
 I18N.EN.dl_txl_note = "Your browser may save each download under an auto-generated name (often a <code>.zip</code>). Extract the archives first, then place the main app folder where you want it and move the <code>.gguf</code> into <code>models\\llm\\</code> as described in the manual.";
-I18N.EN.dl_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p><p class=\"dl-llm-heavy__body\">The <strong>14B instruct GGUF</strong> is <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not use this checkpoint on weaker GPUs</strong> &mdash; expect OOM, extreme slowness, or crashes. Otherwise use the <strong>standard LLM download</strong> above and a smaller model per <code>models\\llm\\README.txt</code>.</p>";
+I18N.EN.dl_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p><p class=\"dl-llm-heavy__body\">The <strong>14B instruct GGUF</strong> is <a class=\"dl-llm-heavy__dl evi-llm-download\" data-evi-url=\"llm\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not use this checkpoint on weaker GPUs</strong> &mdash; expect OOM, extreme slowness, or crashes. Otherwise use the <strong>standard LLM download</strong> above and a smaller model per <code>models\\llm\\README.txt</code>.</p>";
 
 I18N.DE.dl_pack_title = "Evi Portable herunterladen";
 I18N.DE.dl_pack_before_title = "Vor dem Download";
@@ -1177,6 +1206,8 @@ I18N.DE.dl_chk_2 = "Ich habe ~50 GB freien Speicherplatz";
 I18N.DE.dl_chk_3 = "Ich lade das LLM-Modell separat herunter (Anleitung oben &amp; im Handbuch)";
 I18N.DE.dl_btn_program = "&#x2B07; Evi Portable herunterladen (~37 GB)";
 I18N.DE.dl_btn_llm = "&#x2B07; LLM-Modell herunterladen (~9,1 GB)";
+I18N.DE.dl_hostnote = "Die Download-Schaltfl&auml;chen f&uuml;hren <strong>direkt zum Dateihost</strong> in diesem Tab (keine lange URL hier). Auf der n&auml;chsten Seite den Download best&auml;tigen &mdash; ein Zwischenschritt l&auml;sst sich von dieser Seite aus technisch nicht umgehen.";
+I18N.DE.dl_14b_heading = "14B-GGUF (im LLM-Paket) &mdash; <code>qwen2.5-14b-instruct-q4_k_m.gguf</code> &mdash; nur RTX-5090-Klasse (Warnung lesen)";
 I18N.DE.dl_tbl_file = "Datei";
 I18N.DE.dl_tbl_size = "Gr&ouml;&szlig;e";
 I18N.DE.dl_tbl_r1f = "Evi Portable";
@@ -1186,11 +1217,15 @@ I18N.DE.dl_tbl_r2s = "~9,1 GB";
 I18N.DE.dl_tbl_total = "Gesamt";
 I18N.DE.dl_tbl_totals = "~46 GB";
 I18N.DE.dl_txl_note = "Der Browser kann Downloads unter automatischen Dateinamen speichern (oft <code>.zip</code>). Zuerst entpacken, den App-Ordner an den gew&uuml;nschten Ort legen und die <code>.gguf</code> nach <code>models\\llm\\</code> verschieben wie im Handbuch beschrieben.";
-I18N.DE.dl_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p><p class=\"dl-llm-heavy__body\">Die <strong>14B-Instruct-GGUF</strong> lautet <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick auf den Dateinamen startet den <strong>LLM-Modell-Download</strong> (dieses Archiv enth&auml;lt die Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong>). <strong>Nicht auf schw&auml;cherer Hardware</strong> &mdash; Speicherfehler, extreme Langsamkeit oder Abst&uuml;rze. Sonst <strong>normalen LLM-Download</strong> oben und ein kleineres Modell laut <code>models\\llm\\README.txt</code>.</p>";
+I18N.DE.dl_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p><p class=\"dl-llm-heavy__body\">Die <strong>14B-Instruct-GGUF</strong> lautet <a class=\"dl-llm-heavy__dl evi-llm-download\" data-evi-url=\"llm\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick auf den Dateinamen startet den <strong>LLM-Modell-Download</strong> (dieses Archiv enth&auml;lt die Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong>). <strong>Nicht auf schw&auml;cherer Hardware</strong> &mdash; Speicherfehler, extreme Langsamkeit oder Abst&uuml;rze. Sonst <strong>normalen LLM-Download</strong> oben und ein kleineres Modell laut <code>models\\llm\\README.txt</code>.</p>";
 
-I18N.EN.man_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p><p class=\"dl-llm-heavy__body\">The <strong>14B instruct GGUF</strong> is <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not use this checkpoint on weaker GPUs</strong> &mdash; OOM, extreme slowness, or crashes. Otherwise the <strong>standard LLM download</strong> on <a href=\"https://toscano8070.github.io/Evi-Portable/#download-pack\">the Download section</a> and a smaller model per <code>models\\llm\\README.txt</code>.</p>";
-I18N.DE.man_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p><p class=\"dl-llm-heavy__body\">Die <strong>14B-Instruct-GGUF</strong> lautet <a class=\"dl-llm-heavy__dl evi-llm-download\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick startet den <strong>LLM-Modell-Download</strong> (Archiv mit dieser Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong>). <strong>Nicht auf schw&auml;cherer Hardware.</strong> Sonst <strong>normalen LLM-Download</strong> im <a href=\"https://toscano8070.github.io/Evi-Portable/#download-pack\">Download-Bereich</a> und ein kleineres Modell laut <code>models\\llm\\README.txt</code>.</p>";
+I18N.EN.man_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; High-end NVIDIA GPUs only &mdash; e.g. GeForce RTX 5090 class</p><p class=\"dl-llm-heavy__body\">The <strong>14B instruct GGUF</strong> is <a class=\"dl-llm-heavy__dl evi-llm-download\" data-evi-url=\"llm\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; click the filename to start the <strong>LLM model download</strong> (that archive contains this file). For <strong>top-tier cards with plenty of VRAM</strong> (think <strong>RTX 5090</strong> and similar) only. <strong>Do not use this checkpoint on weaker GPUs</strong> &mdash; OOM, extreme slowness, or crashes. Otherwise the <strong>standard LLM download</strong> on <a href=\"https://toscano8070.github.io/Evi-Portable/#download-pack\">the Download section</a> and a smaller model per <code>models\\llm\\README.txt</code>.</p>";
+I18N.DE.man_llm_heavy = "<p class=\"dl-llm-heavy__title\">&#9888;&#65039; Nur High-End-NVIDIA-GPUs &mdash; z.&nbsp;B. GeForce RTX-5090-Klasse</p><p class=\"dl-llm-heavy__body\">Die <strong>14B-Instruct-GGUF</strong> lautet <a class=\"dl-llm-heavy__dl evi-llm-download\" data-evi-url=\"llm\" href=\"#manual-llm\"><code>qwen2.5-14b-instruct-q4_k_m.gguf</code></a> &mdash; Klick startet den <strong>LLM-Modell-Download</strong> (Archiv mit dieser Datei). Nur f&uuml;r <strong>Spitzen-GPUs mit viel VRAM</strong> (z.&nbsp;B. <strong>RTX 5090</strong>). <strong>Nicht auf schw&auml;cherer Hardware.</strong> Sonst <strong>normalen LLM-Download</strong> im <a href=\"https://toscano8070.github.io/Evi-Portable/#download-pack\">Download-Bereich</a> und ein kleineres Modell laut <code>models\\llm\\README.txt</code>.</p>";
 
+</script>
+<script src="evi-locales-data.js"></script>
+<script src="evi-mt-locales.js"></script>
+<script>
 /** Real download targets (not shown in raw HTML). Replace base64 if you change hosts or paths. */
 function eviDecodedDownload(which) {
   var b64 = {
@@ -1207,19 +1242,19 @@ function eviDecodedDownload(which) {
 function applyEviDownloadUrls() {
   var progUrl = eviDecodedDownload("program");
   var llmUrl = eviDecodedDownload("llm");
-  document.querySelectorAll(".evi-dl-program").forEach(function (a) {
-    if (progUrl) {
-      a.href = progUrl;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-    }
-  });
   var fallback = "#manual-llm";
-  document.querySelectorAll(".evi-llm-download").forEach(function (a) {
+  document.querySelectorAll("a[data-evi-url]").forEach(function (a) {
+    var kind = a.getAttribute("data-evi-url");
+    if (kind === "program" && progUrl) {
+      a.href = progUrl;
+      a.removeAttribute("target");
+      a.removeAttribute("rel");
+    }
+    if (kind !== "llm") return;
     if (llmUrl) {
       a.href = llmUrl;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
+      a.removeAttribute("target");
+      a.removeAttribute("rel");
       a.removeAttribute("aria-disabled");
       a.classList.remove("btn-muted");
     } else {
@@ -1257,19 +1292,16 @@ function buildDropdown() {
 }
 
 function switchLang(code) {
-  var t = I18N[code] || I18N[code.substring(0, 2)] || I18N.EN;
+  var resolved = eviResolveLocale(code);
+  var t = I18N[resolved] || I18N.EN;
   if (t.document_title) document.title = t.document_title;
-  document.documentElement.setAttribute("lang", code === "DE" ? "de" : "en");
+  document.documentElement.setAttribute("lang", EVI_HTML_LANG[resolved] || EVI_HTML_LANG[code] || "en");
+  document.documentElement.dir = (resolved === "AR" || code === "AR") ? "rtl" : "ltr";
   var heroShow = document.getElementById("heroShowcase");
   if (heroShow && t.hero_team_aria) heroShow.setAttribute("aria-label", t.hero_team_aria);
   document.querySelectorAll("[data-i18n]").forEach(function (el) {
     var k = el.getAttribute("data-i18n");
     if (t[k] !== undefined) el.innerHTML = t[k];
-  });
-  var wantDe = code === "DE";
-  document.querySelectorAll(".manual-lang").forEach(function (el) {
-    var isDe = el.getAttribute("data-manual-lang") === "de";
-    el.hidden = wantDe ? !isDe : isDe;
   });
   var lang = LANGS.find(function (l) { return l.code === code; });
   var btn = document.getElementById("langSwitcherBtn");
@@ -1303,6 +1335,12 @@ document.getElementById("langSwitcherBtn").addEventListener("keydown", function 
     this.click();
   }
 });
+
+(function eviInitManualAndLocales() {
+  var mb = document.getElementById("manualBody");
+  if (mb && I18N.EN) I18N.EN.manual_html = mb.innerHTML;
+  if (typeof window.applyEviLocaleBundle === "function") window.applyEviLocaleBundle(I18N);
+})();
 
 buildLangGrid();
 buildDropdown();
