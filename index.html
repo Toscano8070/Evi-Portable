@@ -439,6 +439,8 @@
       padding: 3.5rem 8%;
       background: linear-gradient(180deg, #12141c 0%, var(--bg-color) 100%);
       border-top: 1px solid #333;
+      /* Hash links (#manual): keep heading out from under sticky header */
+      scroll-margin-top: 5.5rem;
     }
     .manual-lang { max-width: 820px; margin: 0 auto; }
     .manual-lang[hidden] { display: none !important; }
@@ -1339,7 +1341,9 @@ function switchLang(code) {
   if (heroShow && t.hero_team_aria) heroShow.setAttribute("aria-label", t.hero_team_aria);
   document.querySelectorAll("[data-i18n]").forEach(function (el) {
     var k = el.getAttribute("data-i18n");
-    if (t[k] !== undefined) el.innerHTML = t[k];
+    if (t[k] === undefined) return;
+    if (k === "manual_html" && !String(t[k]).trim()) return;
+    el.innerHTML = t[k];
   });
   var lang = LANGS.find(function (l) { return l.code === code; });
   var btn = document.getElementById("langSwitcherBtn");
@@ -1390,6 +1394,14 @@ applyEviDownloadUrls();
   } catch (e) {}
 })();
 document.documentElement.classList.remove("evi-i18n-pending");
+(function eviScrollToHashAfterI18n() {
+  var raw = location.hash.replace(/^#/, "");
+  if (!raw) return;
+  requestAnimationFrame(function () {
+    var el = document.getElementById(raw) || document.querySelector('a[name="' + raw.replace(/"/g, "") + '"]');
+    if (el) el.scrollIntoView({ block: "start", behavior: "auto" });
+  });
+})();
 </script>
 </body>
 </html>
