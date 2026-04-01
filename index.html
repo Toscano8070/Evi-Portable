@@ -8,10 +8,6 @@
         var s = localStorage.getItem("evi-landing-lang");
         if (s && ok[s] && s !== "EN") document.documentElement.classList.add("evi-i18n-pending");
       } catch (e) {}
-      /* If main script errors, do not leave body visibility:hidden forever */
-      setTimeout(function () {
-        document.documentElement.classList.remove("evi-i18n-pending");
-      }, 6000);
     })();
   </script>
   <meta charset="UTF-8">
@@ -443,8 +439,6 @@
       padding: 3.5rem 8%;
       background: linear-gradient(180deg, #12141c 0%, var(--bg-color) 100%);
       border-top: 1px solid #333;
-      /* Hash links (#manual): keep heading out from under sticky header */
-      scroll-margin-top: 5.5rem;
     }
     .manual-lang { max-width: 820px; margin: 0 auto; }
     .manual-lang[hidden] { display: none !important; }
@@ -1313,7 +1307,6 @@ function applyEviDownloadUrls() {
 
 function buildLangGrid() {
   const g = document.getElementById("langGrid");
-  if (!g) return;
   g.innerHTML = "";
   LANGS.forEach(function (l) {
     g.innerHTML += "<div class=\"lang-chip\"><span class=\"flag-circle\" style=\"background:" + l.flag + "\"></span><span class=\"lang-label\">" + l.name + "<small>" + l.native + "</small></span></div>";
@@ -1322,7 +1315,6 @@ function buildLangGrid() {
 
 function buildDropdown() {
   const d = document.getElementById("langDrop");
-  if (!d) return;
   d.innerHTML = "";
   LANGS.forEach(function (l) {
     d.innerHTML += "<div class=\"lang-option\" role=\"option\" tabindex=\"0\" data-lang-code=\"" + l.code + "\"><span class=\"mini-flag\" style=\"background:" + l.flag + "\"></span>" + l.name + " <span style=\"color:#888;margin-left:auto\">" + l.native + "</span></div>";
@@ -1347,84 +1339,57 @@ function switchLang(code) {
   if (heroShow && t.hero_team_aria) heroShow.setAttribute("aria-label", t.hero_team_aria);
   document.querySelectorAll("[data-i18n]").forEach(function (el) {
     var k = el.getAttribute("data-i18n");
-    if (t[k] === undefined) return;
-    if (k === "manual_html" && !String(t[k]).trim()) return;
-    el.innerHTML = t[k];
+    if (t[k] !== undefined) el.innerHTML = t[k];
   });
   var lang = LANGS.find(function (l) { return l.code === code; });
   var btn = document.getElementById("langSwitcherBtn");
   if (lang && btn) {
     btn.innerHTML = "<span class=\"mini-flag\" style=\"background:" + lang.flag + "\"></span><span id=\"langSwitcherLabel\">" + code + "</span> &#9662;";
   }
-  var ld = document.getElementById("langDrop");
-  if (ld) ld.classList.remove("open");
-  var sw = document.getElementById("langSwitcherBtn");
-  if (sw) sw.setAttribute("aria-expanded", "false");
+  document.getElementById("langDrop").classList.remove("open");
+  document.getElementById("langSwitcherBtn").setAttribute("aria-expanded", "false");
   try { localStorage.setItem("evi-landing-lang", code); } catch (e) {}
   applyEviDownloadUrls();
 }
 
-(function () {
-  var swBtn = document.getElementById("langSwitcherBtn");
-  if (swBtn) {
-    swBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var drop = document.getElementById("langDrop");
-      if (!drop) return;
-      var open = !drop.classList.contains("open");
-      drop.classList.toggle("open", open);
-      this.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    swBtn.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        this.click();
-      }
-    });
-  }
-})();
+document.getElementById("langSwitcherBtn").addEventListener("click", function (e) {
+  e.stopPropagation();
+  var drop = document.getElementById("langDrop");
+  var open = !drop.classList.contains("open");
+  drop.classList.toggle("open", open);
+  this.setAttribute("aria-expanded", open ? "true" : "false");
+});
 
 document.addEventListener("click", function (e) {
   if (!e.target.closest(".lang-switcher")) {
-    var drop = document.getElementById("langDrop");
-    var sw = document.getElementById("langSwitcherBtn");
-    if (drop) drop.classList.remove("open");
-    if (sw) sw.setAttribute("aria-expanded", "false");
+    document.getElementById("langDrop").classList.remove("open");
+    document.getElementById("langSwitcherBtn").setAttribute("aria-expanded", "false");
   }
 });
 
-(function eviLandingBoot() {
-  try {
-    (function eviInitManualAndLocales() {
-      var mb = document.getElementById("manualBody");
-      if (mb && I18N.EN) I18N.EN.manual_html = mb.innerHTML;
-      if (typeof window.applyEviLocaleBundle === "function") window.applyEviLocaleBundle(I18N);
-    })();
-    buildLangGrid();
-    buildDropdown();
-    applyEviDownloadUrls();
-    try {
-      var s = localStorage.getItem("evi-landing-lang");
-      if (s && LANGS.some(function (l) { return l.code === s; })) switchLang(s);
-    } catch (ignore) {}
-    var raw = location.hash.replace(/^#/, "");
-    if (raw) {
-      requestAnimationFrame(function () {
-        var el = document.getElementById(raw);
-        if (!el) return;
-        try {
-          el.scrollIntoView({ block: "start", behavior: "auto" });
-        } catch (ignore) {
-          el.scrollIntoView(true);
-        }
-      });
-    }
-  } catch (err) {
-    if (typeof console !== "undefined" && console.error) console.error("Evi landing init:", err);
-  } finally {
-    document.documentElement.classList.remove("evi-i18n-pending");
+document.getElementById("langSwitcherBtn").addEventListener("keydown", function (e) {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    this.click();
   }
+});
+
+(function eviInitManualAndLocales() {
+  var mb = document.getElementById("manualBody");
+  if (mb && I18N.EN) I18N.EN.manual_html = mb.innerHTML;
+  if (typeof window.applyEviLocaleBundle === "function") window.applyEviLocaleBundle(I18N);
 })();
+
+buildLangGrid();
+buildDropdown();
+applyEviDownloadUrls();
+(function () {
+  try {
+    var s = localStorage.getItem("evi-landing-lang");
+    if (s && LANGS.some(function (l) { return l.code === s; })) switchLang(s);
+  } catch (e) {}
+})();
+document.documentElement.classList.remove("evi-i18n-pending");
 </script>
 </body>
 </html>
