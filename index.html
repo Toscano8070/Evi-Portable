@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    (function () {
-      var ok = { EN: 1, JA: 1, KO: 1, ZH: 1, "ZH-TW": 1, ES: 1, FR: 1, DE: 1, IT: 1, PT: 1, "PT-BR": 1, RU: 1, UK: 1, PL: 1, NL: 1, SV: 1, DA: 1, NO: 1, FI: 1, CS: 1, SK: 1, RO: 1, HU: 1, EL: 1, TR: 1, AR: 1, VI: 1 };
-      try {
-        var s = localStorage.getItem("evi-landing-lang");
-        if (s && ok[s] && s !== "EN") document.documentElement.classList.add("evi-i18n-pending");
-      } catch (e) {}
-    })();
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evi Portable — Local secretary: mail, calendar, voice assistant</title>
-  <meta name="description" content="Evi Portable — Windows 10/11 only. Local digital secretary: mail, calendar, reminders, voice and text, long-term memory. Activate by e-mail: Brielbeck@hotmail.de with your Machine ID. USB-ready. By Hardy Brielbeck.">
+  <title>Evi Portable &mdash; Local secretary: mail, calendar, voice assistant</title>
+  <meta name="description" content="Evi Portable &mdash; Windows 10/11 only. Local digital secretary: mail, calendar, reminders, voice and text, long-term memory. Activate by e-mail: Brielbeck@hotmail.de with your Machine ID. USB-ready. By Hardy Brielbeck.">
   <style>
     :root {
       --bg-color: #0f111a;
@@ -26,8 +17,6 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
-    /* Avoid a flash of English before flag locale is applied (large locales bundle loads first). */
-    html.evi-i18n-pending body { visibility: hidden; }
 
     header {
       background: rgba(15, 17, 26, 0.95);
@@ -714,7 +703,7 @@
   <p data-i18n="hero_sub">
     Evi behaves like a skilled secretary: it drafts and revises mail, prepares replies in the right tone, helps you insert appointments and blocks into your calendar, and chases reminders so nothing slips. Ask by voice or keyboard &mdash; it answers clearly, reads context and mood, and learns your preferences over time. Long-term memory holds people, projects, and facts so you can recall them later from local storage, not public search. Optional network tools unlock checking inboxes and sending messages; the heavy lifting still runs on your PC inside a portable folder (USB-ready).
   </p>
-  <div class="hero-showcase" id="heroShowcase" role="group" aria-label="Your desk team — mail, calendar, and concierge-style assistance">
+  <div class="hero-showcase" id="heroShowcase" role="group" aria-label="Your desk team ??? mail, calendar, and concierge-style assistance">
     <figure class="hero-figure hero-figure--woman">
       <span class="hero-float-icon hero-float-icon--a" aria-hidden="true">&#x2709;&#xFE0F;</span>
       <span class="hero-float-icon hero-float-icon--b" aria-hidden="true">&#x1F4C5;</span>
@@ -723,7 +712,7 @@
           src="assets/hero-secretary-woman.png"
           width="600"
           height="600"
-          alt="Professional at a desk with documents, computer, and office tools — administrative and correspondence work."
+          alt="Professional at a desk with documents, computer, and office tools ??? administrative and correspondence work."
           loading="lazy"
           decoding="async">
       </picture>
@@ -736,7 +725,7 @@
           src="assets/hero-secretary-man.png"
           width="600"
           height="600"
-          alt="Professional assistant at a modern desk — high-touch, concierge-style service."
+          alt="Professional assistant at a modern desk ??? high-touch, concierge-style service."
           loading="lazy"
           decoding="async">
       </picture>
@@ -1143,7 +1132,7 @@ const I18N = {
     "Agent:","Tools for files, media, optional web, timers, translation &mdash; and secretary-style flows: calendar maintenance, mail drafting and (when allowed) send/receive, contacts and notes. llama-cpp-agent available for structured tool use.",
     "Portable stack:","Bundled helpers (VLC, portable browser) and strict portable mode if you want zero system fallbacks.",
     "Read the manual",
-    "Evi Portable — Local secretary: mail, calendar, voice assistant",
+    "Evi Portable ??? Local secretary: mail, calendar, voice assistant",
     "Draft your mail, fill your calendar, and keep your week on track &mdash; a local secretary you can carry on a stick.",
     "Manual","Download & setup","Contact","Pay with PayPal",
     "Made by Hardy Brielbeck",
@@ -1209,8 +1198,8 @@ const I18N = {
   )
 };
 
-I18N.EN.hero_team_aria = "Your desk team — mail, calendar, and concierge-style assistance";
-I18N.DE.hero_team_aria = "Ihr Schreibtisch-Team — E-Mail, Kalender und Concierge-Service";
+I18N.EN.hero_team_aria = "Your desk team ??? mail, calendar, and concierge-style assistance";
+I18N.DE.hero_team_aria = "Ihr Schreibtisch-Team ??? E-Mail, Kalender und Concierge-Service";
 
 I18N.EN.hero_llm_dl = "Download AI model (GGUF)";
 I18N.DE.hero_llm_dl = "KI-Modell herunterladen (GGUF)";
@@ -1389,7 +1378,6 @@ applyEviDownloadUrls();
     if (s && LANGS.some(function (l) { return l.code === s; })) switchLang(s);
   } catch (e) {}
 })();
-document.documentElement.classList.remove("evi-i18n-pending");
 </script>
 </body>
 </html>
