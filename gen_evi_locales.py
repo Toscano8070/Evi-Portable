@@ -167,7 +167,7 @@ EN_FLAT = {
     "footer_setup": "Download & setup",
     "footer_contact": "Contact",
     "footer_paypal": "Pay with PayPal",
-    "footer_disc": "Replace placeholder links before publishing. Created by Hardy Brielbeck. Third-party components keep their own licenses.",
+    "footer_disc": "Made by Hardy Brielbeck",
     "req_win": "<strong>System:</strong> Evi Portable requires <strong>Microsoft Windows 10 or Windows 11</strong>. Other operating systems are not supported.",
     "req_activation": "<strong>Activation:</strong> When you first start Evi, copy your <strong>Machine ID</strong> from the activation window and e-mail it to <a href=\"mailto:Brielbeck@hotmail.de?subject=Evi%20Portable%20-%20Machine%20ID\">Brielbeck@hotmail.de</a>. You will receive a serial key <strong>tied to that PC</strong>.",
     "act_title": "How to activate your license",
